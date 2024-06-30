@@ -5,10 +5,23 @@ import { NextResponse } from "next/server"
 connect()
 
 export async function GET() {
-  const delRes = await User.deleteMany({
-    verifyTokenExpiry: { $lt: Date.now() },
-  })
-  console.log(delRes)
+  try {
+    await User.deleteMany({
+      $and: [{ isVerified: true }, { verifyTokenExpiry: { $lt: Date.now() } }],
+    })
 
-  return NextResponse.json({ success: true }, { status: 200 })
+    return NextResponse.json(
+      { message: "Users deleted successfully", success: true },
+      { status: 200 }
+    )
+  } catch (error) {
+    return NextResponse.json(
+      {
+        message: "Could not delete users",
+        error: error.message,
+        success: false,
+      },
+      { status: 500 }
+    )
+  }
 }
