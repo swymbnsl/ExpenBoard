@@ -19,6 +19,7 @@ module.exports = {
     extend: {
       colors: {
         themesurfacedim: "#1D2024",
+        themesurface: "#111318",
         themesurfacelightdim: "#d9d9e0",
         themeprimarylight: "#234373",
         themeonsurfacelightdim: "#000000",
