@@ -64,7 +64,7 @@ export default function VerifyEmail() {
         <CssBaseline />
         <Toaster />
         <div className="w-full h-full justify-center flex items-center text-slate-50">
-          <div className="w-[350px] flex flex-col gap-6">
+          <div className="w-[300px] flex flex-col gap-6">
             <span className="text-4xl font-bold text-themeonsurface">
               Verify Email
             </span>

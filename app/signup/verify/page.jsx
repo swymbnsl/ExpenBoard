@@ -15,7 +15,7 @@ export default function Verify() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <div className="text-center w-full h-full flex justify-center items-center">
-          <div className=" flex gap-6 flex-col w-[400px] ">
+          <div className=" flex gap-6 flex-col w-[300px] ">
             <span className="text-3xl font-bold text-themeonsurface">
               Verify your email
             </span>

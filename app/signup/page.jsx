@@ -161,7 +161,7 @@ export default function Login() {
       <CssBaseline />
       <Toaster />
       <div className="flex h-full w-full top-0 absolute justify-center items-center">
-        <div className="w-[350px] flex flex-col gap-6">
+        <div className="w-[300px] flex flex-col gap-6">
           <span className="text-4xl font-bold text-themeonsurface">
             Sign Up
           </span>
