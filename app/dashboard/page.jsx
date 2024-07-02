@@ -1,7 +1,7 @@
 "use client"
 import { Avatar } from "@mui/material"
 import { blue } from "@mui/material/colors"
-import { Bolt } from "lucide-react"
+import { Bolt, Share, Share2 } from "lucide-react"
 import React from "react"
 import SpendingsChart from "./SpendingsChart"
 
@@ -16,8 +16,8 @@ export default function Dashboard() {
               Swayam
             </span>
           </div>
-          <div className="flex items-center gap-4">
-            <Bolt color="#e2e2e9" />
+          <div className="flex items-center gap-4 text-themeonsurface">
+            <Share2 />
             <Avatar sx={{ bgcolor: blue[500] }}>S</Avatar>
           </div>
         </div>
