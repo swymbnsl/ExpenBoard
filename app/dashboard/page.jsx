@@ -34,8 +34,11 @@ export default function Dashboard() {
         </div>
 
         <div className="w-full h-full p-3">
-          <div className="bg-themesurfacedim rounded-3xl p-3 h-[30%] w-full">
-            <SpendingsChart />
+          <div className="bg-themesurfacedim rounded-3xl p-3 h-[35%] w-full flex flex-col justify-center gap-4">
+            <span className="text-themeonsurfacevar">This week's summary:</span>
+            <div className="h-[80%]">
+              <SpendingsChart />
+            </div>
           </div>
         </div>
       </div>

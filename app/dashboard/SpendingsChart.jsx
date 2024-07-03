@@ -1,30 +1,24 @@
 import React from "react"
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  defaults,
-  plugins,
-} from "chart.js"
+import { Chart as ChartJS, Tooltip, Legend, defaults, plugins } from "chart.js"
 
-import { Bar, Pie } from "react-chartjs-2"
-import { CategoryScale, LinearScale, BarElement } from "chart.js"
+import { Line } from "react-chartjs-2"
+import { PointElement, LineElement, CategoryScale, LinearScale } from "chart.js"
 import { incomeData, expensesData } from "@/seed_data/temp-seed"
-ChartJS.register(BarElement)
+
 ChartJS.register(LinearScale)
 ChartJS.register(CategoryScale)
-ChartJS.register(ArcElement)
+ChartJS.register(LineElement)
+ChartJS.register(PointElement)
 ChartJS.register(Tooltip)
 ChartJS.register(Legend)
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true
 
-export default function SpendingsChart() {
+export default function SpendingsChartCopy() {
   return (
     <div className="w-full h-full">
-      <Bar
+      <Line
         data={{
           labels: incomeData.map((i) => i.label),
           datasets: [
@@ -32,19 +26,13 @@ export default function SpendingsChart() {
               label: "Income",
               data: incomeData.map((i) => i.value),
               backgroundColor: "#86efac",
-              borderRadius: 3,
-              barThickness: 12,
-              borderColor: "rgba(0,0,0,1)",
-              borderWidth: 1,
+              borderColor: "#86efac",
             },
             {
               label: "Expenses",
               data: expensesData.map((i) => i.value),
-              backgroundColor: "#FCA5A5",
-              borderRadius: 3,
-              barThickness: 12,
-              borderColor: "rgba(0,0,0,1)",
-              borderWidth: 1,
+              backgroundColor: "#fca5a5",
+              borderColor: "#fca5a5",
             },
           ],
         }}
@@ -52,10 +40,6 @@ export default function SpendingsChart() {
           plugins: {
             legend: {
               position: "bottom",
-              labels: {
-                useBorderRadius: true,
-                borderRadius: 1,
-              },
             },
           },
         }}
