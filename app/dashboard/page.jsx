@@ -5,9 +5,10 @@ import { Share2 } from "lucide-react"
 import React, { useState } from "react"
 import LineChart from "./LineChart"
 import BarChart from "./BarChart"
+import ChartSelect from "@/components/shared/chart_dropdown"
 
 export default function Dashboard() {
-  const [chartType, setChartType] = useState("Bar")
+  const [chartType, setChartType] = useState("Line")
 
   return (
     <>
@@ -38,9 +39,12 @@ export default function Dashboard() {
 
         <div className="w-full h-full p-3">
           <div className="bg-themesurfacedim rounded-3xl p-3 h-[35%] w-full flex flex-col justify-center gap-4">
-            <span className="text-themeonsurfacevar text-muted-foreground">
-              Weekly Overview:
-            </span>
+            <div className="flex w-full justify-between">
+              <span className="text-themeonsurfacevar text-muted-foreground">
+                Weekly Overview:
+              </span>
+              <ChartSelect />
+            </div>
             <div className="h-[80%]">
               {chartType == "Line" ? <LineChart /> : <BarChart />}
             </div>
