@@ -2,10 +2,13 @@
 import { Avatar } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import { Share2 } from "lucide-react"
-import React from "react"
-import SpendingsChart from "./SpendingsChart"
+import React, { useState } from "react"
+import LineChart from "./LineChart"
+import BarChart from "./BarChart"
 
 export default function Dashboard() {
+  const [chartType, setChartType] = useState("Bar")
+
   return (
     <>
       <div className="w-full h-full">
@@ -35,9 +38,11 @@ export default function Dashboard() {
 
         <div className="w-full h-full p-3">
           <div className="bg-themesurfacedim rounded-3xl p-3 h-[35%] w-full flex flex-col justify-center gap-4">
-            <span className="text-themeonsurfacevar">This week's summary:</span>
+            <span className="text-themeonsurfacevar text-muted-foreground">
+              Weekly Overview:
+            </span>
             <div className="h-[80%]">
-              <SpendingsChart />
+              {chartType == "Line" ? <LineChart /> : <BarChart />}
             </div>
           </div>
         </div>

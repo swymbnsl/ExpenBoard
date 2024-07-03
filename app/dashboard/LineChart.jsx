@@ -15,7 +15,7 @@ ChartJS.register(Legend)
 defaults.maintainAspectRatio = false
 defaults.responsive = true
 
-export default function SpendingsChartCopy() {
+export default function LineChart() {
   return (
     <div className="w-full h-full">
       <Line
