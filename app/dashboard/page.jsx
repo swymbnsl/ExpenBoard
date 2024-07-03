@@ -34,7 +34,9 @@ export default function Dashboard() {
         </div>
 
         <div className="w-full h-full p-3">
-          <div className="bg-themesurfacedim rounded-3xl p-3 w-full">Chart</div>
+          <div className="bg-themesurfacedim rounded-3xl p-3 h-[30%] w-full">
+            <SpendingsChart />
+          </div>
         </div>
       </div>
     </>

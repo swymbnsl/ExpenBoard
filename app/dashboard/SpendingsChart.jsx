@@ -1,8 +1,16 @@
 import React from "react"
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js"
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  defaults,
+  plugins,
+} from "chart.js"
 
 import { Bar, Pie } from "react-chartjs-2"
 import { CategoryScale, LinearScale, BarElement } from "chart.js"
+import { incomeData, expensesData } from "@/seed_data/temp-seed"
 ChartJS.register(BarElement)
 ChartJS.register(LinearScale)
 ChartJS.register(CategoryScale)
@@ -10,38 +18,42 @@ ChartJS.register(ArcElement)
 ChartJS.register(Tooltip)
 ChartJS.register(Legend)
 
+defaults.maintainAspectRatio = false
+defaults.responsive = true
+
 export default function SpendingsChart() {
   return (
     <div className="w-full h-full">
       <Bar
         data={{
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-          ],
+          labels: incomeData.map((i) => i.label),
           datasets: [
             {
-              label: "Expenses",
-              backgroundColor: "rgba(0,0,0,1)",
-              borderColor: "rgba(220, 220, 220, 1)",
-              pointBackgroundColor: "rgba(220, 220, 220, 1)",
-              pointBorderColor: "#fff",
-              data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
+              label: "Income",
+              data: incomeData.map((i) => i.value),
+              backgroundColor: "#86efac",
+              borderRadius: 3,
+              barThickness: 10,
             },
             {
-              label: "Income",
-              backgroundColor: "rgba(151, 187, 205, 0.2)",
-              borderColor: "rgba(151, 187, 205, 1)",
-              pointBackgroundColor: "rgba(151, 187, 205, 1)",
-              pointBorderColor: "#fff",
-              data: [50, 12, 28, 29, 7, 25, 12, 70, 60],
+              label: "Expenses",
+              data: expensesData.map((i) => i.value),
+              backgroundColor: "#FCA5A5",
+              borderRadius: 3,
+              barThickness: 10,
             },
           ],
+        }}
+        options={{
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                useBorderRadius: true,
+                borderRadius: 1,
+              },
+            },
+          },
         }}
       />
     </div>
