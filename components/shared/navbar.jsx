@@ -4,27 +4,24 @@ import React from "react"
 export default function Navbar() {
   return (
     <>
-      {/* <div className="flex justify-center w-full"> */}
-      <div className="bg-themesurfacedim fixed bottom-0 w-full text-themeonsurface h-[65px] flex justify-center items-center z-10">
+      <div className="bg-themesurfacedim fixed bottom-0 w-full text-themeonsurface h-[55px] flex justify-center items-center z-10">
         <span className="w-1/5 flex justify-center items-center">
-          <Home />
+          <Home size={25} />
         </span>
         <span className="w-1/5 flex justify-center items-center">
-          <Wallet />
+          <Wallet size={25} />
         </span>
-        {/* <span className="w-1/5 flex justify-center items-center"></span> */}
-        <span className="bg-themeonsurface rounded-3xl size-16 -translate-y-5 flex justify-center items-center">
+        <span className="bg-themeonsurface rounded-3xl size-[60px] border-black border-2 shadow-sm shadow-black  -translate-y-[30px] flex justify-center items-center ">
           <Plus color="black" size={30} strokeWidth={3} />
         </span>
 
         <span className="w-1/5 flex justify-center items-center">
-          <LayoutGrid />
+          <LayoutGrid size={25} />
         </span>
         <span className="w-1/5 flex justify-center items-center">
-          <Bolt />
+          <Bolt size={25} />
         </span>
       </div>
-      {/* </div> */}
     </>
   )
 }

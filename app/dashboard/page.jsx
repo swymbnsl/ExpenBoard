@@ -1,7 +1,7 @@
 "use client"
 import { Avatar } from "@mui/material"
 import { blue } from "@mui/material/colors"
-import { Bolt, Share, Share2 } from "lucide-react"
+import { Share2 } from "lucide-react"
 import React from "react"
 import SpendingsChart from "./SpendingsChart"
 
