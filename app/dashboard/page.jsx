@@ -10,6 +10,7 @@ import { CssBaseline, createTheme } from "@mui/material"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
+import CountUp from "react-countup"
 
 export default function Dashboard() {
   const [type, setType] = useState("Line")
@@ -44,11 +45,16 @@ export default function Dashboard() {
           <div className="flex p-3 justify-between">
             <div className=" bg-green-300 rounded-3xl flex flex-col justify-center w-[48%] px-3 h-24 gap-1">
               <span className="text-black text-xs">Income this month</span>
-              <span className="text-black font-bold text-2xl">₹40000</span>
+              <span className="text-black font-extrabold text-2xl">
+                ₹<CountUp end={40000} preserveValue />
+              </span>
             </div>
             <div className=" bg-red-300 rounded-3xl flex flex-col justify-center w-[48%] px-3 h-24 gap-1">
               <span className="text-black text-xs">Expenses this month</span>
-              <span className="text-black font-bold text-2xl">₹2000</span>
+              <span className="text-black font-extrabold text-2xl">
+                ₹
+                <CountUp end={2000} preserveValue useIndianSeparators />
+              </span>
             </div>
           </div>
 
@@ -58,7 +64,7 @@ export default function Dashboard() {
                 <span className="text-themeonsurfacevar text-muted-foreground">
                   Weekly Overview:
                 </span>
-                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                <FormControl sx={{ m: 1, minWidth: 90 }}>
                   <Select
                     sx={{
                       borderRadius: 2,

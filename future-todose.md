@@ -6,3 +6,6 @@
 4. Shift nodemailer to react-mail
 5. Add ability to add custom categories
 6. Add recurring expenses
+7. In Count up, use Indian separators only for indian currency
+8. In home page, load currency sign as per preference
+9.
