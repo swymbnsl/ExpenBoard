@@ -8,7 +8,7 @@ import { BarChart3Icon, LineChartIcon } from "lucide-react"
 export default function ChartSelect({ handleChange, type }) {
   return (
     <>
-      <FormControl sx={{ m: 1, minWidth: 90 }}>
+      <FormControl sx={{ m: 1, minWidth: 110 }}>
         <Select
           sx={{
             borderRadius: 2,
@@ -16,7 +16,22 @@ export default function ChartSelect({ handleChange, type }) {
           value={type}
           onChange={handleChange}
           displayEmpty
-          renderValue={() => type}
+          renderValue={() => {
+            if (type == "Line") {
+              return (
+                <span className="flex justify-center items-center gap-2">
+                  {" "}
+                  <LineChartIcon size={18} /> Line{" "}
+                </span>
+              )
+            }
+            return (
+              <span className="flex justify-center items-center gap-2">
+                {" "}
+                <BarChart3Icon size={18} /> Bar{" "}
+              </span>
+            )
+          }}
         >
           <MenuItem value={"Line"} sx={{ display: "flex", gap: 1 }}>
             {" "}

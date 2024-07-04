@@ -23,6 +23,17 @@ export default function Dashboard() {
     setType(event.target.value)
   }
 
+  const hour = new Date().getHours()
+  let greetings = ""
+
+  if (hour < 12) {
+    greetings = "Good Morning"
+  } else if (hour < 18) {
+    greetings = "Good Afternoon"
+  } else {
+    greetings = "Good Evening"
+  }
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -30,7 +41,7 @@ export default function Dashboard() {
         <div className="w-full h-full">
           <div className="w-full flex p-3 justify-between items-center">
             <div className="flex flex-col">
-              <span className="text-themeonsurface text-lg">Good Evening</span>
+              <span className="text-themeonsurface text-lg">{greetings}</span>
               <span className="text-themeonsurface font-bold text-2xl">
                 Swayam
               </span>
@@ -53,7 +64,7 @@ export default function Dashboard() {
             <div className="bg-themesurfacedim rounded-3xl p-3 h-[45%] w-full flex flex-col justify-center gap-4">
               <div className="flex w-full justify-between items-center">
                 <span className="text-themeonsurfacevar text-muted-foreground">
-                  Weekly Overview:
+                  Overview:
                 </span>
                 <ChartSelect handleChange={handleChange} type={type} />
               </div>
