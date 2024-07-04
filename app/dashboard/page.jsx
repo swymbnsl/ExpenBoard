@@ -9,7 +9,7 @@ import { CssBaseline, createTheme } from "@mui/material"
 import ChartSelect from "./components/chart_type_select"
 import SummaryCard from "./components/income_expense_cards"
 import { Share2 } from "lucide-react"
-import { DatePickerWithRange } from "./components/date_range_picker"
+import { DatePickerWithRange } from "./components/date_range/date_range_picker"
 
 export default function Dashboard() {
   const [type, setType] = useState("Line")

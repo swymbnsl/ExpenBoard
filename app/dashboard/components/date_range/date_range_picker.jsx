@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { addDays, format } from "date-fns"
-import { Calendar as CalendarIcon, ChevronDown } from "lucide-react"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon, ChevronDown, ChevronUp } from "lucide-react"
 import { DateRange } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
@@ -19,13 +19,22 @@ export function DatePickerWithRange({ className }) {
     from: new Date(new Date().setDate(new Date().getDate() - 30)),
     to: new Date(),
   })
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className={cn("grid gap-2", className)}>
-      <Popover>
+      <Popover
+        onOpenChange={(open) => {
+          setIsOpen(open)
+        }}
+      >
         <PopoverTrigger
           asChild
-          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
           <Button
             id="date"
@@ -35,22 +44,28 @@ export function DatePickerWithRange({ className }) {
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")} <ChevronDown size={15} />
-                </>
+            <div className="flex items-center">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, yy")} -{" "}
+                    {format(date.to, "LLL dd, yy")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
               ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+                <span>Pick a date</span>
+              )}
+            </div>
+            {!isOpen ? <ChevronDown size={15} /> : <ChevronUp size={15} />}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 " align="center">
+        <PopoverContent
+          className="w-auto p-0 flex flex-col gap-3 justify-center items-center "
+          align="center"
+        >
           <Calendar
             initialFocus
             mode="range"
