@@ -2,14 +2,14 @@
 import { Avatar } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import React, { useState } from "react"
-import LineChart from "./components/LineChart"
-import BarChart from "./components/BarChart"
+import LineChart from "./components/line_chart"
+import BarChart from "./components/bar_chart"
 import { ThemeProvider } from "@emotion/react"
 import { CssBaseline, createTheme } from "@mui/material"
-import CountUp from "react-countup"
 import ChartSelect from "./components/chart_type_select"
 import SummaryCard from "./components/income_expense_cards"
 import { Share2 } from "lucide-react"
+import { DatePickerWithRange } from "./components/date_range_picker"
 
 export default function Dashboard() {
   const [type, setType] = useState("Line")
@@ -39,6 +39,9 @@ export default function Dashboard() {
               <Share2 />
               <Avatar sx={{ bgcolor: blue[500] }}>S</Avatar>
             </div>
+          </div>
+          <div className="p-3">
+            <DatePickerWithRange />
           </div>
 
           <div className="flex p-3 justify-between">
