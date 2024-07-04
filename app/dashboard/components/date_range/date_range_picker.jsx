@@ -67,6 +67,7 @@ export function DatePickerWithRange({ className }) {
           align="center"
         >
           <Calendar
+            toDate={Date.now()}
             initialFocus
             mode="range"
             defaultMonth={date?.from}
