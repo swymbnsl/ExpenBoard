@@ -1,10 +1,6 @@
 "use client"
-
-import { useState } from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon, ChevronDown, ChevronUp } from "lucide-react"
-import { DateRange } from "react-day-picker"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -14,20 +10,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePickerWithRange({ className }) {
-  const [date, setDate] = useState({
-    from: new Date(new Date().setDate(new Date().getDate() - 30)),
-    to: new Date(),
-  })
-  const [isOpen, setIsOpen] = useState(false)
-
+export function DatePickerWithRange({
+  className,
+  handleOpen,
+  date,
+  isOpen,
+  setDate,
+}) {
   return (
     <div className={cn("grid gap-2", className)}>
-      <Popover
-        onOpenChange={(open) => {
-          setIsOpen(open)
-        }}
-      >
+      <Popover onOpenChange={handleOpen}>
         <PopoverTrigger
           asChild
           style={{

@@ -13,6 +13,15 @@ import { DatePickerWithRange } from "./components/date_range/date_range_picker"
 
 export default function Dashboard() {
   const [type, setType] = useState("Line")
+  const [date, setDate] = useState({
+    from: new Date(new Date().setDate(new Date().getDate() - 30)),
+    to: new Date(),
+  })
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpen = (open) => {
+    setIsOpen(open)
+  }
 
   const darkTheme = createTheme({
     palette: {
@@ -52,7 +61,12 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="p-3">
-            <DatePickerWithRange />
+            <DatePickerWithRange
+              handleOpen={handleOpen}
+              date={date}
+              isOpen={isOpen}
+              setDate={setDate}
+            />
           </div>
 
           <div className="flex p-3 justify-between">
