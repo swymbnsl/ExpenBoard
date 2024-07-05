@@ -1,23 +1,24 @@
 import React from "react"
 import { Chart as ChartJS, Tooltip, Legend, defaults } from "chart.js"
 
-import { Bar } from "react-chartjs-2"
-import { CategoryScale, LinearScale, BarElement } from "chart.js"
+import { Line } from "react-chartjs-2"
+import { PointElement, LineElement, CategoryScale, LinearScale } from "chart.js"
 import { incomeData, expensesData } from "@/seed_data/temp-seed"
 
-ChartJS.register(BarElement)
 ChartJS.register(LinearScale)
 ChartJS.register(CategoryScale)
+ChartJS.register(LineElement)
+ChartJS.register(PointElement)
 ChartJS.register(Tooltip)
 ChartJS.register(Legend)
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true
 
-export default function BarChart() {
+export default function AreaChart() {
   return (
     <div className="w-full h-full">
-      <Bar
+      <Line
         data={{
           labels: incomeData.map((i) => i.label),
           datasets: [
@@ -27,14 +28,13 @@ export default function BarChart() {
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
                 const gradient = ctx.createLinearGradient(0, 0, 0, 150)
-                gradient.addColorStop(0, "rgba(134, 239, 172, 1)")
-                gradient.addColorStop(1, "rgba(134, 239, 172, 0.7)")
+                gradient.addColorStop(0, "rgba(134, 239, 172, 0.7)")
+                gradient.addColorStop(1, "rgba(134, 239, 172, 0)")
                 return gradient
               },
-              borderRadius: 3,
-              barThickness: 12,
-              borderColor: "rgba(0,0,0,1)",
-              borderWidth: 1,
+              borderColor: "#86efac",
+              fill: true,
+              tension: 0.3,
             },
             {
               label: "Expenses",
@@ -42,14 +42,13 @@ export default function BarChart() {
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
                 const gradient = ctx.createLinearGradient(0, 0, 0, 150)
-                gradient.addColorStop(0, "rgba(252, 165, 165, 1)")
-                gradient.addColorStop(1, "rgba(252, 165, 165, 0.7)")
+                gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
+                gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
                 return gradient
               },
-              borderRadius: 3,
-              barThickness: 12,
-              borderColor: "rgba(0,0,0,1)",
-              borderWidth: 1,
+              borderColor: "#fca5a5",
+              fill: true,
+              tension: 0.3,
             },
           ],
         }}
@@ -57,6 +56,15 @@ export default function BarChart() {
           plugins: {
             legend: {
               display: false,
+            },
+          },
+          animations: {
+            tension: {
+              duration: 1000,
+              easing: "linear",
+              from: 0.4,
+              to: 0,
+              loop: true,
             },
           },
         }}

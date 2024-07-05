@@ -5,7 +5,7 @@ export const incomeData = [
   },
   {
     label: "Mon",
-    value: 60,
+    value: 70,
   },
   {
     label: "Tue",
@@ -13,11 +13,11 @@ export const incomeData = [
   },
   {
     label: "Wed",
-    value: 60,
+    value: 20,
   },
   {
     label: "Thu",
-    value: 45,
+    value: 80,
   },
   {
     label: "Fri",
@@ -32,30 +32,30 @@ export const incomeData = [
 export const expensesData = [
   {
     label: "Sun",
-    value: 10,
+    value: 60,
   },
   {
     label: "Mon",
-    value: 5,
+    value: 25,
   },
   {
     label: "Tue",
-    value: 12,
+    value: 75,
   },
   {
     label: "Wed",
-    value: 6,
+    value: 55,
   },
   {
     label: "Thu",
-    value: 13,
-  },
-  {
-    label: "Fri",
     value: 34,
   },
   {
+    label: "Fri",
+    value: 17,
+  },
+  {
     label: "Sat",
-    value: 22,
+    value: 0,
   },
 ]

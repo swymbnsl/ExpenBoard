@@ -3,7 +3,7 @@ import React from "react"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
-import { BarChart3Icon, LineChartIcon } from "lucide-react"
+import { AreaChartIcon, BarChart3Icon } from "lucide-react"
 
 export default function ChartSelect({ handleChange, type }) {
   return (
@@ -17,11 +17,11 @@ export default function ChartSelect({ handleChange, type }) {
           onChange={handleChange}
           displayEmpty
           renderValue={() => {
-            if (type == "Line") {
+            if (type == "Area") {
               return (
                 <span className="flex justify-center items-center gap-2">
                   {" "}
-                  <LineChartIcon size={18} /> Line{" "}
+                  <AreaChartIcon size={18} /> Area{" "}
                 </span>
               )
             }
@@ -33,9 +33,9 @@ export default function ChartSelect({ handleChange, type }) {
             )
           }}
         >
-          <MenuItem value={"Line"} sx={{ display: "flex", gap: 1 }}>
+          <MenuItem value={"Area"} sx={{ display: "flex", gap: 1 }}>
             {" "}
-            <LineChartIcon /> Line
+            <AreaChartIcon /> Area
           </MenuItem>
           <MenuItem value={"Bar"} sx={{ display: "flex", gap: 1 }}>
             {" "}
