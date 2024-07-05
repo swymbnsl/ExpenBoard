@@ -12,11 +12,11 @@ export default function TransactionsChart() {
 
   return (
     <>
-      <div className="h-[45%] p-3">
+      <div className="h-[350px] p-3">
         <div className="bg-themesurfacedim rounded-3xl p-3 h-full w-full flex flex-col justify-center gap-4">
           <div className="flex w-full justify-between items-center">
-            <span className="text-themeonsurfacevar text-muted-foreground">
-              Overview:
+            <span className="text-themeonsurface font-semibold text-lg ">
+              Transactions:
             </span>
             <ChartSelect handleChange={handleChange} type={type} />
           </div>

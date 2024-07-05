@@ -24,32 +24,38 @@ export default function BarChart() {
             {
               label: "Income",
               data: incomeData.map((i) => i.value),
-              backgroundColor: (context) => {
-                const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 150)
-                gradient.addColorStop(0, "rgba(134, 239, 172, 1)")
-                gradient.addColorStop(1, "rgba(134, 239, 172, 0.7)")
-                return gradient
-              },
               borderRadius: 3,
               barThickness: 12,
               borderColor: "rgba(0,0,0,1)",
               borderWidth: 1,
+              animations: {
+                backgroundColor: {
+                  type: "color",
+                  duration: 1000,
+                  easing: "linear",
+                  from: "rgba(134, 239, 172, 1)",
+                  to: "rgba(134, 239, 172, 0.8)",
+                  loop: true,
+                },
+              },
             },
             {
               label: "Expenses",
               data: expensesData.map((i) => i.value),
-              backgroundColor: (context) => {
-                const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 150)
-                gradient.addColorStop(0, "rgba(252, 165, 165, 1)")
-                gradient.addColorStop(1, "rgba(252, 165, 165, 0.7)")
-                return gradient
-              },
               borderRadius: 3,
               barThickness: 12,
               borderColor: "rgba(0,0,0,1)",
               borderWidth: 1,
+              animations: {
+                backgroundColor: {
+                  type: "color",
+                  duration: 1000,
+                  easing: "linear",
+                  from: "rgba(252, 165, 165, 0.8)",
+                  to: "rgba(252, 165, 165, 1)",
+                  loop: true,
+                },
+              },
             },
           ],
         }}

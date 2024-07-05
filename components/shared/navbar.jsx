@@ -4,7 +4,7 @@ import React from "react"
 export default function Navbar() {
   return (
     <>
-      <div className="bg-themesurfacedim fixed bottom-0 w-full text-themeonsurface h-[55px] flex justify-center items-center z-10">
+      <div className="bg-themesurfacedim fixed bottom-0 w-full shadow-lg shadow-black text-themeonsurface h-[55px] flex justify-center items-center z-10">
         <span className="w-1/5 flex justify-center items-center">
           <Home size={25} />
         </span>

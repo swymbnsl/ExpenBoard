@@ -1,8 +1,6 @@
 import React, { useState } from "react"
 import ChartSelect from "../transaction_charts/chart_type_select"
-import LineChart from "../transaction_charts/area_chart"
-import BarChart from "../transaction_charts/bar_chart"
-import CategoriesRadarChart from "./radarChart"
+import DoughnutChart from "./doughnut_chart"
 
 export default function CategoriesChart() {
   const [type, setType] = useState("Line")
@@ -13,16 +11,16 @@ export default function CategoriesChart() {
 
   return (
     <>
-      <div className="h-full p-3">
-        <div className="bg-themesurfacedim rounded-3xl p-3 h-full w-full flex flex-col justify-center gap-4">
+      <div className=" p-3 h-full">
+        <div className="bg-themesurfacedim rounded-3xl p-3  h-[350px] w-full flex flex-col justify-center gap-4">
           <div className="flex w-full justify-between items-center">
-            <span className="text-themeonsurfacevar text-muted-foreground">
-              Overview:
+            <span className="text-themeonsurface font-semibold text-lg ">
+              Categories:
             </span>
             {/* <ChartSelect handleChange={handleChange} type={type} /> */}
           </div>
           <div className="h-[80%]">
-            <CategoriesRadarChart />
+            <DoughnutChart />
             {/* {type == "Line" ? <LineChart /> : <BarChart />} */}
           </div>
         </div>

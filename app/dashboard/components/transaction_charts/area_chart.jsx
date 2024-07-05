@@ -2,7 +2,13 @@ import React from "react"
 import { Chart as ChartJS, Tooltip, Legend, defaults } from "chart.js"
 
 import { Line } from "react-chartjs-2"
-import { PointElement, LineElement, CategoryScale, LinearScale } from "chart.js"
+import {
+  PointElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  Filler,
+} from "chart.js"
 import { incomeData, expensesData } from "@/seed_data/temp-seed"
 
 ChartJS.register(LinearScale)
@@ -11,6 +17,7 @@ ChartJS.register(LineElement)
 ChartJS.register(PointElement)
 ChartJS.register(Tooltip)
 ChartJS.register(Legend)
+ChartJS.register(Filler)
 
 defaults.maintainAspectRatio = false
 defaults.responsive = true
@@ -27,28 +34,26 @@ export default function AreaChart() {
               data: incomeData.map((i) => i.value),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 150)
+                const gradient = ctx.createLinearGradient(0, 0, 0, 200)
                 gradient.addColorStop(0, "rgba(134, 239, 172, 0.7)")
                 gradient.addColorStop(1, "rgba(134, 239, 172, 0)")
                 return gradient
               },
               borderColor: "#86efac",
               fill: true,
-              tension: 0.3,
             },
             {
               label: "Expenses",
               data: expensesData.map((i) => i.value),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 150)
+                const gradient = ctx.createLinearGradient(0, 0, 0, 200)
                 gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
                 gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
                 return gradient
               },
               borderColor: "#fca5a5",
               fill: true,
-              tension: 0.3,
             },
           ],
         }}
