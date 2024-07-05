@@ -34,7 +34,7 @@ export default function AreaChart() {
               data: incomeData.map((i) => i.value),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 200)
+                const gradient = ctx.createLinearGradient(0, 0, 0, 170)
                 gradient.addColorStop(0, "rgba(134, 239, 172, 0.7)")
                 gradient.addColorStop(1, "rgba(134, 239, 172, 0)")
                 return gradient
@@ -47,7 +47,7 @@ export default function AreaChart() {
               data: expensesData.map((i) => i.value),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 200)
+                const gradient = ctx.createLinearGradient(0, 0, 0, 170)
                 gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
                 gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
                 return gradient

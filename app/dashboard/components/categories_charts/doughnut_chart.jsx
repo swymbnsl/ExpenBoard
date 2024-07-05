@@ -5,22 +5,34 @@ import { Chart as ChartJS, ArcElement } from "chart.js"
 
 ChartJS.register(ArcElement)
 
+const labels = ["Shopping", "Grocery", "College", "Others"]
+const data = [10, 87, 30, 40]
+const colors = [
+  "rgba(134, 167, 239, 1)",
+  "rgba(234, 134, 239, 1)",
+  "rgba(134, 230, 239, 1)",
+  "rgba(75, 82, 87,1)",
+]
+const sum = data.reduce((prevVal, currVal) => {
+  return prevVal + currVal
+})
+
 export default function DoughnutChart() {
   return (
     <>
       <Doughnut
         data={{
-          labels: ["Shopping", "Grocery", "College", "Others"],
+          labels: labels,
           datasets: [
             {
               label: "Expenses",
-              data: [10, 20, 30, 40],
+              data: data,
               borderColor: "#111318",
               backgroundColor: [
                 "rgba(134, 167, 239, 1)",
-                "rgb(234, 134, 239)",
-                "rgb(134, 230, 239)",
-                "rgb(75, 82, 87)",
+                "rgba(234, 134, 239, 1)",
+                "rgba(134, 230, 239, 1)",
+                "rgba(75, 82, 87,1)",
               ],
               hoverOffset: 10,
             },
@@ -29,11 +41,27 @@ export default function DoughnutChart() {
         options={{
           plugins: {
             legend: {
-              position: "bottom",
+              display: false,
             },
           },
         }}
       />
+      {labels.map((item, index) => {
+        return (
+          <div className="flex gap-3 items-center">
+            <div
+              className={`h-5 w-5 rounded-lg`}
+              style={{ backgroundColor: `${colors[index]}` }}
+            ></div>
+            <span className="text-themeonsurfacevar font-semibold">
+              {item} -
+            </span>
+            <span className="font-semibold">
+              {Math.round((data[index] / sum) * 100)} %
+            </span>
+          </div>
+        )
+      })}
     </>
   )
 }
