@@ -9,8 +9,8 @@ const userSchema = Joi.object({
       "string.email": `Invalid email address`,
     }),
 
-  password: Joi.string().min(8).messages({
-    "string.min": `Password must be atleast 8 characters long`,
+  password: Joi.string().min(6).messages({
+    "string.min": `Password must be atleast 6 characters long`,
   }),
 })
 

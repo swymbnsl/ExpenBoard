@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { ThemeProvider } from "@emotion/react"
 import { CssBaseline, createTheme } from "@mui/material"
@@ -9,6 +9,7 @@ import { DatePickerWithRange } from "./components/date_range/date_range_picker"
 import Header from "./components/header/header"
 import TransactionsChart from "./components/transaction_charts/transactions_chart"
 import CategoriesChart from "./components/categories_charts/categories_chart"
+import axios from "axios"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
@@ -16,6 +17,7 @@ export default function Dashboard() {
     to: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
+  const [name, setName] = useState("")
 
   const handleOpen = (open) => {
     setIsOpen(open)
@@ -27,12 +29,34 @@ export default function Dashboard() {
     },
   })
 
+  const getLocalDetails = async () => {
+    try {
+      const res = await axios.get("/api/user/profile")
+      setName(res.data.tokenData.name)
+    } catch (error) {
+      console.log(error.response.data.error)
+    }
+  }
+  const getTransactionDetails = async () => {
+    try {
+      const res = await axios.get("/api/user/profile")
+      setName(res.data.tokenData.name)
+    } catch (error) {
+      console.log(error.response.data.error)
+    }
+  }
+
+  useEffect(() => {
+    getLocalDetails()
+    getTransactionDetails()
+  }, [])
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <div className="w-full h-full">
-          <Header />
+          <Header name={name} />
 
           <div className="p-3">
             <DatePickerWithRange

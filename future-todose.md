@@ -8,3 +8,4 @@
 6. Add recurring expenses
 7. In Count up, use Indian separators only for indian currency
 8. In home page, load currency sign as per preference
+9. Add presets in date range picker

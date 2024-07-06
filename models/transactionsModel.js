@@ -1,13 +1,11 @@
 import mongoose from "mongoose"
 
-const categories = []
+const categories = ["toffees", "chocolates"]
 
 const transactionsSchema = new mongoose.Schema({
   user_id: {
-    type: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: [true, "Transaction must refer to a user"],
   },
   amount: {

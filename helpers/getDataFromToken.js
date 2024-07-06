@@ -2,10 +2,16 @@ import jwt from "jsonwebtoken"
 
 export const getDataFromToken = (request) => {
   try {
+    if (!request.cookies.has("token")) {
+      console.log("Not signed in")
+      throw new Error("User must be signed in")
+    }
+
     const token = request.cookies.get("token").value || ""
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET)
-    return decodedToken.id
+
+    return decodedToken
   } catch (error) {
-    throw new Error(error.message)
+    return { message: "Couldn't decode token", error: error.message }
   }
 }
