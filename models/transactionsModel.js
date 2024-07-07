@@ -6,13 +6,13 @@ const transactionsSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Transaction must refer to a user"],
   },
-  amount: {
-    type: Number,
-    required: [true, "Please provide the transaction amount"],
-  },
   name: {
     type: String,
     required: [true, "Please provide a transaction name"],
+  },
+  amount: {
+    type: Number,
+    required: [true, "Please provide the transaction amount"],
   },
   description: {
     type: String,

@@ -3,6 +3,7 @@ import connect from "@/database/dbConnect"
 import Transaction from "@/models/transactionsModel"
 import { getDataFromToken } from "@/helpers/getDataFromToken"
 import User from "@/models/userModel"
+import transactionsSchema from "@/schemas/transactionsSchema"
 
 connect()
 
@@ -14,6 +15,14 @@ export async function POST(request) {
     const tokenData = getDataFromToken(request)
     if (tokenData.error) {
       throw new Error(tokenData.error)
+    }
+
+    const joiRes = transactionsSchema.validate(reqBody)
+    if (joiRes.error) {
+      return NextResponse.json(
+        { joiError: "Validation Failed", joiRes },
+        { status: 400 }
+      )
     }
 
     const foundUser = await User.findById(tokenData.id)
