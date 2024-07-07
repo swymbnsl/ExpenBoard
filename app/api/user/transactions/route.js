@@ -16,10 +16,8 @@ export async function POST(request) {
       throw new Error(tokenData.error)
     }
 
-    console.log("still continuing")
-
     const newTransaction = new Transaction({
-      user_id: id,
+      user_id: tokenData.id,
       amount,
       description,
       category,
@@ -38,6 +36,35 @@ export async function POST(request) {
     return NextResponse.json(
       {
         message: "Error creating transaction",
+        error: err.message,
+        success: false,
+      },
+      { status: 400 }
+    )
+  }
+}
+
+export async function GET(request) {
+  try {
+    const tokenData = getDataFromToken(request)
+    if (tokenData.error) {
+      throw new Error(tokenData.error)
+    }
+
+    const foundTransactions = await Transaction.find({
+      user_id: tokenData.id,
+    })
+
+    console.log(foundTransactions)
+
+    return NextResponse.json(
+      { message: "Transactions queried successfully", success: true },
+      { status: 200 }
+    )
+  } catch (err) {
+    return NextResponse.json(
+      {
+        message: "Error getting transaction",
         error: err.message,
         success: false,
       },
