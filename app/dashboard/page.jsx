@@ -18,6 +18,7 @@ export default function Dashboard() {
   })
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
+  const [transactions, setTransactions] = useState([])
 
   const handleOpen = (open) => {
     setIsOpen(open)
@@ -39,8 +40,8 @@ export default function Dashboard() {
   }
   const getTransactions = async () => {
     try {
-      const res = await axios.get("/api/user/profile")
-      setName(res.data.tokenData.name)
+      const res = await axios.get("/api/user/transactions")
+      setTransactions(res.data.transactions)
     } catch (error) {
       console.log(error.response.data.error)
     }
@@ -48,13 +49,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     getLocalDetails()
-    getTransactionDetails()
+    getTransactions()
   }, [])
 
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
+
         <div className="w-full h-full">
           <Header name={name} />
 
@@ -66,7 +68,6 @@ export default function Dashboard() {
               setDate={setDate}
             />
           </div>
-
           <div className="flex p-3 justify-between">
             <SummaryCard type="income" income={425637} />
             <SummaryCard type="expense" expenses={2387} />
