@@ -37,7 +37,7 @@ export default function Dashboard() {
       console.log(error.response.data.error)
     }
   }
-  const getTransactionDetails = async () => {
+  const getTransactions = async () => {
     try {
       const res = await axios.get("/api/user/profile")
       setName(res.data.tokenData.name)

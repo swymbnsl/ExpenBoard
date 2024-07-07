@@ -72,10 +72,12 @@ export async function GET(request) {
       user_id: tokenData.id,
     })
 
-    console.log(foundTransactions)
-
     return NextResponse.json(
-      { message: "Transactions queried successfully", success: true },
+      {
+        message: "Transactions queried successfully",
+        success: true,
+        transactions: foundTransactions,
+      },
       { status: 200 }
     )
   } catch (err) {
