@@ -1,23 +1,30 @@
 import { NextResponse } from "next/server"
-import jwt from "jsonwebtoken"
 import connect from "@/database/dbConnect"
 import Transaction from "@/models/transactionsModel"
 import { getDataFromToken } from "@/helpers/getDataFromToken"
+import User from "@/models/userModel"
 
 connect()
 
 export async function POST(request) {
   try {
     const reqBody = await request.json()
-    const { amount, description, category, type } = reqBody
+    const { amount, description, category, type, name } = reqBody
 
     const tokenData = getDataFromToken(request)
     if (tokenData.error) {
       throw new Error(tokenData.error)
     }
 
+    const foundUser = await User.findById(tokenData.id)
+
+    if (foundUser.categories.indexOf(category) == "-1") {
+      throw new Error("Invalid Category")
+    }
+
     const newTransaction = new Transaction({
       user_id: tokenData.id,
+      name,
       amount,
       description,
       category,
@@ -33,6 +40,7 @@ export async function POST(request) {
       { status: 200 }
     )
   } catch (err) {
+    console.log(err)
     return NextResponse.json(
       {
         message: "Error creating transaction",

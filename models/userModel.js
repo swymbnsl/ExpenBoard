@@ -1,3 +1,4 @@
+import { categoriesNames } from "@/enums/categories-enum"
 import { currencyCodes } from "@/enums/currencies-enum"
 import mongoose from "mongoose"
 
@@ -17,6 +18,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+
+  categories: {
+    type: [String],
+    required: true,
+    default: categoriesNames,
   },
 
   preferences: {

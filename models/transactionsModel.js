@@ -1,7 +1,5 @@
 import mongoose from "mongoose"
 
-const categories = ["toffees", "chocolates"]
-
 const transactionsSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -12,15 +10,16 @@ const transactionsSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide the transaction amount"],
   },
+  name: {
+    type: String,
+    required: [true, "Please provide a transaction name"],
+  },
   description: {
     type: String,
   },
   category: {
     type: String,
-    enum: {
-      values: categories,
-      message: "Invalid transaction category",
-    },
+    required: [true, "Please provide a transaction category"],
   },
   dateAndTime: {
     type: Date,

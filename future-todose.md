@@ -9,3 +9,5 @@
 7. In Count up, use Indian separators only for indian currency
 8. In home page, load currency sign as per preference
 9. Add presets in date range picker
+10. Lowercase before saving to db
+11. Don't display full name if too long
