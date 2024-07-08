@@ -70,22 +70,23 @@ export async function GET(request) {
 
     const page = request.nextUrl.searchParams.get("page")
     const limit = request.nextUrl.searchParams.get("limit")
+    const dateFrom = request.nextUrl.searchParams.get("dateFrom")
+    const dateTo = request.nextUrl.searchParams.get("dateTo")
 
     const foundTransactions = await Transaction.find({
       user_id: tokenData.id,
+      dateAndTime: { $gte: dateFrom },
+      dateAndTime: { $lte: dateTo },
     })
       .skip((page - 1) * limit)
       .limit(limit)
-
-    const userTransactions = await Transaction.countDocuments({
-      user_id: tokenData.id,
-    })
 
     return NextResponse.json(
       {
         message: "Transactions queried successfully",
         success: true,
-        totalPages: Math.ceil(userTransactions / limit),
+        totalTransactions: foundTransactions.length,
+        totalPages: Math.ceil(foundTransactions.length / limit),
         currentPage: page,
         transactions: foundTransactions,
       },

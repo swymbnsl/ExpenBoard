@@ -10,6 +10,7 @@ import Header from "./components/header/header"
 import TransactionsChart from "./components/transaction_charts/transactions_chart"
 import CategoriesChart from "./components/categories_charts/categories_chart"
 import axios from "axios"
+import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
@@ -38,10 +39,12 @@ export default function Dashboard() {
       console.log(error.response.data.error)
     }
   }
-  const getTransactions = async () => {
+  const getTransactions = async (date) => {
     try {
-      const res = await axios.get("/api/user/transactions")
-      setTransactions(res.data.transactions)
+      console.log(date)
+      getTransactionsFromDate(date)
+      // const res = await axios.get("/api/user/transactions")
+      // setTransactions(res.data.transactions)
     } catch (error) {
       console.log(error.response.data.error)
     }
@@ -49,7 +52,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     getLocalDetails()
-    getTransactions()
+    getTransactions(date)
   }, [])
 
   return (
