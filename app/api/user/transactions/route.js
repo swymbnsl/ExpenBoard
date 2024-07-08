@@ -68,7 +68,16 @@ export async function GET(request) {
       throw new Error(tokenData.error)
     }
 
+    const page = request.nextUrl.searchParams.get("page")
+    const limit = request.nextUrl.searchParams.get("limit")
+
     const foundTransactions = await Transaction.find({
+      user_id: tokenData.id,
+    })
+      .skip((page - 1) * limit)
+      .limit(limit)
+
+    const userTransactions = await Transaction.countDocuments({
       user_id: tokenData.id,
     })
 
@@ -76,6 +85,8 @@ export async function GET(request) {
       {
         message: "Transactions queried successfully",
         success: true,
+        totalPages: Math.ceil(userTransactions / limit),
+        currentPage: page,
         transactions: foundTransactions,
       },
       { status: 200 }

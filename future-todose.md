@@ -11,3 +11,11 @@
 9. Add presets in date range picker
 10. Lowercase before saving to db
 11. Don't display full name if too long
+12. Implement Debounce
+13. Change home icon to dashboard icon
+14. Handle no data in charts
+15. Add infinite scroll for transactions
+16. Add icons, like in login page
+17. Metadata for each page
+18. Skeletal loading animation
+19. In verifyemail page, use searchparams.has to check if token param exists, that sounds better
