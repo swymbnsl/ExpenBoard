@@ -50,7 +50,6 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
-      console.log(res)
     } catch (error) {
       console.log(error)
     }
