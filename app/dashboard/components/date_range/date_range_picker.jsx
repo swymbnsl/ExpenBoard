@@ -16,16 +16,25 @@ export function DatePickerWithRange({
   date,
   isOpen,
   setDate,
+  displayDate,
+  setDisplayDate,
 }) {
   const handleSelect = (range, selectedDay, activeModifiers) => {
-    const newRange = range
-    newRange.to = set(newRange.to, {
-      hours: 23,
-      minutes: 59,
-      seconds: 59,
-      milliseconds: 999,
-    })
-    setDate(newRange)
+    setDisplayDate(range)
+
+    if (range && range.to && range.from) {
+      setDate((prevRange) => {
+        return {
+          ...prevRange,
+          ["to"]: set(range.to, {
+            hours: 23,
+            minutes: 59,
+            seconds: 59,
+            milliseconds: 999,
+          }),
+        }
+      })
+    } else return
   }
 
   return (
@@ -49,14 +58,14 @@ export function DatePickerWithRange({
           >
             <div className="flex items-center">
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {date?.from ? (
-                date.to ? (
+              {displayDate?.from ? (
+                displayDate.to ? (
                   <>
-                    {format(date.from, "LLL dd, yy")} -{" "}
-                    {format(date.to, "LLL dd, yy")}
+                    {format(displayDate.from, "LLL dd, yy")} -{" "}
+                    {format(displayDate.to, "LLL dd, yy")}
                   </>
                 ) : (
-                  format(date.from, "LLL dd, y")
+                  format(displayDate.from, "LLL dd, y")
                 )
               ) : (
                 <span>Pick a date</span>
@@ -74,11 +83,13 @@ export function DatePickerWithRange({
             initialFocus
             mode="range"
             defaultMonth={date?.from}
-            selected={date}
+            selected={displayDate}
             onSelect={(range, selectedDay, activeModifiers) =>
               handleSelect(range, selectedDay, activeModifiers)
             }
+            // onSelect={setDate}
             numberOfMonths={2}
+            required
           />
         </PopoverContent>
       </Popover>

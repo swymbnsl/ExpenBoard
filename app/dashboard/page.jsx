@@ -24,6 +24,15 @@ export default function Dashboard() {
     ),
     to: new Date(),
   })
+  const [displayDate, setDisplayDate] = useState({
+    from: new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+      0,
+      0,
+      0,
+      0
+    ),
+    to: new Date(),
+  })
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [transactions, setTransactions] = useState([])
@@ -79,6 +88,8 @@ export default function Dashboard() {
               date={date}
               isOpen={isOpen}
               setDate={setDate}
+              displayDate={displayDate}
+              setDisplayDate={setDisplayDate}
             />
           </div>
           <div className="flex p-3 justify-between">
