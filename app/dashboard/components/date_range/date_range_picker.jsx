@@ -1,5 +1,5 @@
 "use client"
-import { format } from "date-fns"
+import { format, set } from "date-fns"
 import { Calendar as CalendarIcon, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,17 @@ export function DatePickerWithRange({
   isOpen,
   setDate,
 }) {
+  const handleSelect = (range, selectedDay, activeModifiers) => {
+    const newRange = range
+    newRange.to = set(newRange.to, {
+      hours: 23,
+      minutes: 59,
+      seconds: 59,
+      milliseconds: 999,
+    })
+    setDate(newRange)
+  }
+
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover onOpenChange={handleOpen}>
@@ -64,7 +75,9 @@ export function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={(range, selectedDay, activeModifiers) =>
+              handleSelect(range, selectedDay, activeModifiers)
+            }
             numberOfMonths={2}
           />
         </PopoverContent>

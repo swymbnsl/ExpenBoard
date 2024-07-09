@@ -1,6 +1,7 @@
 import { categoriesNames } from "../enums/categories-enum.js"
 import connect from "../database/dbConnect.js"
 import Transaction from "../models/transactionsModel.js"
+import "dotenv/config"
 const types = ["income", "expense"]
 
 const transactions = []
@@ -16,7 +17,7 @@ const seedDb = async () => {
     const type = types[Math.floor(Math.random() * types.length)]
 
     transactions.push({
-      user_id: "668a3e8f1c6e31383163c757",
+      user_id: process.env.DEV_ID,
       name,
       amount,
       category,
@@ -33,7 +34,7 @@ const seedDb = async () => {
   } catch (error) {
     console.log(error)
   } finally {
-    process.exit(1)
+    process.exit()
   }
 }
 

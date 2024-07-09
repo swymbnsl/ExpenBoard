@@ -11,10 +11,17 @@ import TransactionsChart from "./components/transaction_charts/transactions_char
 import CategoriesChart from "./components/categories_charts/categories_chart"
 import axios from "axios"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
+import { showErrorToast } from "@/utils/hot-toast"
+import { Toaster } from "react-hot-toast"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
-    from: new Date(new Date().setDate(new Date().getDate() - 30)),
+    from: new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+      0,
+      0,
+      0,
+      0
+    ),
     to: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
@@ -36,17 +43,16 @@ export default function Dashboard() {
       const res = await axios.get("/api/user/profile")
       setName(res.data.tokenData.name)
     } catch (error) {
+      showErrorToast("Error loading data")
       console.log(error.response.data.error)
     }
   }
   const getTransactions = async (date) => {
     try {
-      console.log(date)
-      getTransactionsFromDate(date)
-      // const res = await axios.get("/api/user/transactions")
-      // setTransactions(res.data.transactions)
+      const res = await getTransactionsFromDate(date)
+      console.log(res)
     } catch (error) {
-      console.log(error.response.data.error)
+      console.log(error)
     }
   }
 
@@ -55,10 +61,15 @@ export default function Dashboard() {
     getTransactions(date)
   }, [])
 
+  useEffect(() => {
+    getTransactions(date)
+  }, [date])
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
+        <Toaster />
 
         <div className="w-full h-full">
           <Header name={name} />
