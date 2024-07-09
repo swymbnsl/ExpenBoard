@@ -13,6 +13,7 @@ import axios from "axios"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { showErrorToast } from "@/utils/hot-toast"
 import { Toaster } from "react-hot-toast"
+import { transactionsChartCalculations } from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
@@ -72,7 +73,7 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
-      console.log(res)
+      transactionsChartCalculations(res.transactions)
     } catch (error) {
       console.log(error)
     }

@@ -22,6 +22,11 @@ const seedDb = async () => {
       amount,
       category,
       type,
+      dateAndTime: new Date(
+        new Date().setDate(
+          new Date().getDate() - Math.floor(Math.random() * 30) + 1
+        )
+      ),
     })
   }
 

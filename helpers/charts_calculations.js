@@ -1,10 +1,11 @@
-const { default: axios } = require("axios")
+export let expensesTransactions = []
 
-const getTransactions = async () => {
-  try {
-    const res = await axios.get("/api/user/transactions")
-    const transactions = res.data.transactions
-  } catch (error) {
-    console.log(error.response.data.error)
+export let incomeTransactions = []
+
+export const transactionsChartCalculations = (transactions) => {
+  if (transactions) {
+    expensesTransactions = transactions.filter((t) => t.type === "expense")
+
+    incomeTransactions = transactions.filter((t) => t.type === "income")
   }
 }

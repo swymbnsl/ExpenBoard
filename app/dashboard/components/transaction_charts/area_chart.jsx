@@ -10,6 +10,11 @@ import {
   Filler,
 } from "chart.js"
 import { incomeData, expensesData } from "@/seed_data/temp-seed"
+import {
+  expensesTransactions,
+  incomeTransactions,
+} from "@/helpers/charts_calculations"
+import { format } from "date-fns"
 
 ChartJS.register(LinearScale)
 ChartJS.register(CategoryScale)
@@ -27,11 +32,11 @@ export default function AreaChart() {
     <div className="w-full h-full">
       <Line
         data={{
-          labels: incomeData.map((i) => i.label),
+          labels: incomeTransactions.map((i) => format(i.dateAndTime, "d LLL")),
           datasets: [
             {
               label: "Income",
-              data: incomeData.map((i) => i.value),
+              data: incomeTransactions.map((i) => i.amount),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
                 const gradient = ctx.createLinearGradient(0, 0, 0, 170)
@@ -42,19 +47,19 @@ export default function AreaChart() {
               borderColor: "#86efac",
               fill: true,
             },
-            {
-              label: "Expenses",
-              data: expensesData.map((i) => i.value),
-              backgroundColor: (context) => {
-                const ctx = context.chart.ctx
-                const gradient = ctx.createLinearGradient(0, 0, 0, 170)
-                gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
-                gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
-                return gradient
-              },
-              borderColor: "#fca5a5",
-              fill: true,
-            },
+            // {
+            //   label: "Expenses",
+            //   data: expensesData.map((i) => i.value),
+            //   backgroundColor: (context) => {
+            //     const ctx = context.chart.ctx
+            //     const gradient = ctx.createLinearGradient(0, 0, 0, 170)
+            //     gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
+            //     gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
+            //     return gradient
+            //   },
+            //   borderColor: "#fca5a5",
+            //   fill: true,
+            // },
           ],
         }}
         options={{
