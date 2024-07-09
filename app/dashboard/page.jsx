@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-
+import { set } from "date-fns"
 import { ThemeProvider } from "@emotion/react"
 import { CssBaseline, createTheme } from "@mui/material"
 import SummaryCard from "./components/income_expense_cards"
@@ -39,6 +39,19 @@ export default function Dashboard() {
 
   const handleOpen = (open) => {
     setIsOpen(open)
+    if (!open && displayDate && displayDate.to && displayDate.from) {
+      setDate((prevRange) => {
+        return {
+          ...prevRange,
+          ["to"]: set(displayDate.to, {
+            hours: 23,
+            minutes: 59,
+            seconds: 59,
+            milliseconds: 999,
+          }),
+        }
+      })
+    } else return
   }
 
   const darkTheme = createTheme({
@@ -59,6 +72,7 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
+      console.log(res)
     } catch (error) {
       console.log(error)
     }

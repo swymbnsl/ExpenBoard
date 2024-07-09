@@ -19,24 +19,6 @@ export function DatePickerWithRange({
   displayDate,
   setDisplayDate,
 }) {
-  const handleSelect = (range, selectedDay, activeModifiers) => {
-    setDisplayDate(range)
-
-    if (range && range.to && range.from) {
-      setDate((prevRange) => {
-        return {
-          ...prevRange,
-          ["to"]: set(range.to, {
-            hours: 23,
-            minutes: 59,
-            seconds: 59,
-            milliseconds: 999,
-          }),
-        }
-      })
-    } else return
-  }
-
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover onOpenChange={handleOpen}>
@@ -84,10 +66,7 @@ export function DatePickerWithRange({
             mode="range"
             defaultMonth={date?.from}
             selected={displayDate}
-            onSelect={(range, selectedDay, activeModifiers) =>
-              handleSelect(range, selectedDay, activeModifiers)
-            }
-            // onSelect={setDate}
+            onSelect={setDisplayDate}
             numberOfMonths={2}
             required
           />
