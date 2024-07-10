@@ -72,6 +72,18 @@ export default function AreaChart({ eachDayTransactions }) {
               loop: true,
             },
           },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
         }}
       />
     </div>

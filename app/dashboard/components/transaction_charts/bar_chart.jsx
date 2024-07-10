@@ -65,6 +65,18 @@ export default function BarChart({ eachDayTransactions }) {
               display: false,
             },
           },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+          },
         }}
       />
     </div>
