@@ -51,6 +51,7 @@ export default function Dashboard() {
       setDate((prevRange) => {
         return {
           ...prevRange,
+          ["from"]: displayDate.from,
           ["to"]: set(displayDate.to, {
             hours: 23,
             minutes: 59,

@@ -9,12 +9,18 @@ const transactions = []
 connect()
 
 const seedDb = async () => {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 500; i++) {
     const name = "Seed-transaction"
-    const amount = Math.floor(Math.random() * 1000) + 1
+    let amount = 0
     const category =
       categoriesNames[Math.floor(Math.random() * categoriesNames.length)]
     const type = types[Math.floor(Math.random() * types.length)]
+
+    if (type === "income") {
+      amount = Math.floor(Math.random() * 100) + 1000
+    } else {
+      amount = Math.floor(Math.random() * 100) + 100
+    }
 
     transactions.push({
       user_id: process.env.DEV_ID,
@@ -24,7 +30,7 @@ const seedDb = async () => {
       type,
       dateAndTime: new Date(
         new Date().setDate(
-          new Date().getDate() - Math.floor(Math.random() * 30) + 1
+          new Date().getDate() - Math.floor(Math.random() * 50) + 1
         )
       ),
     })

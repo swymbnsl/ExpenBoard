@@ -67,7 +67,7 @@ export default function AreaChart({ eachDayTransactions }) {
             tension: {
               duration: 1000,
               easing: "linear",
-              from: 0.4,
+              from: 0.5,
               to: 0,
               loop: true,
             },
