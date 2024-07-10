@@ -27,16 +27,16 @@ ChartJS.register(Filler)
 defaults.maintainAspectRatio = false
 defaults.responsive = true
 
-export default function AreaChart() {
+export default function AreaChart({ eachDayTransactions }) {
   return (
     <div className="w-full h-full">
       <Line
         data={{
-          labels: incomeTransactions.map((i) => format(i.dateAndTime, "d LLL")),
+          labels: eachDayTransactions.map((i) => format(i.date, "d LLL")),
           datasets: [
             {
               label: "Income",
-              data: incomeTransactions.map((i) => i.amount),
+              data: eachDayTransactions.map((i) => i.income),
               backgroundColor: (context) => {
                 const ctx = context.chart.ctx
                 const gradient = ctx.createLinearGradient(0, 0, 0, 170)
@@ -47,19 +47,19 @@ export default function AreaChart() {
               borderColor: "#86efac",
               fill: true,
             },
-            // {
-            //   label: "Expenses",
-            //   data: expensesData.map((i) => i.value),
-            //   backgroundColor: (context) => {
-            //     const ctx = context.chart.ctx
-            //     const gradient = ctx.createLinearGradient(0, 0, 0, 170)
-            //     gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
-            //     gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
-            //     return gradient
-            //   },
-            //   borderColor: "#fca5a5",
-            //   fill: true,
-            // },
+            {
+              label: "Expenses",
+              data: eachDayTransactions.map((i) => i.expenses),
+              backgroundColor: (context) => {
+                const ctx = context.chart.ctx
+                const gradient = ctx.createLinearGradient(0, 0, 0, 170)
+                gradient.addColorStop(0, "rgba(252, 165, 165, 0.7)")
+                gradient.addColorStop(1, "rgba(252, 165, 165, 0)")
+                return gradient
+              },
+              borderColor: "#fca5a5",
+              fill: true,
+            },
           ],
         }}
         options={{

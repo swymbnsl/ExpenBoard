@@ -17,26 +17,32 @@ import { transactionsChartCalculations } from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
-    from: new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
-      0,
-      0,
-      0,
-      0
+    from: new Date(
+      new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+        0,
+        0,
+        0,
+        0
+      )
     ),
     to: new Date(),
   })
   const [displayDate, setDisplayDate] = useState({
-    from: new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
-      0,
-      0,
-      0,
-      0
+    from: new Date(
+      new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+        0,
+        0,
+        0,
+        0
+      )
     ),
     to: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [transactions, setTransactions] = useState([])
+
+  const [eachDayTransactions, setEachDayTransactions] = useState([])
 
   const handleOpen = (open) => {
     setIsOpen(open)
@@ -73,7 +79,9 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
-      transactionsChartCalculations(res.transactions)
+      setEachDayTransactions(
+        transactionsChartCalculations(res.transactions, date)
+      )
     } catch (error) {
       console.log(error)
     }
@@ -81,7 +89,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     getLocalDetails()
-    getTransactions(date)
   }, [])
 
   useEffect(() => {
@@ -108,11 +115,11 @@ export default function Dashboard() {
             />
           </div>
           <div className="flex p-3 justify-between">
-            <SummaryCard type="income" income={425637} />
+            <SummaryCard type="income" income={671254} />
             <SummaryCard type="expense" expenses={2387} />
           </div>
 
-          <TransactionsChart />
+          <TransactionsChart eachDayTransactions={eachDayTransactions} />
           <CategoriesChart />
         </div>
       </ThemeProvider>

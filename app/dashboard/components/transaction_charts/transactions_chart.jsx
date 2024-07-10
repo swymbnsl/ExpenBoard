@@ -3,7 +3,7 @@ import ChartSelect from "./chart_type_select"
 import AreaChart from "./area_chart"
 import BarChart from "./bar_chart"
 
-export default function TransactionsChart() {
+export default function TransactionsChart({ eachDayTransactions }) {
   const [type, setType] = useState("Area")
 
   const handleChange = (event) => {
@@ -21,7 +21,11 @@ export default function TransactionsChart() {
             <ChartSelect handleChange={handleChange} type={type} />
           </div>
           <div className="h-[80%]">
-            {type == "Area" ? <AreaChart /> : <BarChart />}
+            {type == "Area" ? (
+              <AreaChart eachDayTransactions={eachDayTransactions} />
+            ) : (
+              <BarChart eachDayTransactions={eachDayTransactions} />
+            )}
           </div>
         </div>
       </div>
