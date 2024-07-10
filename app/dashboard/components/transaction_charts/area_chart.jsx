@@ -9,11 +9,6 @@ import {
   LinearScale,
   Filler,
 } from "chart.js"
-import { incomeData, expensesData } from "@/seed_data/temp-seed"
-import {
-  expensesTransactions,
-  incomeTransactions,
-} from "@/helpers/charts_calculations"
 import { format } from "date-fns"
 
 ChartJS.register(LinearScale)

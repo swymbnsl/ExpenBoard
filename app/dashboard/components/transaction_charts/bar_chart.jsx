@@ -3,7 +3,7 @@ import { Chart as ChartJS, Tooltip, Legend, defaults } from "chart.js"
 
 import { Bar } from "react-chartjs-2"
 import { CategoryScale, LinearScale, BarElement } from "chart.js"
-import { incomeData, expensesData } from "@/seed_data/temp-seed"
+import { format } from "date-fns"
 
 ChartJS.register(BarElement)
 ChartJS.register(LinearScale)
@@ -14,16 +14,16 @@ ChartJS.register(Legend)
 defaults.maintainAspectRatio = false
 defaults.responsive = true
 
-export default function BarChart() {
+export default function BarChart({ eachDayTransactions }) {
   return (
     <div className="w-full h-full">
       <Bar
         data={{
-          labels: incomeData.map((i) => i.label),
+          labels: eachDayTransactions.map((i) => format(i.date, "d LLL")),
           datasets: [
             {
               label: "Income",
-              data: incomeData.map((i) => i.value),
+              data: eachDayTransactions.map((i) => i.income),
               borderRadius: 3,
               barThickness: 12,
               borderColor: "rgba(0,0,0,1)",
@@ -41,7 +41,7 @@ export default function BarChart() {
             },
             {
               label: "Expenses",
-              data: expensesData.map((i) => i.value),
+              data: eachDayTransactions.map((i) => i.expenses),
               borderRadius: 3,
               barThickness: 12,
               borderColor: "rgba(0,0,0,1)",
