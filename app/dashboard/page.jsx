@@ -41,7 +41,8 @@ export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [transactions, setTransactions] = useState([])
-
+  const [income, setIncome] = useState("")
+  const [expenses, setExpenses] = useState("")
   const [eachDayTransactions, setEachDayTransactions] = useState([])
 
   const handleOpen = (open) => {
@@ -79,9 +80,11 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
-      setEachDayTransactions(
+      const { perDayTransactions, calculatedIncome, calculatedExpenses } =
         transactionsChartCalculations(res.transactions, date)
-      )
+      setEachDayTransactions(perDayTransactions)
+      setIncome(calculatedIncome)
+      setExpenses(calculatedExpenses)
     } catch (error) {
       console.log(error)
     }
@@ -115,8 +118,8 @@ export default function Dashboard() {
             />
           </div>
           <div className="flex p-3 justify-between">
-            <SummaryCard type="income" income={671254} />
-            <SummaryCard type="expense" expenses={2387} />
+            <SummaryCard type="income" income={income} />
+            <SummaryCard type="expense" expenses={expenses} />
           </div>
 
           <TransactionsChart eachDayTransactions={eachDayTransactions} />

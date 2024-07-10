@@ -5,11 +5,11 @@ let incomeTransactions = []
 
 export const transactionsChartCalculations = (transactions, date) => {
   if (transactions) {
-    let eachDayTransactions = []
+    let perDayTransactions = []
     let currentDate = date.from
 
     while (currentDate < date.to) {
-      eachDayTransactions.push({ date: currentDate, expenses: 0, income: 0 })
+      perDayTransactions.push({ date: currentDate, expenses: 0, income: 0 })
       currentDate = new Date(
         new Date(currentDate).setDate(new Date(currentDate).getDate() + 1)
       )
@@ -20,19 +20,29 @@ export const transactionsChartCalculations = (transactions, date) => {
     incomeTransactions = transactions.filter((t) => t.type === "income")
 
     expensesTransactions.forEach((i) => {
-      for (let t of eachDayTransactions) {
+      for (let t of perDayTransactions) {
         if (isSameDay(t.date, i.dateAndTime)) {
           t.expenses += i.amount
         }
       }
     })
     incomeTransactions.forEach((i) => {
-      for (let t of eachDayTransactions) {
+      for (let t of perDayTransactions) {
         if (isSameDay(t.date, i.dateAndTime)) {
           t.income += i.amount
         }
       }
     })
-    return eachDayTransactions
+
+    let calculatedIncome = 0
+    perDayTransactions.forEach((i) => {
+      calculatedIncome += i.income
+    })
+    let calculatedExpenses = 0
+    perDayTransactions.forEach((i) => {
+      calculatedExpenses += i.expenses
+    })
+
+    return { perDayTransactions, calculatedIncome, calculatedExpenses }
   } else return
 }
