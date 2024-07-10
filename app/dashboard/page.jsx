@@ -40,7 +40,6 @@ export default function Dashboard() {
   })
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
-  const [transactions, setTransactions] = useState([])
   const [income, setIncome] = useState("")
   const [expenses, setExpenses] = useState("")
   const [eachDayTransactions, setEachDayTransactions] = useState([])
