@@ -6,9 +6,6 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
     setType(event.target.value)
   }
 
-  const labels = Object.keys(noOfTransactionsOfEachCategory)
-  const data = Object.values(noOfTransactionsOfEachCategory)
-
   const colors = [
     "rgba(134, 167, 239, 1)",
     "rgba(234, 134, 239, 1)",
@@ -16,16 +13,22 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
     "rgba(75, 82, 87,1)",
   ]
 
-  const sortableTransactions = []
+  const sortedTransactions = []
 
   for (let t in noOfTransactionsOfEachCategory) {
-    sortableTransactions.push([t, noOfTransactionsOfEachCategory[t]])
+    sortedTransactions.push([t, noOfTransactionsOfEachCategory[t]])
   }
 
-  sortableTransactions.sort((a, b) => b[1] - a[1])
+  sortedTransactions.sort((a, b) => b[1] - a[1])
 
-  console.log(sortableTransactions)
-
+  const labels = sortedTransactions.map((t) => t[0]).slice(0, 3)
+  const data = sortedTransactions.map((t) => t[1]).slice(0, 3)
+  labels.push("Others")
+  data.push(
+    Array(
+      ...sortedTransactions.map((t) => t[1]).slice(3, sortedTransactions.length)
+    ).reduce((prev, curr) => prev + curr)
+  )
   let sum = data.reduce((prev, curr) => prev + curr)
 
   return (
@@ -38,12 +41,7 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
             </span>
           </div>
           <div className="h-[280px]">
-            <DoughnutChart
-              data={data}
-              colors={colors}
-              labels={labels}
-              sum={sum}
-            />
+            <DoughnutChart data={data} labels={labels} />
           </div>
           <div className="flex flex-col gap-3">
             {labels.map((item, index) => {

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback, useMemo } from "react"
 import { set } from "date-fns"
 import { ThemeProvider } from "@emotion/react"
 import { CssBaseline, createTheme } from "@mui/material"
@@ -50,31 +50,36 @@ export default function Dashboard() {
     useState({})
   const [isLoading, setIsLoading] = useState(true)
 
-  const handleOpen = (open) => {
-    setIsOpen(open)
-    if (!open && displayDate && displayDate.to && displayDate.from) {
-      setDate((prevRange) => {
-        return {
+  const handleOpen = useCallback(
+    (open) => {
+      setIsOpen(open)
+      if (!open && displayDate && displayDate.to && displayDate.from) {
+        setDate((prevRange) => ({
           ...prevRange,
-          ["from"]: displayDate.from,
-          ["to"]: set(displayDate.to, {
+          from: displayDate.from,
+          to: set(displayDate.to, {
             hours: 23,
             minutes: 59,
             seconds: 59,
             milliseconds: 999,
           }),
-        }
-      })
-    } else return
-  }
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
+        }))
+      }
     },
-  })
+    [displayDate]
+  )
 
-  const getLocalDetails = async () => {
+  const darkTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: "dark",
+        },
+      }),
+    []
+  )
+
+  const getLocalDetails = useCallback(async () => {
     try {
       const res = await axios.get("/api/user/profile")
       setName(res.data.tokenData.name)
@@ -82,9 +87,11 @@ export default function Dashboard() {
       showErrorToast("Error loading data")
       console.log(error.response.data.error)
     }
-  }
-  const getTransactions = async (date) => {
+  }, [])
+
+  const getTransactions = useCallback(async (date) => {
     try {
+      setIsLoading(true)
       const res = await getTransactionsFromDate(date)
       const { perDayTransactions, calculatedIncome, calculatedExpenses } =
         transactionsChartCalculations(res.transactions, date)
@@ -92,19 +99,22 @@ export default function Dashboard() {
       setEachDayTransactions(perDayTransactions)
       setIncome(calculatedIncome)
       setExpenses(calculatedExpenses)
-      setIsLoading(false)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
-  }
-
-  useEffect(() => {
-    getLocalDetails()
   }, [])
 
   useEffect(() => {
+    getLocalDetails()
+  }, [getLocalDetails])
+
+  useEffect(() => {
     getTransactions(date)
-  }, [date])
+  }, [date, getTransactions])
+
+  console.log("Rendered")
 
   if (isLoading) return <div>Loading..</div>
 

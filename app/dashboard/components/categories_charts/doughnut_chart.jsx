@@ -5,12 +5,12 @@ import { Chart as ChartJS, ArcElement } from "chart.js"
 
 ChartJS.register(ArcElement)
 
-export default function DoughnutChart({ data, labels, colors, sum }) {
+export default function DoughnutChart({ data, labels }) {
   return (
     <>
       <Doughnut
         data={{
-          labels: labels,
+          labels: labels.slice(0, 2),
           datasets: [
             {
               label: "Expenses",
