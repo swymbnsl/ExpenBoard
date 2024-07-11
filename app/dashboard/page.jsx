@@ -13,7 +13,10 @@ import axios from "axios"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { showErrorToast } from "@/utils/hot-toast"
 import { Toaster } from "react-hot-toast"
-import { transactionsChartCalculations } from "@/helpers/charts_calculations"
+import {
+  categoriesChartsCalculation,
+  transactionsChartCalculations,
+} from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
   const [date, setDate] = useState({
@@ -43,6 +46,9 @@ export default function Dashboard() {
   const [income, setIncome] = useState("")
   const [expenses, setExpenses] = useState("")
   const [eachDayTransactions, setEachDayTransactions] = useState([])
+  const [noOfTransactionsOfEachCategory, setNoOfTransactionsOfEachCategory] =
+    useState({})
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleOpen = (open) => {
     setIsOpen(open)
@@ -82,9 +88,11 @@ export default function Dashboard() {
       const res = await getTransactionsFromDate(date)
       const { perDayTransactions, calculatedIncome, calculatedExpenses } =
         transactionsChartCalculations(res.transactions, date)
+      setNoOfTransactionsOfEachCategory(categoriesChartsCalculation())
       setEachDayTransactions(perDayTransactions)
       setIncome(calculatedIncome)
       setExpenses(calculatedExpenses)
+      setIsLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -97,6 +105,8 @@ export default function Dashboard() {
   useEffect(() => {
     getTransactions(date)
   }, [date])
+
+  if (isLoading) return <div>Loading..</div>
 
   return (
     <>
@@ -123,7 +133,9 @@ export default function Dashboard() {
           </div>
 
           <TransactionsChart eachDayTransactions={eachDayTransactions} />
-          <CategoriesChart />
+          <CategoriesChart
+            noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
+          />
         </div>
       </ThemeProvider>
     </>

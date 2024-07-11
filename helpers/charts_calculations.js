@@ -2,6 +2,7 @@ import { isSameDay } from "date-fns"
 
 let expensesTransactions = []
 let incomeTransactions = []
+let noOfTransactionsOfEachCategory = {}
 
 export const transactionsChartCalculations = (transactions, date) => {
   if (transactions) {
@@ -45,4 +46,14 @@ export const transactionsChartCalculations = (transactions, date) => {
 
     return { perDayTransactions, calculatedIncome, calculatedExpenses }
   } else return
+}
+
+export const categoriesChartsCalculation = () => {
+  expensesTransactions.forEach((t) => {
+    if (noOfTransactionsOfEachCategory[t.category]) {
+      noOfTransactionsOfEachCategory[t.category] += 1
+    } else noOfTransactionsOfEachCategory[t.category] = 1
+  })
+
+  return noOfTransactionsOfEachCategory
 }
