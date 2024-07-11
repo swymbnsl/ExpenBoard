@@ -24,13 +24,19 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
   const labels = sortedTransactions.map((t) => t[0]).slice(0, 3)
   const data = sortedTransactions.map((t) => t[1]).slice(0, 3)
   labels.push("Others")
-  data.push(
-    Array(
-      ...sortedTransactions.map((t) => t[1]).slice(3, sortedTransactions.length)
-    ).reduce((prev, curr) => prev + curr)
-  )
-  let sum = data.reduce((prev, curr) => prev + curr)
 
+  let sum = 0
+
+  if (data.length > 1) {
+    data.push(
+      Array(
+        ...sortedTransactions
+          .map((t) => t[1])
+          .slice(3, sortedTransactions.length)
+      ).reduce((prev, curr) => prev + curr)
+    )
+    sum = data.reduce((prev, curr) => prev + curr)
+  }
   return (
     <>
       <div className=" p-3 h-full">
