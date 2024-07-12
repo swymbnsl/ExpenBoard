@@ -21,24 +21,24 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
   labels.push("Others")
 
   console.log(`SortedTransactions: ${sortedTransactions}`)
-  console.log(`Labels: ${labels}`)
-  console.log(`Data: ${data}`)
 
   let sum = 0
+  console.log(`Data1: ${data}`)
 
   if (sortedTransactions.length > 3) {
-    data.push(
-      new Array(
-        ...sortedTransactions
-          .map((t) => t[1])
-          .slice(3, sortedTransactions.length)
-      ).reduce((prev, curr) => prev + curr)
-    )
+    const tempArr = sortedTransactions
+      .map((t) => t[1])
+      .slice(3, sortedTransactions.length)
+      .reduce((prev, curr) => prev + curr)
+    console.log(tempArr)
+    data.push(tempArr)
   } else labels.pop()
 
   if (data.length > 1) {
     sum = data.reduce((prev, curr) => prev + curr)
   }
+  console.log(`Labels: ${labels}`)
+  console.log(`Data2: ${data}`)
 
   return (
     <>
