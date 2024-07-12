@@ -19,6 +19,10 @@ import {
 } from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
+  // await new Promise((resolve) => {
+  //   setTimeout(resolve, 5000)
+  // })
+
   const [date, setDate] = useState({
     from: new Date(
       new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
@@ -50,7 +54,13 @@ export default function Dashboard() {
     useState({})
   const [isLoading, setIsLoading] = useState(true)
 
-  const handleOpen = (open) => {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  })
+
+  const handleOpen = useCallback((open) => {
     setIsOpen(open)
     if (!open && displayDate && displayDate.to && displayDate.from) {
       setDate((prevRange) => {
@@ -65,13 +75,7 @@ export default function Dashboard() {
           }),
         }
       })
-    } else return
-  }
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
+    }
   })
 
   const getLocalDetails = async () => {
@@ -83,6 +87,7 @@ export default function Dashboard() {
       console.log(error.response.data.error)
     }
   }
+
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)

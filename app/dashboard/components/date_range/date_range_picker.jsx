@@ -19,6 +19,8 @@ export function DatePickerWithRange({
   displayDate,
   setDisplayDate,
 }) {
+  console.log("date picker rendered")
+
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover onOpenChange={handleOpen}>
