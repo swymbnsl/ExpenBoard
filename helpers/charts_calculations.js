@@ -4,7 +4,6 @@ let expensesTransactions = []
 let incomeTransactions = []
 
 export const transactionsChartCalculations = (transactions, date) => {
-  console.log(transactions)
   expensesTransactions = []
   if (transactions) {
     let perDayTransactions = []

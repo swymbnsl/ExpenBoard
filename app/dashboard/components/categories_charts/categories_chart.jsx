@@ -1,11 +1,6 @@
-import { useState } from "react"
 import DoughnutChart from "./doughnut_chart"
 
 export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
-  const handleChange = (event) => {
-    setType(event.target.value)
-  }
-
   const colors = [
     "rgba(134, 167, 239, 1)",
     "rgba(234, 134, 239, 1)",
@@ -14,8 +9,6 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
   ]
 
   const sortedTransactions = []
-
-  console.log(noOfTransactionsOfEachCategory)
 
   for (let t in noOfTransactionsOfEachCategory) {
     sortedTransactions.push([t, noOfTransactionsOfEachCategory[t]])
@@ -27,16 +20,23 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
   const data = sortedTransactions.map((t) => t[1]).slice(0, 3)
   labels.push("Others")
 
+  console.log(`SortedTransactions: ${sortedTransactions}`)
+  console.log(`Labels: ${labels}`)
+  console.log(`Data: ${data}`)
+
   let sum = 0
 
-  if (data.length > 1) {
+  if (sortedTransactions.length > 3) {
     data.push(
-      Array(
+      new Array(
         ...sortedTransactions
           .map((t) => t[1])
           .slice(3, sortedTransactions.length)
       ).reduce((prev, curr) => prev + curr)
     )
+  } else labels.pop()
+
+  if (data.length > 1) {
     sum = data.reduce((prev, curr) => prev + curr)
   }
 

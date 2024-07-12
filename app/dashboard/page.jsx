@@ -87,7 +87,7 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
-      console.log(res)
+
       const { perDayTransactions, calculatedIncome, calculatedExpenses } =
         transactionsChartCalculations(res.transactions, date)
       setNoOfTransactionsOfEachCategory(categoriesChartsCalculation())
@@ -124,7 +124,6 @@ export default function Dashboard() {
               handleOpen={handleOpen}
               date={date}
               isOpen={isOpen}
-              setDate={setDate}
               displayDate={displayDate}
               setDisplayDate={setDisplayDate}
             />

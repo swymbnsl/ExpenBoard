@@ -15,7 +15,6 @@ export function DatePickerWithRange({
   handleOpen,
   date,
   isOpen,
-  setDate,
   displayDate,
   setDisplayDate,
 }) {
