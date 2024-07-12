@@ -75,8 +75,7 @@ export async function GET(request) {
 
     const foundTransactions = await Transaction.find({
       user_id: tokenData.id,
-      dateAndTime: { $gte: dateFrom },
-      dateAndTime: { $lte: dateTo },
+      dateAndTime: { $gte: dateFrom, $lte: dateTo },
     })
       .skip((page - 1) * limit)
       .limit(limit)

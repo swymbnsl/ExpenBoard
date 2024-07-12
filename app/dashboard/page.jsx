@@ -19,10 +19,6 @@ import {
 } from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
-  // await new Promise((resolve) => {
-  //   setTimeout(resolve, 5000)
-  // })
-
   const [date, setDate] = useState({
     from: new Date(
       new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
@@ -91,6 +87,7 @@ export default function Dashboard() {
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
+      console.log(res)
       const { perDayTransactions, calculatedIncome, calculatedExpenses } =
         transactionsChartCalculations(res.transactions, date)
       setNoOfTransactionsOfEachCategory(categoriesChartsCalculation())
@@ -110,6 +107,8 @@ export default function Dashboard() {
   useEffect(() => {
     getTransactions(date)
   }, [date])
+
+  if (isLoading) return <div>Loading....</div>
 
   return (
     <>

@@ -15,6 +15,8 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
 
   const sortedTransactions = []
 
+  console.log(noOfTransactionsOfEachCategory)
+
   for (let t in noOfTransactionsOfEachCategory) {
     sortedTransactions.push([t, noOfTransactionsOfEachCategory[t]])
   }
@@ -37,6 +39,7 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
     )
     sum = data.reduce((prev, curr) => prev + curr)
   }
+
   return (
     <>
       <div className=" p-3 h-full">

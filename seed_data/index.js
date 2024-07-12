@@ -9,7 +9,7 @@ const transactions = []
 connect()
 
 const seedDb = async () => {
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 50; i++) {
     const name = "Seed-transaction"
     let amount = 0
     const category =
@@ -19,7 +19,7 @@ const seedDb = async () => {
     if (type === "income") {
       amount = Math.floor(Math.random() * 100) + 1000
     } else {
-      amount = Math.floor(Math.random() * 100) + 100
+      amount = Math.floor(Math.random() * 100) + 1000
     }
 
     transactions.push({
