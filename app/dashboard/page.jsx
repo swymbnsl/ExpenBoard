@@ -42,7 +42,7 @@ export default function Dashboard() {
     to: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
-  const [name, setName] = useState("")
+  const [userData, setUserData] = useState({})
   const [income, setIncome] = useState("")
   const [expenses, setExpenses] = useState("")
   const [eachDayTransactions, setEachDayTransactions] = useState([])
@@ -77,7 +77,10 @@ export default function Dashboard() {
   const getLocalDetails = async () => {
     try {
       const res = await axios.get("/api/user/profile")
-      setName(res.data.tokenData.name)
+      setUserData({
+        name: res.data.tokenData.name,
+        pfp: res.data.tokenData.pfp,
+      })
     } catch (error) {
       showErrorToast("Error loading data")
       console.log(error.response.data.error)
@@ -117,7 +120,7 @@ export default function Dashboard() {
         <Toaster />
 
         <div className="w-full h-full">
-          <Header name={name} />
+          <Header name={userData.name} pfp={userData.pfp} />
 
           <div className="p-3">
             <DatePickerWithRange

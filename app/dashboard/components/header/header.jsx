@@ -3,7 +3,7 @@ import { Avatar } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import { Share2 } from "lucide-react"
 
-export default function Header({ name }) {
+export default function Header({ name, pfp }) {
   const hour = new Date().getHours()
   let greetings = ""
 
@@ -24,7 +24,10 @@ export default function Header({ name }) {
         </div>
         <div className="flex items-center gap-4 text-themeonsurface">
           <Share2 />
-          <Avatar sx={{ bgcolor: blue[500] }}>S</Avatar>
+
+          <Avatar sx={{ bgcolor: blue[500] }} src={pfp}>
+            {!pfp && name[0]}
+          </Avatar>
         </div>
       </div>
     </>
