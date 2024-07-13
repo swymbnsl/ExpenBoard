@@ -44,6 +44,8 @@ export const transactionsChartCalculations = (transactions, date) => {
       calculatedExpenses += i.expenses
     })
 
+    console.log(incomeTransactions, expensesTransactions)
+
     return { perDayTransactions, calculatedIncome, calculatedExpenses }
   }
 }

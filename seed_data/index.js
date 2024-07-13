@@ -1,4 +1,7 @@
-import { categoriesNames } from "../enums/categories-enum.js"
+import {
+  incomeCategoriesEnum,
+  expensesCategoriesEnum,
+} from "../enums/categories-enum.js"
 import connect from "../database/dbConnect.js"
 import Transaction from "../models/transactionsModel.js"
 import "dotenv/config"
@@ -12,14 +15,22 @@ const seedDb = async () => {
   for (let i = 0; i < 50; i++) {
     const name = "Seed-transaction"
     let amount = 0
-    const category =
-      categoriesNames[Math.floor(Math.random() * categoriesNames.length)]
+    let category = ""
+
     const type = types[Math.floor(Math.random() * types.length)]
 
     if (type === "income") {
       amount = Math.floor(Math.random() * 100) + 1000
+      category =
+        incomeCategoriesEnum[
+          Math.floor(Math.random() * incomeCategoriesEnum.length)
+        ]
     } else {
       amount = Math.floor(Math.random() * 100) + 1000
+      category =
+        expensesCategoriesEnum[
+          Math.floor(Math.random() * expensesCategoriesEnum.length)
+        ]
     }
 
     transactions.push({

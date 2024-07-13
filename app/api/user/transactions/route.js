@@ -27,9 +27,18 @@ export async function POST(request) {
 
     const foundUser = await User.findById(tokenData.id)
 
-    if (foundUser.categories.indexOf(category) == "-1") {
+    if (
+      (type === "expense" &&
+        foundUser.expensesCategories.indexOf(category) == "-1") ||
+      (type === "income" &&
+        foundUser.incomeCategories.indexOf(category) == "-1")
+    ) {
       throw new Error("Invalid Category")
     }
+
+    // if (foundUser.categories.indexOf(category) == "-1") {
+    //   throw new Error("Invalid Category")
+    // }
 
     const newTransaction = new Transaction({
       user_id: tokenData.id,

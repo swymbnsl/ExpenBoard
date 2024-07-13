@@ -1,4 +1,7 @@
-import { categoriesNames } from "@/enums/categories-enum"
+import {
+  expensesCategoriesEnum,
+  incomeCategoriesEnum,
+} from "@/enums/categories-enum"
 import { currencyCodes } from "@/enums/currencies-enum"
 import mongoose from "mongoose"
 
@@ -20,10 +23,15 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
-  categories: {
+  expensesCategories: {
     type: [String],
     required: true,
-    default: categoriesNames,
+    default: expensesCategoriesEnum,
+  },
+  incomeCategories: {
+    type: [String],
+    required: true,
+    default: incomeCategoriesEnum,
   },
 
   preferences: {
