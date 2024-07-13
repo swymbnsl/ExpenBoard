@@ -22,3 +22,4 @@
 20. Compare displayDate and date state before making api call on closing popper. And it won't be equal since I setHours in date and not in displayDate, so not so necessary, but can save some api calls if implemented
 21. Handle no data in charts
 22. Logout before deleting users
+23. Add a page to prompt for optional pfp after signup
