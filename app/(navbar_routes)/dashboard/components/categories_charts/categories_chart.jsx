@@ -1,6 +1,10 @@
+import { Skeleton } from "@mui/material"
 import DoughnutChart from "./doughnut_chart"
 
-export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
+export default function CategoriesChart({
+  noOfTransactionsOfEachCategory,
+  isLoading,
+}) {
   const colors = [
     "rgba(134, 167, 239, 1)",
     "rgba(234, 134, 239, 1)",
@@ -44,8 +48,13 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
               Categories:
             </span>
           </div>
+
           <div className="h-[280px]">
-            <DoughnutChart data={data} labels={labels} />
+            {isLoading ? (
+              <Skeleton variant="rounded" height={280} />
+            ) : (
+              <DoughnutChart data={data} labels={labels} />
+            )}
           </div>
           <div className="flex flex-col gap-3">
             {labels.map((item, index) => {

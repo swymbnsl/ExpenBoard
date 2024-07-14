@@ -111,7 +111,7 @@ export default function Dashboard() {
     getTransactions(date)
   }, [date])
 
-  if (isLoading) return <div>Loading....</div>
+  // if (isLoading) return <div>Loading....</div>
 
   return (
     <>
@@ -120,7 +120,11 @@ export default function Dashboard() {
         <Toaster />
 
         <div className="w-full h-full">
-          {userData.name && <Header name={userData.name} pfp={userData.pfp} />}
+          <Header
+            name={userData.name}
+            pfp={userData.pfp}
+            isLoading={isLoading}
+          />
 
           <div className="p-3">
             <DatePickerWithRange
@@ -136,9 +140,13 @@ export default function Dashboard() {
             <SummaryCard type="expense" expenses={expenses} />
           </div>
 
-          <TransactionsChart eachDayTransactions={eachDayTransactions} />
+          <TransactionsChart
+            eachDayTransactions={eachDayTransactions}
+            isLoading={isLoading}
+          />
           <CategoriesChart
             noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
+            isLoading={isLoading}
           />
         </div>
       </ThemeProvider>

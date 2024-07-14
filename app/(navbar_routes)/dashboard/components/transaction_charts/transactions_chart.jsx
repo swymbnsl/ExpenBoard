@@ -2,8 +2,9 @@ import React, { useState } from "react"
 import ChartSelect from "./chart_type_select"
 import AreaChart from "./area_chart"
 import BarChart from "./bar_chart"
+import { Skeleton } from "@mui/material"
 
-export default function TransactionsChart({ eachDayTransactions }) {
+export default function TransactionsChart({ eachDayTransactions, isLoading }) {
   const [type, setType] = useState("Area")
 
   const handleChange = (event) => {
@@ -20,13 +21,18 @@ export default function TransactionsChart({ eachDayTransactions }) {
             </span>
             <ChartSelect handleChange={handleChange} type={type} />
           </div>
-          <div className="h-[80%]">
-            {type == "Area" ? (
-              <AreaChart eachDayTransactions={eachDayTransactions} />
-            ) : (
-              <BarChart eachDayTransactions={eachDayTransactions} />
-            )}
-          </div>
+
+          {isLoading ? (
+            <Skeleton variant="rounded" animation="wave" height={214} />
+          ) : (
+            <div className="h-[80%]">
+              {type == "Area" ? (
+                <AreaChart eachDayTransactions={eachDayTransactions} />
+              ) : (
+                <BarChart eachDayTransactions={eachDayTransactions} />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
