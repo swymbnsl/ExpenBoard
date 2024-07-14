@@ -19,6 +19,7 @@ import {
 } from "@/helpers/charts_calculations"
 
 export default function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState({
     from: new Date(
       new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
@@ -48,7 +49,6 @@ export default function Dashboard() {
   const [eachDayTransactions, setEachDayTransactions] = useState([])
   const [noOfTransactionsOfEachCategory, setNoOfTransactionsOfEachCategory] =
     useState({})
-  const [isLoading, setIsLoading] = useState(true)
 
   const darkTheme = createTheme({
     palette: {
@@ -120,7 +120,7 @@ export default function Dashboard() {
         <Toaster />
 
         <div className="w-full h-full">
-          <Header name={userData.name} pfp={userData.pfp} />
+          {userData.name && <Header name={userData.name} pfp={userData.pfp} />}
 
           <div className="p-3">
             <DatePickerWithRange
