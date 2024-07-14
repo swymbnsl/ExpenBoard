@@ -19,6 +19,8 @@ module.exports = {
     extend: {
       colors: {
         themesurfacedim: "#1D2024",
+        themenavbar: "#2d3033",
+        themenavbarinactive: "#1f2124",
         themesurface: "#111318",
         themesurfacelightdim: "#d9d9e0",
         themeprimarylight: "#234373",

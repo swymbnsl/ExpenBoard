@@ -23,3 +23,6 @@
 21. Handle no data in charts
 22. Logout before deleting users
 23. Add a page to prompt for optional pfp after signup
+24. Make share button working
+25. Make dashboard pfp working
+26. Change navbar colour

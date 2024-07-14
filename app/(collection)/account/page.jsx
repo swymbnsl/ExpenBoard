@@ -1,7 +1,5 @@
 import React from "react"
 
-const page = () => {
+export default function Account() {
   return <div>Account</div>
 }
-
-export default page

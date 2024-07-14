@@ -37,7 +37,7 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
 
   return (
     <>
-      <div className=" p-3 h-full">
+      <div className=" p-3 pb-24">
         <div className="bg-themesurfacedim rounded-3xl p-3 w-full flex flex-col justify-center gap-4">
           <div className="flex w-full justify-between items-center">
             <span className="text-themeonsurface font-semibold text-lg ">
