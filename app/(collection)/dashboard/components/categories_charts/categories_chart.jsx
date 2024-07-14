@@ -59,7 +59,10 @@ export default function CategoriesChart({ noOfTransactionsOfEachCategory }) {
                     {item} -
                   </span>
                   <span className="font-semibold">
-                    {Math.round((data[index] / sum) * 100)} %
+                    {data.length > 1
+                      ? Math.round((data[index] / sum) * 100)
+                      : "100"}{" "}
+                    %
                   </span>
                 </div>
               )
