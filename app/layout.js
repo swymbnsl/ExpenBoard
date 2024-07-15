@@ -1,6 +1,9 @@
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provider"
+
+import { createTheme, CssBaseline } from "@mui/material"
+import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
 
 const notoSans = Inter({
   subsets: ["latin"],
@@ -17,7 +20,10 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={notoSans.className}>
         <ThemeProvider attribute="class" defaultTheme="dark">
-          {children}
+          <MuiThemeProvider>
+            <CssBaseline />
+            {children}
+          </MuiThemeProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -51,7 +51,7 @@ export default function CategoriesChart({
 
           <div className="h-[280px]">
             {isLoading ? (
-              <Skeleton variant="rounded" height={280} />
+              <Skeleton animation="wave" variant="rounded" height={280} />
             ) : (
               <DoughnutChart data={data} labels={labels} />
             )}

@@ -26,3 +26,5 @@
 24. Make share button working
 25. Make dashboard pfp working
 26. Change navbar colour
+27. Replace react-hot-toast with shadcn snackbar or something.
+28. Place all providers in outer layout

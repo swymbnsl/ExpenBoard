@@ -9,7 +9,7 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
+
 import CssBaseline from "@mui/material/CssBaseline"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -17,12 +17,6 @@ import Link from "next/link"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { Toaster } from "react-hot-toast"
 import { showSuccessToast, showErrorToast } from "@/utils/hot-toast"
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-})
 
 export default function Login() {
   const router = useRouter()
@@ -66,7 +60,7 @@ export default function Login() {
       const res = await axios.post("/api/user/login", input)
       showSuccessToast(res.data.message)
       console.log("Login Success")
-      router.push("/")
+      router.push("/dashboard")
     } catch (error) {
       console.log(error)
       showErrorToast(error.response.data.error)
@@ -82,8 +76,7 @@ export default function Login() {
   }
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <>
       <Toaster />
       <div className="flex h-full w-full top-0 absolute justify-center items-center">
         <div className="w-[300px] flex flex-col gap-6">
@@ -141,6 +134,6 @@ export default function Login() {
           </Button>
         </div>
       </div>
-    </ThemeProvider>
+    </>
   )
 }

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react"
 import { set } from "date-fns"
-import { ThemeProvider } from "@emotion/react"
-import { CssBaseline, createTheme } from "@mui/material"
+
+import { createTheme } from "@mui/material"
 import SummaryCard from "./components/income_expense_cards"
 import { DatePickerWithRange } from "./components/date_range/date_range_picker"
 import Header from "./components/header/header"
@@ -49,12 +49,6 @@ export default function Dashboard() {
   const [eachDayTransactions, setEachDayTransactions] = useState([])
   const [noOfTransactionsOfEachCategory, setNoOfTransactionsOfEachCategory] =
     useState({})
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  })
 
   const handleOpen = useCallback((open) => {
     setIsOpen(open)
@@ -111,45 +105,36 @@ export default function Dashboard() {
     getTransactions(date)
   }, [date])
 
-  // if (isLoading) return <div>Loading....</div>
-
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <Toaster />
+      <Toaster />
 
-        <div className="w-full h-full">
-          <Header
-            name={userData.name}
-            pfp={userData.pfp}
-            isLoading={isLoading}
-          />
+      <div className="w-full h-full">
+        <Header name={userData.name} pfp={userData.pfp} isLoading={isLoading} />
 
-          <div className="p-3">
-            <DatePickerWithRange
-              handleOpen={handleOpen}
-              date={date}
-              isOpen={isOpen}
-              displayDate={displayDate}
-              setDisplayDate={setDisplayDate}
-            />
-          </div>
-          <div className="flex p-3 justify-between">
-            <SummaryCard type="income" income={income} />
-            <SummaryCard type="expense" expenses={expenses} />
-          </div>
-
-          <TransactionsChart
-            eachDayTransactions={eachDayTransactions}
-            isLoading={isLoading}
-          />
-          <CategoriesChart
-            noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
-            isLoading={isLoading}
+        <div className="p-3">
+          <DatePickerWithRange
+            handleOpen={handleOpen}
+            date={date}
+            isOpen={isOpen}
+            displayDate={displayDate}
+            setDisplayDate={setDisplayDate}
           />
         </div>
-      </ThemeProvider>
+        <div className="flex p-3 justify-between">
+          <SummaryCard type="income" income={income} />
+          <SummaryCard type="expense" expenses={expenses} />
+        </div>
+
+        <TransactionsChart
+          eachDayTransactions={eachDayTransactions}
+          isLoading={isLoading}
+        />
+        <CategoriesChart
+          noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
+          isLoading={isLoading}
+        />
+      </div>
     </>
   )
 }

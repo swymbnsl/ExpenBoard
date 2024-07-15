@@ -1,8 +1,4 @@
-import { createContext, useContext } from "react"
+"use client"
+import { createContext } from "react"
 
-export const dataContext = createContext(undefined)
-
-export function useDataContext() {
-  const user = useContext(dataContext)
-  return user
-}
+export const UserDetailsContext = createContext({})

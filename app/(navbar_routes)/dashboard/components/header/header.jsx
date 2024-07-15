@@ -27,7 +27,12 @@ export default function Header({ name, pfp, isLoading }) {
         <div className="flex flex-col">
           <span className="text-themeonsurface text-lg">{greetings}</span>
           {loadWhat == "skeleton" ? (
-            <Skeleton variant="rounded" width={140} height={32} />
+            <Skeleton
+              animation="wave"
+              variant="rounded"
+              width={140}
+              height={32}
+            />
           ) : (
             <span className="text-themeonsurface font-bold text-2xl">
               {name}

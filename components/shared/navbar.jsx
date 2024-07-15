@@ -1,5 +1,5 @@
 "use client"
-import { Bolt, Home, LayoutGrid, Plus, Wallet } from "lucide-react"
+import { Bolt, CircleGauge, LayoutGrid, Wallet } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React from "react"
@@ -23,7 +23,7 @@ export default function Navbar() {
               href="/dashboard"
               className="flex justify-center items-center gap-2"
             >
-              <Home size={25} />
+              <CircleGauge size={25} />
               {pathname == "/dashboard" && "Dashboard"}
             </Link>
           </span>
