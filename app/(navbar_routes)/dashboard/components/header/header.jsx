@@ -15,12 +15,6 @@ export default function Header({ name, pfp, isLoading }) {
     greetings = "Good Evening"
   }
 
-  let loadWhat = "skeleton"
-
-  if (name) {
-    loadWhat = "data"
-  }
-
   return (
     <>
       <div className="w-full flex p-3 justify-between items-center">
@@ -42,12 +36,12 @@ export default function Header({ name, pfp, isLoading }) {
         <div className="flex items-center gap-4 text-themeonsurface">
           <Share2 />
 
-          {loadWhat == "skeleton" ? (
-            <Skeleton variant="circular" width={40} height={40} />
-          ) : (
+          {name ? (
             <Avatar sx={{ bgcolor: blue[500] }} src={pfp}>
               {!pfp && name[0]}
             </Avatar>
+          ) : (
+            <Skeleton variant="circular" width={40} height={40} />
           )}
         </div>
       </div>
