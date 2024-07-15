@@ -1,9 +1,14 @@
 "use client"
 
-import React, { useEffect, useState, useCallback, useMemo } from "react"
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useContext,
+} from "react"
 import { set } from "date-fns"
 
-import { createTheme } from "@mui/material"
 import SummaryCard from "./components/income_expense_cards"
 import { DatePickerWithRange } from "./components/date_range/date_range_picker"
 import Header from "./components/header/header"
@@ -17,8 +22,10 @@ import {
   categoriesChartsCalculation,
   transactionsChartCalculations,
 } from "@/helpers/charts_calculations"
+import { UserDetailsContext } from "@/context/userDetails"
 
 export default function Dashboard() {
+  const { name, email, pfp } = useContext(UserDetailsContext)
   const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState({
     from: new Date(
@@ -70,14 +77,14 @@ export default function Dashboard() {
 
   const getLocalDetails = async () => {
     try {
-      const res = await axios.get("/api/user/profile")
-      setUserData({
-        name: res.data.tokenData.name,
-        pfp: res.data.tokenData.pfp,
-      })
+      // const res = await axios.get("/api/user/profile")
+      // setUserData({
+      //   name: res.data.tokenData.name,
+      //   pfp: res.data.tokenData.pfp,
+      // })
     } catch (error) {
       showErrorToast("Error loading data")
-      console.log(error.response.data.error)
+      console.log(error)
     }
   }
 
@@ -110,7 +117,7 @@ export default function Dashboard() {
       <Toaster />
 
       <div className="w-full h-full">
-        <Header name={userData.name} pfp={userData.pfp} isLoading={isLoading} />
+        <Header name={name} pfp={pfp} isLoading={isLoading} />
 
         <div className="p-3">
           <DatePickerWithRange

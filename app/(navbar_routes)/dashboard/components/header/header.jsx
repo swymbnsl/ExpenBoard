@@ -17,7 +17,7 @@ export default function Header({ name, pfp, isLoading }) {
 
   let loadWhat = "skeleton"
 
-  if (!isLoading && name) {
+  if (name) {
     loadWhat = "data"
   }
 
@@ -26,17 +26,17 @@ export default function Header({ name, pfp, isLoading }) {
       <div className="w-full flex p-3 justify-between items-center">
         <div className="flex flex-col">
           <span className="text-themeonsurface text-lg">{greetings}</span>
-          {loadWhat == "skeleton" ? (
+          {name ? (
+            <span className="text-themeonsurface font-bold text-2xl">
+              {name}
+            </span>
+          ) : (
             <Skeleton
               animation="wave"
               variant="rounded"
               width={140}
               height={32}
             />
-          ) : (
-            <span className="text-themeonsurface font-bold text-2xl">
-              {name}
-            </span>
           )}
         </div>
         <div className="flex items-center gap-4 text-themeonsurface">

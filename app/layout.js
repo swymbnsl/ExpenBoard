@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provide
 
 import { createTheme, CssBaseline } from "@mui/material"
 import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
+import { UserDetailsProvider } from "@/context/userDetails"
 
 const notoSans = Inter({
   subsets: ["latin"],
@@ -21,8 +22,10 @@ export default function RootLayout({ children }) {
       <body className={notoSans.className}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <MuiThemeProvider>
-            <CssBaseline />
-            {children}
+            <UserDetailsProvider>
+              <CssBaseline />
+              {children}
+            </UserDetailsProvider>
           </MuiThemeProvider>
         </ThemeProvider>
       </body>
