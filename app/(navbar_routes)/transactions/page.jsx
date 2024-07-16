@@ -3,6 +3,8 @@
 import { DatePickerWithRange } from "@/components/shared/date_range_picker"
 import React, { useCallback, useState } from "react"
 import { set } from "date-fns"
+import EnhancedTable from "./components/transactions-table"
+import TransactionsTable from "./components/transactions-table"
 
 export default function Transactions() {
   const [date, setDate] = useState({
@@ -64,6 +66,9 @@ export default function Transactions() {
             setDisplayDate={setDisplayDate}
           />
         </div>
+        <div className="p-3 h-full justify-center items-center">
+          <TransactionsTable />
+        </div>{" "}
       </div>
     </>
   )
