@@ -1,5 +1,4 @@
 "use client"
-// import { showErrorToast } from "@/utils/hot-toast"
 import axios from "axios"
 import { createContext, useState, useEffect } from "react"
 
@@ -21,7 +20,6 @@ export const UserDetailsProvider = ({ children }) => {
         pfp: res.data.tokenData.pfp,
       })
     } catch (error) {
-      // showErrorToast("Error loading data")
       console.log(error)
     }
   }

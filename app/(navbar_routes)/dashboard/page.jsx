@@ -1,31 +1,24 @@
 "use client"
 
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-  useContext,
-} from "react"
+import React, { useEffect, useState, useCallback, useContext } from "react"
 import { set } from "date-fns"
 
 import SummaryCard from "./components/income_expense_cards"
-import { DatePickerWithRange } from "./components/date_range/date_range_picker"
+
 import Header from "./components/header/header"
 import TransactionsChart from "./components/transaction_charts/transactions_chart"
 import CategoriesChart from "./components/categories_charts/categories_chart"
-import axios from "axios"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
-import { showErrorToast } from "@/utils/hot-toast"
 import { Toaster } from "react-hot-toast"
 import {
   categoriesChartsCalculation,
   transactionsChartCalculations,
 } from "@/helpers/charts_calculations"
 import { UserDetailsContext } from "@/context/userDetails"
+import { DatePickerWithRange } from "@/components/shared/date_range_picker"
 
 export default function Dashboard() {
-  const { name, email, pfp } = useContext(UserDetailsContext)
+  const { name, pfp } = useContext(UserDetailsContext)
   const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState({
     from: new Date(
@@ -50,7 +43,6 @@ export default function Dashboard() {
     to: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
-  const [userData, setUserData] = useState({})
   const [income, setIncome] = useState("")
   const [expenses, setExpenses] = useState("")
   const [eachDayTransactions, setEachDayTransactions] = useState([])
@@ -75,19 +67,6 @@ export default function Dashboard() {
     }
   })
 
-  const getLocalDetails = async () => {
-    try {
-      // const res = await axios.get("/api/user/profile")
-      // setUserData({
-      //   name: res.data.tokenData.name,
-      //   pfp: res.data.tokenData.pfp,
-      // })
-    } catch (error) {
-      showErrorToast("Error loading data")
-      console.log(error)
-    }
-  }
-
   const getTransactions = async (date) => {
     try {
       const res = await getTransactionsFromDate(date)
@@ -105,10 +84,6 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    getLocalDetails()
-  }, [])
-
-  useEffect(() => {
     getTransactions(date)
   }, [date])
 
@@ -116,7 +91,7 @@ export default function Dashboard() {
     <>
       <Toaster />
 
-      <div className="w-full h-full">
+      <div className="w-full h-full justify-center items-center">
         <Header name={name} pfp={pfp} isLoading={isLoading} />
 
         <div className="p-3">

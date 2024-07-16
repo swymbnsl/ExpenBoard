@@ -2,7 +2,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provider"
 
-import { createTheme, CssBaseline } from "@mui/material"
+import { CssBaseline } from "@mui/material"
 import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
 import { UserDetailsProvider } from "@/context/userDetails"
 
