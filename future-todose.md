@@ -31,3 +31,4 @@
 29. Enter key submit on forms
 30. Change material inputs theme blue colour
 31. Implement debounce in search transactions
+32. Make categories more sanes

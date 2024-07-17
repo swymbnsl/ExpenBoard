@@ -10,7 +10,7 @@ export default function TransactionCard({
 }) {
   return (
     <>
-      <div className="bg-themesurfacedim h-[75px] w-full rounded-2xl flex items-center justify-between py-6 px-3 ">
+      <div className="bg-themesurfacedim h-[100px] w-full rounded-2xl flex items-center justify-between py-6 px-3 ">
         <div className="flex items-center gap-3 ">
           <div
             className={
@@ -28,10 +28,10 @@ export default function TransactionCard({
           </div>
           <div className="flex flex-col">
             <span className="text-themeonsurface font-bold text-lg">
-              {name}
+              {name.length <= 8 ? name : name.slice(0, 5) + "..."}
             </span>
             <span className=" text-muted-foreground font-semibold text-sm">
-              {category}
+              {category.length <= 8 ? category : category.slice(0, 5) + "..."}
             </span>
           </div>
         </div>
