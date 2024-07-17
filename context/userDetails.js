@@ -9,6 +9,7 @@ export const UserDetailsProvider = ({ children }) => {
     name: "",
     pfp: "",
     email: "",
+    currency: "",
   })
 
   const getLocalDetails = async () => {
@@ -16,8 +17,11 @@ export const UserDetailsProvider = ({ children }) => {
       const res = await axios.get("/api/user/profile")
 
       setUserData({
+        id: res.data.tokenData.id,
         name: res.data.tokenData.name,
         pfp: res.data.tokenData.pfp,
+        email: res.data.tokenData.email,
+        currency: res.data.tokenData.currency,
       })
     } catch (error) {
       console.log(error)

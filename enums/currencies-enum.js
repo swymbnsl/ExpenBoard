@@ -1,31 +1,31 @@
 export const currenciesAndIcons = [
   {
     currencyCode: "INR",
-    icon: "indian-rupee",
+    icon: "₹",
   },
   {
     currencyCode: "USD",
-    icon: "dollar-sign",
+    icon: "$",
   },
   {
     currencyCode: "EUR",
-    icon: "euro",
+    icon: "€",
   },
   {
     currencyCode: "GBP",
-    icon: "pound-sterling",
+    icon: "£",
   },
   {
     currencyCode: "JPY",
-    icon: "japanese-yen",
+    icon: "¥",
   },
   {
     currencyCode: "CHF",
-    icon: "swiss-franc",
+    icon: "₣",
   },
   {
     currencyCode: "RUB",
-    icon: "russian-ruble",
+    icon: "₽",
   },
 ]
 
