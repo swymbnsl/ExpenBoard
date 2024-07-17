@@ -28,3 +28,6 @@
 26. Change navbar colour
 27. Replace react-hot-toast with shadcn snackbar or something.
 28. Place all providers in outer layout
+29. Enter key submit on forms
+30. Change material inputs theme blue colour
+31. Implement debounce in search transactions

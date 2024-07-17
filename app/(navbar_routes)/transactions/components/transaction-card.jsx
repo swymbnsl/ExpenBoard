@@ -10,7 +10,7 @@ export default function TransactionCard({
 }) {
   return (
     <>
-      <div className="bg-themesurfacedim h-[10%] w-full rounded-2xl flex items-center justify-between py-6 px-3 ">
+      <div className="bg-themesurfacedim h-[75px] w-full rounded-2xl flex items-center justify-between py-6 px-3 ">
         <div className="flex items-center gap-3 ">
           <div
             className={
