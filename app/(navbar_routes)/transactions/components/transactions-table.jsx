@@ -4,7 +4,16 @@ import { UserDetailsContext } from "@/context/userDetails"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { format } from "date-fns"
-import { TextField } from "@mui/material"
+import { Button, FormControl, MenuItem, Select, TextField } from "@mui/material"
+import {
+  ArrowDown,
+  ArrowDownAZ,
+  ArrowDownZA,
+  ArrowUpDown,
+  ArrowUpWideNarrow,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react"
 
 export default function TransactionsTable({ date }) {
   const { currency } = useContext(UserDetailsContext)
@@ -18,26 +27,46 @@ export default function TransactionsTable({ date }) {
 
   const [transactions, setTransactions] = useState([])
   const [displayTransactions, setDisplayTransactions] = useState([])
-  const [sortBy, setSortBy] = useState("dateAndTime")
+  const [sortBy, setSortBy] = useState({
+    property: "dateAndTime",
+    type: "descending",
+  })
   const [searchTerm, setSearchTerm] = useState("")
+  const [isSortPanelOpen, setIsSortPanelOpen] = useState()
 
-  const sortTransactions = (transactions, property) => {
-    return transactions.toSorted((a, b) =>
-      property !== "dateAndTime"
-        ? b[property] - a[property]
-        : new Date(b[property]) - new Date(a[property])
-    )
+  const sortTransactions = (transactions, property, type) => {
+    if (type == "descending") {
+      return transactions.toSorted((a, b) =>
+        property !== "dateAndTime"
+          ? b[property] - a[property]
+          : new Date(b[property]) - new Date(a[property])
+      )
+    } else {
+      return transactions.toSorted((a, b) =>
+        property !== "dateAndTime"
+          ? a[property] - b[property]
+          : new Date(a[property]) - new Date(b[property])
+      )
+    }
   }
 
   const getTransactions = async (date) => {
     try {
       const { transactions } = await getTransactionsFromDate(date)
       setTransactions(transactions)
-      const sortedTransactions = sortTransactions(transactions, sortBy)
+      const sortedTransactions = sortTransactions(
+        transactions,
+        "dateAndTime",
+        "descending"
+      )
       setDisplayTransactions(sortedTransactions)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleClick = () => {
+    setIsSortPanelOpen(!isSortPanelOpen)
   }
 
   const handleSearchChange = (evt) => {
@@ -57,18 +86,184 @@ export default function TransactionsTable({ date }) {
     getTransactions(date)
   }, [date])
 
+  useEffect(() => {
+    const sortedTransactions = sortTransactions(
+      transactions,
+      sortBy.property,
+      sortBy.type
+    )
+    setDisplayTransactions(sortedTransactions)
+  }, [sortBy])
+
+  const sortButtonClasses =
+    " w-[43%] h-[50px] border-themeonsurfacedim hover:cursor-pointer border rounded-lg flex justify-between p-3 items-center font-semibold text-sm"
+
   return (
     <>
-      <div className="mb-3 justify-center items-center">
+      <div className="mb-3 flex justify-between items-center h-[55px]">
         <TextField
-          fullWidth="true"
+          // size="small"
+          sx={{
+            width: "60%",
+
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderRadius: 2,
+            },
+
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderRadius: 2,
+            },
+
+            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              {
+                borderRadius: 2,
+              },
+          }}
           name="search"
           value={searchTerm}
           onChange={handleSearchChange}
           id="outlined-controlled"
-          label="Search by name, category or amount"
+          label="Search"
         />
-      </div>{" "}
+        <div
+          className=" w-[37%] h-full bg-themesurfacedim hover:bg-themenavbar hover:cursor-pointer rounded-lg flex justify-between items-center font-semibold p-3"
+          onClick={handleClick}
+        >
+          Sort By {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
+        </div>
+      </div>
+      <div
+        className={
+          !isSortPanelOpen
+            ? "hidden"
+            : "flex py-3 w-full flex-col gap-3 justify-between"
+        }
+      >
+        <div className="flex justify-evenly">
+          <div
+            onClick={() => {
+              sortBy.property == "name" && sortBy.type == "descending"
+                ? setSortBy({
+                    property: "name",
+                    type: "ascending",
+                  })
+                : setSortBy({
+                    property: "name",
+                    type: "descending",
+                  })
+            }}
+            className={
+              (sortBy.property == "name"
+                ? "bg-themeonsurface text-themesurface"
+                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+              sortButtonClasses
+            }
+          >
+            Name{" "}
+            {sortBy.property == "name" ? (
+              sortBy.property == "name" && sortBy.type == "ascending" ? (
+                <ArrowDownAZ size={20} />
+              ) : (
+                <ArrowDownZA size={20} />
+              )
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            onClick={() => {
+              sortBy.property == "category" && sortBy.type == "descending"
+                ? setSortBy({
+                    property: "category",
+                    type: "ascending",
+                  })
+                : setSortBy({
+                    property: "category",
+                    type: "descending",
+                  })
+            }}
+            className={
+              (sortBy.property == "category"
+                ? "bg-themeonsurface text-themesurface"
+                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+              sortButtonClasses
+            }
+          >
+            Category
+            {sortBy.property == "category" ? (
+              sortBy.property == "category" && sortBy.type == "ascending" ? (
+                <ArrowDownAZ size={20} />
+              ) : (
+                <ArrowDownZA size={20} />
+              )
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+        <div className="flex justify-evenly">
+          <div
+            onClick={() => {
+              sortBy.property == "dateAndTime" && sortBy.type == "descending"
+                ? setSortBy({
+                    property: "dateAndTime",
+                    type: "ascending",
+                  })
+                : setSortBy({
+                    property: "dateAndTime",
+                    type: "descending",
+                  })
+            }}
+            className={
+              (sortBy.property == "dateAndTime"
+                ? "bg-themeonsurface text-themesurface"
+                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+              sortButtonClasses
+            }
+          >
+            Date
+            {sortBy.property == "dateAndTime" ? (
+              sortBy.property == "dateAndTime" && sortBy.type == "ascending" ? (
+                <ArrowDownAZ size={20} />
+              ) : (
+                <ArrowDownZA size={20} />
+              )
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            onClick={() => {
+              sortBy.property == "amount" && sortBy.type == "descending"
+                ? setSortBy({
+                    property: "amount",
+                    type: "ascending",
+                  })
+                : setSortBy({
+                    property: "amount",
+                    type: "descending",
+                  })
+            }}
+            className={
+              (sortBy.property == "amount"
+                ? "bg-themeonsurface text-themesurface"
+                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+              sortButtonClasses
+            }
+          >
+            Amount
+            {sortBy.property == "amount" ? (
+              sortBy.property == "amount" && sortBy.type == "ascending" ? (
+                <ArrowDownAZ size={20} />
+              ) : (
+                <ArrowDownZA size={20} />
+              )
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      </div>
       <div className="h-full w-full flex flex-col gap-3">
         {displayTransactions.map((t, index) => {
           return (
