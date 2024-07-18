@@ -36,12 +36,36 @@ export default function TransactionsTable({ date }) {
 
   const sortTransactions = (transactions, property, type) => {
     if (type == "descending") {
+      if (property == "name" || property == "category") {
+        return transactions
+          .toSorted((a, b) => {
+            if (a[property] < b[property]) {
+              return -1
+            }
+            if (a[property] > b[property]) {
+              return 1
+            }
+            return 0
+          })
+          .reverse()
+      }
       return transactions.toSorted((a, b) =>
         property !== "dateAndTime"
           ? b[property] - a[property]
           : new Date(b[property]) - new Date(a[property])
       )
     } else {
+      if (property == "name" || property == "category") {
+        return transactions.toSorted((a, b) => {
+          if (a[property] < b[property]) {
+            return -1
+          }
+          if (a[property] > b[property]) {
+            return 1
+          }
+          return 0
+        })
+      }
       return transactions.toSorted((a, b) =>
         property !== "dateAndTime"
           ? a[property] - b[property]

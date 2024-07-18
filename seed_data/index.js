@@ -8,19 +8,47 @@ import "dotenv/config"
 const types = ["income", "expense"]
 
 const transactions = []
+const names = [
+  "apple", // A
+  "banana", // B
+  "cat", // C
+  "dog", // D
+  "elephant", // E
+  "frog", // F
+  "grape", // G
+  "house", // H
+  "igloo", // I
+  "jacket", // J
+  "kite", // K
+  "lemon", // L
+  "monkey", // M
+  "notebook", // N
+  "orange", // O
+  "pencil", // P
+  "queen", // Q
+  "rabbit", // R
+  "snake", // S
+  "turtle", // T
+  "umbrella", // U
+  "vase", // V
+  "whale", // W
+  "xylophone", // X
+  "yarn", // Y
+  "zebra", // Z
+]
 
 connect()
 
 const seedDb = async () => {
   for (let i = 0; i < 50; i++) {
-    const name = "Seed-transaction"
+    const name = names[Math.floor(Math.random() * 24) + 1]
     let amount = 0
     let category = ""
 
     const type = types[Math.floor(Math.random() * types.length)]
 
     if (type === "income") {
-      amount = Math.floor(Math.random() * 100) + 1000
+      amount = Math.floor(Math.random() * 10000) + 1000
       category =
         incomeCategoriesEnum[
           Math.floor(Math.random() * incomeCategoriesEnum.length)
