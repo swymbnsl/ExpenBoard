@@ -4,16 +4,16 @@ import { UserDetailsContext } from "@/context/userDetails"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { format } from "date-fns"
-import { Button, FormControl, MenuItem, Select, TextField } from "@mui/material"
+import { TextField } from "@mui/material"
 import {
-  ArrowDown,
   ArrowDownAZ,
+  ArrowDownNarrowWide,
+  ArrowDownWideNarrow,
   ArrowDownZA,
-  ArrowUpDown,
-  ArrowUpWideNarrow,
   ChevronDown,
   ChevronUp,
 } from "lucide-react"
+import TransactionDetailsCard from "./transaction-details-card"
 
 export default function TransactionsTable({ date }) {
   const { currency } = useContext(UserDetailsContext)
@@ -33,6 +33,7 @@ export default function TransactionsTable({ date }) {
   })
   const [searchTerm, setSearchTerm] = useState("")
   const [isSortPanelOpen, setIsSortPanelOpen] = useState()
+  const [expandedTransactions, setExpandedTransaction] = useState("")
 
   const sortTransactions = (transactions, property, type) => {
     if (type == "descending") {
@@ -124,9 +125,8 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
-      <div className="mb-3 flex justify-between items-center h-[55px]">
+      <div className="mb-3 flex  justify-between items-center h-[55px]">
         <TextField
-          // size="small"
           sx={{
             width: "60%",
 
@@ -248,9 +248,9 @@ export default function TransactionsTable({ date }) {
             Date
             {sortBy.property == "dateAndTime" ? (
               sortBy.property == "dateAndTime" && sortBy.type == "ascending" ? (
-                <ArrowDownAZ size={20} />
+                <ArrowDownNarrowWide size={20} />
               ) : (
-                <ArrowDownZA size={20} />
+                <ArrowDownWideNarrow size={20} />
               )
             ) : (
               <></>
@@ -278,9 +278,9 @@ export default function TransactionsTable({ date }) {
             Amount
             {sortBy.property == "amount" ? (
               sortBy.property == "amount" && sortBy.type == "ascending" ? (
-                <ArrowDownAZ size={20} />
+                <ArrowDownNarrowWide size={20} />
               ) : (
-                <ArrowDownZA size={20} />
+                <ArrowDownWideNarrow size={20} />
               )
             ) : (
               <></>
@@ -288,11 +288,25 @@ export default function TransactionsTable({ date }) {
           </div>
         </div>
       </div>
+
       <div className="h-full w-full flex flex-col gap-3">
-        {displayTransactions.map((t, index) => {
-          return (
+        {displayTransactions.map((t) => {
+          return t._id !== expandedTransactions ? (
             <TransactionCard
-              key={index}
+              key={t._id}
+              id={t._id}
+              setExpandedTransaction={setExpandedTransaction}
+              type={t.type}
+              name={t.name}
+              amount={`${symbol} ${t.amount}`}
+              category={t.category}
+              date={format(t.dateAndTime, "dd/MM/yy")}
+              time={format(t.dateAndTime, "hh:mm aaa")}
+            />
+          ) : (
+            <TransactionDetailsCard
+              key={t._id}
+              setExpandedTransaction={setExpandedTransaction}
               type={t.type}
               name={t.name}
               amount={`${symbol} ${t.amount}`}

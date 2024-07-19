@@ -29,7 +29,7 @@ export default function Dashboard() {
         0
       )
     ),
-    to: new Date(),
+    to: new Date().setHours(23, 59, 59, 999),
   })
   const [displayDate, setDisplayDate] = useState({
     from: new Date(
@@ -40,7 +40,7 @@ export default function Dashboard() {
         0
       )
     ),
-    to: new Date(),
+    to: new Date().setHours(23, 59, 59, 999),
   })
   const [isOpen, setIsOpen] = useState(false)
   const [income, setIncome] = useState("")

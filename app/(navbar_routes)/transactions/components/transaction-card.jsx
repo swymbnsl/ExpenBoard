@@ -1,6 +1,8 @@
 import { TrendingDown, TrendingUp } from "lucide-react"
 
 export default function TransactionCard({
+  id,
+  setExpandedTransaction,
   type,
   name,
   amount,
@@ -10,7 +12,12 @@ export default function TransactionCard({
 }) {
   return (
     <>
-      <div className="bg-themesurfacedim h-[100px] w-full rounded-2xl flex items-center justify-between py-6 px-3 ">
+      <div
+        onClick={() => {
+          setExpandedTransaction(id)
+        }}
+        className="bg-themesurfacedim h-[100px] w-full rounded-2xl flex items-center justify-between py-6 px-3 "
+      >
         <div className="flex items-center gap-3 ">
           <div
             className={
