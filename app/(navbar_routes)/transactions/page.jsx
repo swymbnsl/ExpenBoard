@@ -66,7 +66,7 @@ export default function Transactions() {
             setDisplayDate={setDisplayDate}
           />
         </div>
-        <div className="p-3 justify-center items-center">
+        <div className="p-3 w-full justify-center items-center">
           <TransactionsTable date={date} />
         </div>{" "}
       </div>

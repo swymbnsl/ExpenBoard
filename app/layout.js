@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google"
+import { Roboto } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provider"
 
@@ -6,9 +6,9 @@ import { CssBaseline } from "@mui/material"
 import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
 import { UserDetailsProvider } from "@/context/userDetails"
 
-const notoSans = Inter({
+const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 })
 
 export const metadata = {
@@ -19,7 +19,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={notoSans.className}>
+      <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <MuiThemeProvider>
             <UserDetailsProvider>

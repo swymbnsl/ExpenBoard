@@ -14,6 +14,7 @@ import {
   ChevronUp,
 } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
+import EditCreateTransactionsSheet from "./edit-create-transactions"
 
 export default function TransactionsTable({ date }) {
   const { currency } = useContext(UserDetailsContext)
@@ -125,197 +126,201 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
-      <div className="mb-3 flex  justify-between items-center h-[55px]">
-        <TextField
-          sx={{
-            width: "60%",
+      <div className="w-full">
+        <div className="mb-3 flex  justify-between items-center h-[55px]">
+          <TextField
+            sx={{
+              width: "60%",
 
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderRadius: 2,
-            },
-
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderRadius: 2,
-            },
-
-            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-              {
+              "& .MuiOutlinedInput-notchedOutline": {
                 borderRadius: 2,
               },
-          }}
-          name="search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          id="outlined-controlled"
-          label="Search"
-        />
-        <div
-          className=" w-[37%] h-full bg-themesurfacedim hover:bg-themenavbar hover:cursor-pointer rounded-lg flex justify-between items-center font-semibold p-3"
-          onClick={handleClick}
-        >
-          Sort By {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
-        </div>
-      </div>
-      <div
-        className={
-          !isSortPanelOpen
-            ? "hidden"
-            : "flex py-3 w-full flex-col gap-3 justify-between"
-        }
-      >
-        <div className="flex justify-evenly">
-          <div
-            onClick={() => {
-              sortBy.property == "name" && sortBy.type == "descending"
-                ? setSortBy({
-                    property: "name",
-                    type: "ascending",
-                  })
-                : setSortBy({
-                    property: "name",
-                    type: "descending",
-                  })
-            }}
-            className={
-              (sortBy.property == "name"
-                ? "bg-themeonsurface text-themesurface"
-                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
-              sortButtonClasses
-            }
-          >
-            Name{" "}
-            {sortBy.property == "name" ? (
-              sortBy.property == "name" && sortBy.type == "ascending" ? (
-                <ArrowDownAZ size={20} />
-              ) : (
-                <ArrowDownZA size={20} />
-              )
-            ) : (
-              <></>
-            )}
-          </div>
-          <div
-            onClick={() => {
-              sortBy.property == "category" && sortBy.type == "descending"
-                ? setSortBy({
-                    property: "category",
-                    type: "ascending",
-                  })
-                : setSortBy({
-                    property: "category",
-                    type: "descending",
-                  })
-            }}
-            className={
-              (sortBy.property == "category"
-                ? "bg-themeonsurface text-themesurface"
-                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
-              sortButtonClasses
-            }
-          >
-            Category
-            {sortBy.property == "category" ? (
-              sortBy.property == "category" && sortBy.type == "ascending" ? (
-                <ArrowDownAZ size={20} />
-              ) : (
-                <ArrowDownZA size={20} />
-              )
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-        <div className="flex justify-evenly">
-          <div
-            onClick={() => {
-              sortBy.property == "dateAndTime" && sortBy.type == "descending"
-                ? setSortBy({
-                    property: "dateAndTime",
-                    type: "ascending",
-                  })
-                : setSortBy({
-                    property: "dateAndTime",
-                    type: "descending",
-                  })
-            }}
-            className={
-              (sortBy.property == "dateAndTime"
-                ? "bg-themeonsurface text-themesurface"
-                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
-              sortButtonClasses
-            }
-          >
-            Date
-            {sortBy.property == "dateAndTime" ? (
-              sortBy.property == "dateAndTime" && sortBy.type == "ascending" ? (
-                <ArrowDownNarrowWide size={20} />
-              ) : (
-                <ArrowDownWideNarrow size={20} />
-              )
-            ) : (
-              <></>
-            )}
-          </div>
-          <div
-            onClick={() => {
-              sortBy.property == "amount" && sortBy.type == "descending"
-                ? setSortBy({
-                    property: "amount",
-                    type: "ascending",
-                  })
-                : setSortBy({
-                    property: "amount",
-                    type: "descending",
-                  })
-            }}
-            className={
-              (sortBy.property == "amount"
-                ? "bg-themeonsurface text-themesurface"
-                : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
-              sortButtonClasses
-            }
-          >
-            Amount
-            {sortBy.property == "amount" ? (
-              sortBy.property == "amount" && sortBy.type == "ascending" ? (
-                <ArrowDownNarrowWide size={20} />
-              ) : (
-                <ArrowDownWideNarrow size={20} />
-              )
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-      </div>
 
-      <div className="h-full w-full flex flex-col gap-3">
-        {displayTransactions.map((t) => {
-          return t._id !== expandedTransactions ? (
-            <TransactionCard
-              key={t._id}
-              id={t._id}
-              setExpandedTransaction={setExpandedTransaction}
-              type={t.type}
-              name={t.name}
-              amount={`${symbol} ${t.amount}`}
-              category={t.category}
-              date={format(t.dateAndTime, "dd/MM/yy")}
-              time={format(t.dateAndTime, "hh:mm aaa")}
-            />
-          ) : (
-            <TransactionDetailsCard
-              key={t._id}
-              setExpandedTransaction={setExpandedTransaction}
-              type={t.type}
-              name={t.name}
-              amount={`${symbol} ${t.amount}`}
-              category={t.category}
-              date={format(t.dateAndTime, "dd/MM/yy")}
-              time={format(t.dateAndTime, "hh:mm aaa")}
-            />
-          )
-        })}
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderRadius: 2,
+              },
+
+              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                {
+                  borderRadius: 2,
+                },
+            }}
+            name="search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            id="outlined-controlled"
+            label="Search"
+          />
+          <div
+            className=" w-[37%] h-full bg-themesurfacedim hover:bg-themenavbar hover:cursor-pointer rounded-lg flex justify-between items-center font-semibold p-3"
+            onClick={handleClick}
+          >
+            Sort By {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
+          </div>
+        </div>
+        <EditCreateTransactionsSheet symbol={symbol} />
+        <div
+          className={
+            !isSortPanelOpen
+              ? "hidden"
+              : "flex py-3 w-full flex-col gap-3 justify-between"
+          }
+        >
+          <div className="flex justify-evenly">
+            <div
+              onClick={() => {
+                sortBy.property == "name" && sortBy.type == "descending"
+                  ? setSortBy({
+                      property: "name",
+                      type: "ascending",
+                    })
+                  : setSortBy({
+                      property: "name",
+                      type: "descending",
+                    })
+              }}
+              className={
+                (sortBy.property == "name"
+                  ? "bg-themeonsurface text-themesurface"
+                  : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+                sortButtonClasses
+              }
+            >
+              Name{" "}
+              {sortBy.property == "name" ? (
+                sortBy.property == "name" && sortBy.type == "ascending" ? (
+                  <ArrowDownAZ size={20} />
+                ) : (
+                  <ArrowDownZA size={20} />
+                )
+              ) : (
+                <></>
+              )}
+            </div>
+            <div
+              onClick={() => {
+                sortBy.property == "category" && sortBy.type == "descending"
+                  ? setSortBy({
+                      property: "category",
+                      type: "ascending",
+                    })
+                  : setSortBy({
+                      property: "category",
+                      type: "descending",
+                    })
+              }}
+              className={
+                (sortBy.property == "category"
+                  ? "bg-themeonsurface text-themesurface"
+                  : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+                sortButtonClasses
+              }
+            >
+              Category
+              {sortBy.property == "category" ? (
+                sortBy.property == "category" && sortBy.type == "ascending" ? (
+                  <ArrowDownAZ size={20} />
+                ) : (
+                  <ArrowDownZA size={20} />
+                )
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <div className="flex justify-evenly">
+            <div
+              onClick={() => {
+                sortBy.property == "dateAndTime" && sortBy.type == "descending"
+                  ? setSortBy({
+                      property: "dateAndTime",
+                      type: "ascending",
+                    })
+                  : setSortBy({
+                      property: "dateAndTime",
+                      type: "descending",
+                    })
+              }}
+              className={
+                (sortBy.property == "dateAndTime"
+                  ? "bg-themeonsurface text-themesurface"
+                  : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+                sortButtonClasses
+              }
+            >
+              Date
+              {sortBy.property == "dateAndTime" ? (
+                sortBy.property == "dateAndTime" &&
+                sortBy.type == "ascending" ? (
+                  <ArrowDownNarrowWide size={20} />
+                ) : (
+                  <ArrowDownWideNarrow size={20} />
+                )
+              ) : (
+                <></>
+              )}
+            </div>
+            <div
+              onClick={() => {
+                sortBy.property == "amount" && sortBy.type == "descending"
+                  ? setSortBy({
+                      property: "amount",
+                      type: "ascending",
+                    })
+                  : setSortBy({
+                      property: "amount",
+                      type: "descending",
+                    })
+              }}
+              className={
+                (sortBy.property == "amount"
+                  ? "bg-themeonsurface text-themesurface"
+                  : "bg-transparent hover:bg-themesurfacedim text-themeonsurface") +
+                sortButtonClasses
+              }
+            >
+              Amount
+              {sortBy.property == "amount" ? (
+                sortBy.property == "amount" && sortBy.type == "ascending" ? (
+                  <ArrowDownNarrowWide size={20} />
+                ) : (
+                  <ArrowDownWideNarrow size={20} />
+                )
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="h-full w-full flex flex-col gap-3">
+          {displayTransactions.map((t) => {
+            return t._id !== expandedTransactions ? (
+              <TransactionCard
+                key={t._id}
+                id={t._id}
+                setExpandedTransaction={setExpandedTransaction}
+                type={t.type}
+                name={t.name}
+                amount={`${symbol} ${t.amount}`}
+                category={t.category}
+                date={format(t.dateAndTime, "dd/MM/yy")}
+                time={format(t.dateAndTime, "hh:mm aaa")}
+              />
+            ) : (
+              <TransactionDetailsCard
+                key={t._id}
+                setExpandedTransaction={setExpandedTransaction}
+                type={t.type}
+                name={t.name}
+                amount={`${symbol} ${t.amount}`}
+                category={t.category}
+                date={format(t.dateAndTime, "dd/MM/yy")}
+                time={format(t.dateAndTime, "hh:mm aaa")}
+              />
+            )
+          })}
+        </div>
       </div>
     </>
   )

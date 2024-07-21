@@ -15,7 +15,7 @@ export default function TransactionCard({
       <div className="bg-themesurfacedim w-full rounded-2xl flex flex-col gap-5 justify-between min-h-[130px] p-3 mb-3">
         <span
           onClick={() => setExpandedTransaction("")}
-          className="bg-transparent border border-white/20 rounded-lg p-1 w-[33px] flex justify-center items-center"
+          className="bg-transparent hover:cursor-pointer hover:border-white border border-white/20 rounded-lg p-1 w-[33px] flex justify-center items-center"
         >
           {" "}
           <ChevronLeft />{" "}

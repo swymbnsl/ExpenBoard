@@ -16,7 +16,7 @@ export default function TransactionCard({
         onClick={() => {
           setExpandedTransaction(id)
         }}
-        className="bg-themesurfacedim h-[100px] w-full rounded-2xl flex items-center justify-between py-6 px-3 "
+        className="bg-themesurfacedim h-[100px] w-full rounded-2xl flex items-center justify-between py-6 px-3 hover:bg-themenavbar hover:cursor-pointer"
       >
         <div className="flex items-center gap-3 ">
           <div
