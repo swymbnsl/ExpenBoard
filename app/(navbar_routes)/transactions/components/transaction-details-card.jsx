@@ -84,6 +84,7 @@ export default function TransactionCard({
             onClick={() => {
               setType("edit")
               setEditTransactionFields({
+                id: id,
                 name: name,
                 amount: amount,
                 type: type,

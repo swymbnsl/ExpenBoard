@@ -70,6 +70,8 @@ export default function EditCreateTransactionsSheet({
     initialErrorStateHelperText
   )
 
+  const [editingTransactionId, setEditingTransactionId] = useState("")
+
   const handleChange = (evt) => {
     setErrorState(initialErrorState)
     setErrorStateHelperText(initialErrorStateHelperText)
@@ -112,7 +114,39 @@ export default function EditCreateTransactionsSheet({
     }
   }
 
-  const handelEditTransaction = async () => {}
+  const handelEditTransaction = async (id) => {
+    try {
+      setIsCreatingTransaction(true)
+      const res = await axios.patch("/api/user/transactions", {
+        id,
+        ...inputs,
+      })
+      showSuccessToast(res.data.message)
+      setInputs(initialCreateInputsStatate)
+      setIsSheetOpen(false)
+    } catch (error) {
+      console.log(error)
+      if (error.response.data.joiError) {
+        setErrorState((prevErrorStates) => {
+          return {
+            ...prevErrorStates,
+            [error.response.data.joiRes.error.details[0].context.key]: true,
+          }
+        })
+        setErrorStateHelperText((prevText) => {
+          return {
+            ...prevText,
+            [error.response.data.joiRes.error.details[0].context.key]:
+              error.response.data.joiRes.error.details[0].message,
+          }
+        })
+        return
+      }
+      showErrorToast(error.response.data.error)
+    } finally {
+      setIsCreatingTransaction(false)
+    }
+  }
 
   useEffect(() => {
     if (
@@ -122,13 +156,13 @@ export default function EditCreateTransactionsSheet({
     ) {
       setButtonDisabled(false)
     } else {
-      console.log("imposter")
       setButtonDisabled(true)
     }
   }, [inputs])
 
   useEffect(() => {
     if (type == "edit") {
+      setEditingTransactionId(editTransactionFields.id)
       setInputs(initialEditInputsState)
       setIsExpense(editTransactionFields.type == "expense" ? true : false)
       setButtonDisabled(false)
@@ -271,7 +305,7 @@ export default function EditCreateTransactionsSheet({
             onClick={() => {
               if (!isCreatingTransaction) {
                 type == "edit"
-                  ? handelEditTransaction()
+                  ? handelEditTransaction(editingTransactionId)
                   : handelCreateNewTransaction()
                 setIsCreatingTransaction(true)
               }

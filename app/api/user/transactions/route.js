@@ -56,8 +56,6 @@ export async function POST(request) {
 
     await newTransaction.save()
 
-    console.log("Transaction created")
-
     return NextResponse.json(
       { message: "Transaction created successfully", success: true },
       { status: 200 }
@@ -135,6 +133,74 @@ export async function DELETE(request) {
       {
         message: "Error deleting transaction",
         error: error.message,
+        success: false,
+      },
+      { status: 400 }
+    )
+  }
+}
+
+export async function PATCH(request) {
+  try {
+    const reqBody = await request.json()
+    console.log(reqBody)
+    const { id, amount, category, type, name, dateAndTime } = reqBody
+
+    const tokenData = getDataFromToken(request)
+    if (tokenData.error) {
+      throw new Error(tokenData.error)
+    }
+
+    const tempReqBody = { ...reqBody }
+    delete tempReqBody.id
+
+    const joiRes = transactionsSchema.validate(tempReqBody)
+    if (joiRes.error) {
+      return NextResponse.json(
+        { joiError: "Validation Failed", joiRes },
+        { status: 400 }
+      )
+    }
+
+    const foundUser = await User.findById(tokenData.id)
+    console.log(id)
+
+    if (
+      type === "expense" &&
+      foundUser.expensesCategories.indexOf(category) == "-1"
+    ) {
+      const newExpenseCategories = [...foundUser.expensesCategories, category]
+      await User.findByIdAndUpdate(tokenData.id, {
+        expensesCategories: newExpenseCategories,
+      })
+    } else if (
+      type === "income" &&
+      foundUser.incomeCategories.indexOf(category) == "-1"
+    ) {
+      const newIncomeCategories = [...foundUser.incomeCategories, category]
+      await User.findByIdAndUpdate(tokenData.id, {
+        incomeCategories: newIncomeCategories,
+      })
+    }
+
+    const res = await Transaction.findByIdAndUpdate(id, {
+      name,
+      amount,
+      category,
+      type,
+      dateAndTime,
+    })
+
+    return NextResponse.json(
+      { message: "Transaction Updated successfully", success: true },
+      { status: 200 }
+    )
+  } catch (err) {
+    console.log(err)
+    return NextResponse.json(
+      {
+        message: "Error Updating transaction",
+        error: err.message,
         success: false,
       },
       { status: 400 }
