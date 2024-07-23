@@ -10,7 +10,7 @@ connect()
 export async function POST(request) {
   try {
     const reqBody = await request.json()
-    const { amount, description, category, type, name } = reqBody
+    const { amount, category, type, name, dateAndTime } = reqBody
 
     const tokenData = getDataFromToken(request)
     if (tokenData.error) {
@@ -28,25 +28,30 @@ export async function POST(request) {
     const foundUser = await User.findById(tokenData.id)
 
     if (
-      (type === "expense" &&
-        foundUser.expensesCategories.indexOf(category) == "-1") ||
-      (type === "income" &&
-        foundUser.incomeCategories.indexOf(category) == "-1")
+      type === "expense" &&
+      foundUser.expensesCategories.indexOf(category) == "-1"
     ) {
-      throw new Error("Invalid Category")
+      const newExpenseCategories = [...foundUser.expensesCategories, category]
+      await User.findByIdAndUpdate(tokenData.id, {
+        expensesCategories: newExpenseCategories,
+      })
+    } else if (
+      type === "income" &&
+      foundUser.incomeCategories.indexOf(category) == "-1"
+    ) {
+      const newIncomeCategories = [...foundUser.incomeCategories, category]
+      await User.findByIdAndUpdate(tokenData.id, {
+        incomeCategories: newIncomeCategories,
+      })
     }
-
-    // if (foundUser.categories.indexOf(category) == "-1") {
-    //   throw new Error("Invalid Category")
-    // }
 
     const newTransaction = new Transaction({
       user_id: tokenData.id,
       name,
       amount,
-      description,
       category,
       type,
+      dateAndTime,
     })
 
     await newTransaction.save()
@@ -105,6 +110,31 @@ export async function GET(request) {
       {
         message: "Error getting transaction",
         error: err.message,
+        success: false,
+      },
+      { status: 400 }
+    )
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const id = request.nextUrl.searchParams.get("id")
+    const deleteRes = await Transaction.findByIdAndDelete(id)
+    return NextResponse.json(
+      {
+        message: "Transaction Deleted successfully",
+        success: true,
+        deleteRes,
+      },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json(
+      {
+        message: "Error deleting transaction",
+        error: error.message,
         success: false,
       },
       { status: 400 }

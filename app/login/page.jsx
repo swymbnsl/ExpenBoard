@@ -10,12 +10,10 @@ import {
   TextField,
 } from "@mui/material"
 
-import CssBaseline from "@mui/material/CssBaseline"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import { Toaster } from "react-hot-toast"
 import { showSuccessToast, showErrorToast } from "@/utils/hot-toast"
 
 export default function Login() {
@@ -77,7 +75,6 @@ export default function Login() {
 
   return (
     <>
-      <Toaster />
       <div className="flex h-full w-full top-0 absolute justify-center items-center">
         <div className="w-[300px] flex flex-col gap-6">
           <span className="text-4xl font-bold text-themeonsurface">Login</span>

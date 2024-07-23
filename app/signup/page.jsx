@@ -10,21 +10,12 @@ import {
   TextField,
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
-import CssBaseline from "@mui/material/CssBaseline"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
-import { Toaster } from "react-hot-toast"
-import userSchema from "@/schemas/userSchema"
-import axios from "axios"
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-})
+import axios from "axios"
 
 export default function Login() {
   const router = useRouter()
@@ -157,9 +148,7 @@ export default function Login() {
   }
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <Toaster />
+    <>
       <div className="flex h-full w-full top-0 absolute justify-center items-center">
         <div className="w-[300px] flex flex-col gap-6">
           <span className="text-4xl font-bold text-themeonsurface">
@@ -260,6 +249,6 @@ export default function Login() {
           </Button>
         </div>
       </div>
-    </ThemeProvider>
+    </>
   )
 }

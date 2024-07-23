@@ -1,57 +1,78 @@
+import { UserDetailsContext } from "@/context/userDetails"
+import { showSuccessToast } from "@/utils/hot-toast"
 import { TextField } from "@mui/material"
-import React, { useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 
-export default function CategorySelect({ disabled }) {
-  const [value, setValue] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("")
+export default function CategorySelect({
+  isExpense,
+  setInputs,
+  inputs,
+  error,
+  helperText,
+}) {
+  // console.log(inputs.category)
+  const [value, setValue] = useState(inputs.category)
   const [isOpen, setIsOpen] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const isFirstRender = useRef(0)
 
-  const categories = [
-    { name: "one", type: "income" },
-    { name: "two", type: "income" },
-    { name: "three", type: "income" },
-    { name: "four", type: "income" },
-    { name: "five", type: "expense" },
-    { name: "six", type: "expense" },
-    { name: "seven", type: "expense" },
-    { name: "eight", type: "expense" },
-  ]
+  const { expensesCategories, incomeCategories } =
+    useContext(UserDetailsContext)
 
   const handleCatergorySearchChange = (evt) => setValue(evt.target.value)
+
+  const setCategory = (selectedCategory) => {
+    setInputs((prev) => {
+      return {
+        ...prev,
+        ["category"]: selectedCategory,
+      }
+    })
+  }
 
   const handleBlur = (e) => {
     const currentTarget = e.currentTarget
 
     requestAnimationFrame(() => {
       if (!currentTarget.contains(document.activeElement)) {
-        if (value !== selectedCategory) {
-          setValue(selectedCategory)
+        if (value !== inputs.category) {
+          setValue(inputs.category)
         }
         setIsOpen(false)
       }
     })
   }
 
+  let categories = []
+  categories = isExpense ? [...expensesCategories] : [...incomeCategories]
+
+  useEffect(() => {
+    if (isFirstRender.current == 2) {
+      setValue("")
+      setCategory("")
+    } else {
+      isFirstRender.current += 1
+      return
+    }
+  }, [isExpense])
+
+  const borderRadiusValues = isOpen ? "8px 8px 0 0" : 2
   return (
     <>
-      <div className="w-full relative" onBlur={handleBlur} tabIndex={-1}>
+      <div className="w-[80%] relative" onBlur={handleBlur} tabIndex={-1}>
         <TextField
-          disabled={disabled}
-          helperText={disabled ? "Select transaction type first" : ""}
           fullWidth
           sx={{
             "& .MuiOutlinedInput-notchedOutline": {
-              borderRadius: 2,
+              borderRadius: borderRadiusValues,
             },
 
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderRadius: 2,
+              borderRadius: borderRadiusValues,
             },
 
             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
               {
-                borderRadius: 2,
+                borderRadius: borderRadiusValues,
               },
           }}
           name="category"
@@ -59,39 +80,47 @@ export default function CategorySelect({ disabled }) {
           onChange={handleCatergorySearchChange}
           onFocus={() => setIsOpen(true)}
           id="outlined-category"
-          label="Category"
+          label={isExpense ? "Expense category" : "Income category"}
+          error={error ? true : false}
+          helperText={helperText}
         />
         <div
           className={
             (!isOpen ? "hidden " : " ") +
-            "w-full bg-themesurface absolute flex flex-col p-3 gap-1 text-themeonsurface font-medium rounded-b-lg"
+            "w-full max-h-[200px] bg-themenavbar absolute flex flex-col p-3 gap-1 text-themeonsurface font-medium rounded-b-lg overflow-y-scroll"
           }
         >
           {categories.map((c, index) => {
-            if (c.name.toLowerCase().includes(value.toLowerCase())) {
+            if (c.toLowerCase().includes(value.toLowerCase())) {
               return (
                 <span
                   key={index}
                   onClick={() => {
-                    setValue(c.name)
-                    setSelectedCategory(c.name)
+                    setValue(c)
+                    setCategory(c)
                     setIsOpen(false)
                   }}
                   className="hover:cursor-pointer hover:bg-themesurfacedim"
                 >
                   {" "}
-                  {c.name}{" "}
+                  {c}{" "}
                 </span>
               )
             }
           })}
           {categories.filter((c) =>
-            c.name.toLowerCase().includes(value.toLowerCase())
+            c.toLowerCase().includes(value.toLowerCase())
           ).length == 0 ? (
             <span
               className="hover:cursor-pointer hover:bg-themesurfacedim"
               onClick={() => {
-                setIsDialogOpen(true)
+                setCategory(value)
+                setIsOpen(false)
+                showSuccessToast(
+                  `New ${
+                    isExpense ? "Expense category" : "Income category"
+                  } will be created`
+                )
               }}
             >
               {" "}

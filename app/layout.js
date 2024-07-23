@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provide
 import { CssBaseline } from "@mui/material"
 import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
 import { UserDetailsProvider } from "@/context/userDetails"
+import { Toaster } from "react-hot-toast"
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
           <MuiThemeProvider>
             <UserDetailsProvider>
               <CssBaseline />
+              <Toaster />
               {children}
+              <Toaster richColors />
             </UserDetailsProvider>
           </MuiThemeProvider>
         </ThemeProvider>

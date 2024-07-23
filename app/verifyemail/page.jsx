@@ -1,5 +1,5 @@
 "use client"
-import { Button, CssBaseline, ThemeProvider, createTheme } from "@mui/material"
+import { Button, createTheme } from "@mui/material"
 import axios from "axios"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
@@ -11,12 +11,6 @@ import { useRouter } from "next/navigation"
 export default function VerifyEmail() {
   const searchParams = useSearchParams()
   const router = useRouter()
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  })
 
   const [token, setToken] = useState("")
   const [verified, setVerified] = useState(false)
@@ -60,33 +54,30 @@ export default function VerifyEmail() {
 
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <Toaster />
-        <div className="w-full h-full justify-center flex items-center text-slate-50">
-          <div className="w-[300px] flex flex-col gap-6">
-            <span className="text-4xl font-bold text-themeonsurface">
-              Verify Email
-            </span>
-            <div className="text-themeonsurfacevar">
-              Click on the button below to verify your email and continue with
-              your account on Expenboard
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth="true"
-              onClick={verifyUser}
-              disabled={uriDirect || loading || verified ? true : false}
-            >
-              {buttonText}
-            </Button>
-            <Link href="/login" className="text-themeprimary">
-              Login
-            </Link>
+      <Toaster />
+      <div className="w-full h-full justify-center flex items-center text-slate-50">
+        <div className="w-[300px] flex flex-col gap-6">
+          <span className="text-4xl font-bold text-themeonsurface">
+            Verify Email
+          </span>
+          <div className="text-themeonsurfacevar">
+            Click on the button below to verify your email and continue with
+            your account on Expenboard
           </div>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth="true"
+            onClick={verifyUser}
+            disabled={uriDirect || loading || verified ? true : false}
+          >
+            {buttonText}
+          </Button>
+          <Link href="/login" className="text-themeprimary">
+            Login
+          </Link>
         </div>
-      </ThemeProvider>
+      </div>
     </>
   )
 }

@@ -22,6 +22,8 @@ export const UserDetailsProvider = ({ children }) => {
         pfp: res.data.tokenData.pfp,
         email: res.data.tokenData.email,
         currency: res.data.tokenData.currency,
+        expensesCategories: res.data.tokenData.expensesCategories,
+        incomeCategories: res.data.tokenData.incomeCategories,
       })
     } catch (error) {
       console.log(error)

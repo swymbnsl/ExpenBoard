@@ -1,15 +1,36 @@
+import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { Button } from "@mui/material"
+import axios from "axios"
 import { ChevronLeft, TrendingDown, TrendingUp } from "lucide-react"
 
 export default function TransactionCard({
+  getTransactions,
+  datePickerDate,
+  setEditTransactionFields,
+  setType,
+  setIsSheetOpen,
   setExpandedTransaction,
   type,
   name,
+  id,
+  symbol,
   amount,
   category,
   date,
   time,
+  dateAndTime,
 }) {
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`/api/user/transactions?id=${id}`)
+      showSuccessToast(res.data.message)
+      getTransactions(datePickerDate)
+    } catch (error) {
+      console.log(error)
+      showErrorToast(error.response.data.error)
+    }
+  }
+
   return (
     <>
       <div className="bg-themesurfacedim w-full rounded-2xl flex flex-col gap-5 justify-between min-h-[130px] p-3 mb-3">
@@ -38,7 +59,7 @@ export default function TransactionCard({
                 " font-bold text-lg"
               }
             >
-              {amount}
+              {symbol + " " + amount}
             </span>
             <div className="flex gap-2 ">
               <span className=" text-muted-foreground font-semibold text-sm">
@@ -51,10 +72,29 @@ export default function TransactionCard({
           </div>
         </div>
         <div className="flex justify-between">
-          <Button variant="contained" color="error" sx={{ width: "45%" }}>
+          <Button
+            onClick={handleDelete}
+            variant="contained"
+            color="error"
+            sx={{ width: "45%" }}
+          >
             Delete
           </Button>
-          <Button variant="contained" sx={{ width: "45%" }}>
+          <Button
+            onClick={() => {
+              setType("edit")
+              setEditTransactionFields({
+                name: name,
+                amount: amount,
+                type: type,
+                category: category,
+                dateAndTime: dateAndTime,
+              })
+              setIsSheetOpen(true)
+            }}
+            variant="contained"
+            sx={{ width: "45%" }}
+          >
             Edit
           </Button>
         </div>

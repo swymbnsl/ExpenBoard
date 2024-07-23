@@ -9,7 +9,6 @@ import Header from "./components/header/header"
 import TransactionsChart from "./components/transaction_charts/transactions_chart"
 import CategoriesChart from "./components/categories_charts/categories_chart"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
-import { Toaster } from "react-hot-toast"
 import {
   categoriesChartsCalculation,
   transactionsChartCalculations,
@@ -89,8 +88,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <Toaster />
-
       <div className="w-full h-full justify-center items-center">
         <Header name={name} pfp={pfp} isLoading={isLoading} />
 

@@ -4,7 +4,7 @@ import { UserDetailsContext } from "@/context/userDetails"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { format } from "date-fns"
-import { TextField } from "@mui/material"
+import { Fab, TextField } from "@mui/material"
 import {
   ArrowDownAZ,
   ArrowDownNarrowWide,
@@ -12,6 +12,7 @@ import {
   ArrowDownZA,
   ChevronDown,
   ChevronUp,
+  Plus,
 } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
 import EditCreateTransactionsSheet from "./edit-create-transactions"
@@ -35,6 +36,9 @@ export default function TransactionsTable({ date }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [isSortPanelOpen, setIsSortPanelOpen] = useState()
   const [expandedTransactions, setExpandedTransaction] = useState("")
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [type, setType] = useState("create")
+  const [editTransactionFields, setEditTransactionFields] = useState({})
 
   const sortTransactions = (transactions, property, type) => {
     if (type == "descending") {
@@ -110,7 +114,7 @@ export default function TransactionsTable({ date }) {
   }
   useEffect(() => {
     getTransactions(date)
-  }, [date])
+  }, [date, isSheetOpen])
 
   useEffect(() => {
     const sortedTransactions = sortTransactions(
@@ -126,6 +130,24 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
+      {isSheetOpen ? (
+        <></>
+      ) : (
+        <Fab
+          onClick={() => {
+            setType("create")
+            setIsSheetOpen(true)
+          }}
+          variant="extended"
+          color="white"
+          aria-label="add"
+          className="fixed bg-themeonsurface text-lg font-semibold text-themesurface bottom-[90px] right-3 shadow-black shadow-[0_0_30px_2px]"
+        >
+          <Plus style={{ marginRight: "10px" }} strokeWidth={3} size={20} />
+          Add
+        </Fab>
+      )}
+
       <div className="w-full">
         <div className="mb-3 flex  justify-between items-center h-[55px]">
           <TextField
@@ -158,7 +180,14 @@ export default function TransactionsTable({ date }) {
             Sort By {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
           </div>
         </div>
-        <EditCreateTransactionsSheet symbol={symbol} />
+
+        <EditCreateTransactionsSheet
+          editTransactionFields={editTransactionFields}
+          type={type}
+          setIsSheetOpen={setIsSheetOpen}
+          isSheetOpen={isSheetOpen}
+          symbol={symbol}
+        />
         <div
           className={
             !isSortPanelOpen
@@ -309,14 +338,23 @@ export default function TransactionsTable({ date }) {
               />
             ) : (
               <TransactionDetailsCard
+                getTransactions={getTransactions}
+                datePickerDate={date}
+                isSheetOpen={isSheetOpen}
+                setIsSheetOpen={setIsSheetOpen}
+                setType={setType}
                 key={t._id}
+                id={t._id}
                 setExpandedTransaction={setExpandedTransaction}
                 type={t.type}
                 name={t.name}
-                amount={`${symbol} ${t.amount}`}
+                symbol={symbol}
+                amount={t.amount}
                 category={t.category}
+                dateAndTime={t.dateAndTime}
                 date={format(t.dateAndTime, "dd/MM/yy")}
                 time={format(t.dateAndTime, "hh:mm aaa")}
+                setEditTransactionFields={setEditTransactionFields}
               />
             )
           })}

@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet"
 import {
   FormControl,
+  FormHelperText,
   InputAdornment,
   InputLabel,
   OutlinedInput,
@@ -16,29 +17,161 @@ import {
 import CategorySelect from "./creatable-category-select"
 import { DatePicker } from "./date-picker"
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3"
-import { TimeClock } from "@mui/x-date-pickers/TimeClock"
-import { Clock } from "lucide-react"
+import { CircleMinus, CirclePlus, Clock, X } from "lucide-react"
 import { format } from "date-fns"
-format
 
-export default function EditCreateTransactionsSheet({ type, symbol }) {
-  const [transactionType, setTransactionType] = useState(null)
+import SetTimeDialog from "./alert-dialog"
+import axios from "axios"
+import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
+
+export default function EditCreateTransactionsSheet({
+  type,
+  symbol,
+  isSheetOpen,
+  setIsSheetOpen,
+  editTransactionFields,
+}) {
+  const initialErrorState = {
+    name: false,
+    amount: false,
+    category: false,
+  }
+
+  const initialErrorStateHelperText = {
+    name: "",
+    amount: "",
+    category: "",
+  }
+
+  const initialEditInputsState = {
+    name: editTransactionFields.name,
+    amount: editTransactionFields.amount,
+    type: editTransactionFields.type,
+    category: editTransactionFields.category,
+    dateAndTime: editTransactionFields.dateAndTime,
+  }
+
+  const initialCreateInputsStatate = {
+    name: "",
+    amount: "",
+    type: "income",
+    category: "",
+    dateAndTime: new Date(),
+  }
+
+  const [isExpense, setIsExpense] = useState(false)
+  const [timeDialogOpen, setTimeDialogOpen] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
+
+  const [inputs, setInputs] = useState(initialCreateInputsStatate)
+  const [isCreatingTransaction, setIsCreatingTransaction] = useState(false)
+  const [errorState, setErrorState] = useState(initialErrorState)
+  const [errorStateHelperText, setErrorStateHelperText] = useState(
+    initialErrorStateHelperText
+  )
+
+  const handleChange = (evt) => {
+    setErrorState(initialErrorState)
+    setErrorStateHelperText(initialErrorStateHelperText)
+    setInputs((prevValues) => {
+      return {
+        ...prevValues,
+        [evt.target.name]: evt.target.value,
+      }
+    })
+  }
+
+  const handelCreateNewTransaction = async () => {
+    try {
+      setIsCreatingTransaction(true)
+      const res = await axios.post("/api/user/transactions", inputs)
+      showSuccessToast(res.data.message)
+      setInputs(initialCreateInputsStatate)
+      setIsSheetOpen(false)
+    } catch (error) {
+      console.log(error)
+      if (error.response.data.joiError) {
+        setErrorState((prevErrorStates) => {
+          return {
+            ...prevErrorStates,
+            [error.response.data.joiRes.error.details[0].context.key]: true,
+          }
+        })
+        setErrorStateHelperText((prevText) => {
+          return {
+            ...prevText,
+            [error.response.data.joiRes.error.details[0].context.key]:
+              error.response.data.joiRes.error.details[0].message,
+          }
+        })
+        return
+      }
+      showErrorToast(error.response.data.error)
+    } finally {
+      setIsCreatingTransaction(false)
+    }
+  }
+
+  const handelEditTransaction = async () => {}
+
+  useEffect(() => {
+    if (
+      inputs.name.length > 0 &&
+      inputs.amount.toString().length > 0 &&
+      inputs.category.length > 0
+    ) {
+      setButtonDisabled(false)
+    } else {
+      console.log("imposter")
+      setButtonDisabled(true)
+    }
+  }, [inputs])
+
+  useEffect(() => {
+    if (type == "edit") {
+      setInputs(initialEditInputsState)
+      setIsExpense(editTransactionFields.type == "expense" ? true : false)
+      setButtonDisabled(false)
+    }
+  }, [editTransactionFields])
+
+  let buttonText = ""
+  if (isCreatingTransaction) {
+    buttonText = "Saving..."
+  } else {
+    buttonText = "Save"
+  }
+
   return (
-    <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
+    <Sheet open={isSheetOpen}>
       <SheetContent
-        className="bg-themesurface text-themeonsurface w-full h-[80%]"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault()
+        }}
+        className="bg-themesurface text-themeonsurface w-full flex flex-col items-center justify-center"
         side="bottom"
       >
-        <SheetHeader>
-          <SheetTitle>
-            {type == "edit" ? "Edit Transaction" : "Create Transaction"}
-          </SheetTitle>
+        <SheetHeader className="w-[300px]">
+          <SheetDescription></SheetDescription>
+          <div className="flex justify-between w-full">
+            <SheetTitle>
+              {type == "edit" ? "Edit Transaction" : "Create Transaction"}
+            </SheetTitle>
+            <span
+              onClick={() => {
+                setInputs(initialCreateInputsStatate)
+                setIsExpense(false)
+                setIsSheetOpen(false)
+              }}
+              className="border border-white/20 p-1 rounded-md hover:cursor-pointer hover:border-white/80"
+            >
+              <X size={18} />
+            </span>
+          </div>
         </SheetHeader>
-        <div className="w-full h-[500px] flex flex-col gap-2 justify-center items-center">
+        <div className="w-[300px] flex flex-col gap-4 py-5 justify-center items-center">
           <TextField
+            autoFocus={false}
             fullWidth
             sx={{
               "& .MuiOutlinedInput-notchedOutline": {
@@ -55,56 +188,102 @@ export default function EditCreateTransactionsSheet({ type, symbol }) {
                 },
             }}
             name="name"
-            //   value={searchTerm}
-            //   onChange={handleSearchChange}
+            value={inputs.name}
+            onChange={handleChange}
             id="outlined-name"
             label="Name"
+            error={errorState.name ? true : false}
+            helperText={errorStateHelperText.name}
           />
-          <FormControl fullWidth sx={{ m: 1 }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <FormControl fullWidth>
+            <InputLabel
+              error={errorState.amount ? true : false}
+              htmlFor="outlined-adornment-amount"
+            >
+              Amount
+            </InputLabel>
             <OutlinedInput
+              name="amount"
+              value={inputs.amount}
+              onChange={handleChange}
               id="outlined-adornment-amount"
               startAdornment={
                 <InputAdornment position="start">{symbol}</InputAdornment>
               }
               label="Amount"
               type="number"
+              placeholder="00"
+              error={errorState.amount ? true : false}
             />
+            <FormHelperText error id="outlined-adornment-amount-helper-text">
+              {errorStateHelperText.amount}
+            </FormHelperText>
           </FormControl>
-          <div className="w-full flex justify-between">
+
+          <div className="flex w-full justify-between gap-3 items-center">
             <div
-              onClick={() => setTransactionType("income")}
+              onClick={() => {
+                setIsExpense(!isExpense)
+                const type = !isExpense ? "expense" : "income"
+                setInputs((prev) => {
+                  return {
+                    ...prev,
+                    type: type,
+                  }
+                })
+              }}
               className={
-                (transactionType == "income"
-                  ? "bg-green-400"
-                  : "bg-green-100 hover:bg-green-300") +
-                " w-[40%] hover:cursor-pointer  h-[50px] rounded-md flex justify-center items-center text-themesurface font-bold"
+                (isExpense ? "bg-red-300" : "bg-green-300") +
+                " transition-all duration-100 w-[50px] hover:cursor-pointer box-border border border-white/20 h-[50px] rounded-md flex justify-center items-center text-themesurface font-bold"
               }
             >
-              Income
+              {isExpense ? <CircleMinus /> : <CirclePlus />}
             </div>
-            <div
-              onClick={() => setTransactionType("expense")}
-              className={
-                (transactionType == "expense"
-                  ? "bg-red-400"
-                  : "bg-red-100 hover:bg-red-300") +
-                " w-[40%] hover:cursor-pointer transition-all duration-100 h-[50px] rounded-md flex justify-center items-center text-themesurface font-bold"
-              }
-            >
-              Expense
-            </div>
+            <CategorySelect
+              error={errorState.amount}
+              helperText={errorStateHelperText.amount}
+              inputs={inputs}
+              isExpense={isExpense}
+              setInputs={setInputs}
+            />
           </div>
-          <CategorySelect disabled={!transactionType ? true : false} />
           <div className="w-full flex justify-between">
-            <DatePicker />
-            <div className="w-[45%] flex gap-2 justify-start px-3 hover:cursor-pointer items-center border border-white/5 rounded-md hover:bg-themenavbar transition-all duration-100 bg-themesurfacedim h-full">
+            <DatePicker inputs={inputs} setInputs={setInputs} />
+            <div
+              onClick={() => {
+                setTimeDialogOpen(true)
+              }}
+              className="w-[45%] flex gap-2 justify-start px-3 hover:cursor-pointer items-center border border-white/5 rounded-md hover:bg-themenavbar transition-all duration-100 bg-themesurfacedim h-[40px] font-medium"
+            >
               <Clock size={18} />
-              {format(Date.now(), "hh:mm aaa")}
+              {format(inputs.dateAndTime, "hh:mm aaa")}
             </div>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              {/* <TimeClock /> */}
-            </LocalizationProvider>
+
+            <SetTimeDialog
+              inputs={inputs}
+              setInputs={setInputs}
+              timeDialogOpen={timeDialogOpen}
+              setTimeDialogOpen={setTimeDialogOpen}
+            />
+          </div>
+
+          <div
+            onClick={() => {
+              if (!isCreatingTransaction) {
+                type == "edit"
+                  ? handelEditTransaction()
+                  : handelCreateNewTransaction()
+                setIsCreatingTransaction(true)
+              }
+            }}
+            className={
+              (isCreatingTransaction || buttonDisabled
+                ? "bg-themeonsurfacevar/50"
+                : "hover:cursor-pointer hover:bg-themeonsurfacevar") +
+              " transition-all duration-100 w-[100%] h-[40px] rounded-md flex justify-center text-themesurface items-center  bg-themeonsurface"
+            }
+          >
+            {buttonText}
           </div>
         </div>
       </SheetContent>
