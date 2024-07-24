@@ -4,7 +4,7 @@ import { UserDetailsContext } from "@/context/userDetails"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import getTransactionsFromDate from "@/helpers/getTransactionsFromDate"
 import { format } from "date-fns"
-import { Fab, TextField } from "@mui/material"
+import { CircularProgress, Fab, TextField } from "@mui/material"
 import {
   ArrowDownAZ,
   ArrowDownNarrowWide,
@@ -16,6 +16,9 @@ import {
 } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
 import EditCreateTransactionsSheet from "./edit-create-transactions"
+import DeleteConfirmationDialog from "./delete-confirmation-dialog"
+import axios from "axios"
+import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 
 export default function TransactionsTable({ date }) {
   const { currency } = useContext(UserDetailsContext)
@@ -26,7 +29,7 @@ export default function TransactionsTable({ date }) {
     })
     symbol = symbolArray[0].icon
   }
-
+  const [isLoading, setIsLoading] = useState(true)
   const [transactions, setTransactions] = useState([])
   const [displayTransactions, setDisplayTransactions] = useState([])
   const [sortBy, setSortBy] = useState({
@@ -39,6 +42,8 @@ export default function TransactionsTable({ date }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [type, setType] = useState("create")
   const [editTransactionFields, setEditTransactionFields] = useState({})
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [deleteID, setDeleteID] = useState("")
 
   const sortTransactions = (transactions, property, type) => {
     if (type == "descending") {
@@ -82,6 +87,7 @@ export default function TransactionsTable({ date }) {
 
   const getTransactions = async (date) => {
     try {
+      setIsLoading(true)
       const { transactions } = await getTransactionsFromDate(date)
       setTransactions(transactions)
       const sortedTransactions = sortTransactions(
@@ -92,6 +98,8 @@ export default function TransactionsTable({ date }) {
       setDisplayTransactions(sortedTransactions)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -112,6 +120,20 @@ export default function TransactionsTable({ date }) {
       )
     )
   }
+
+  const handleDelete = async (deleteID) => {
+    try {
+      const res = await axios.delete(`/api/user/transactions?id=${deleteID}`)
+      showSuccessToast(res.data.message)
+      getTransactions(date)
+    } catch (error) {
+      console.log(error)
+      showErrorToast(error.response.data.error)
+    } finally {
+      setDeleteDialogOpen(false)
+    }
+  }
+
   useEffect(() => {
     getTransactions(date)
   }, [date, isSheetOpen])
@@ -130,7 +152,9 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
-      {isSheetOpen ? (
+      {isSheetOpen || deleteDialogOpen ? (
+        <></>
+      ) : isLoading ? (
         <></>
       ) : (
         <Fab
@@ -148,7 +172,7 @@ export default function TransactionsTable({ date }) {
         </Fab>
       )}
 
-      <div className="w-full">
+      <div className="w-full pb-24  h-full">
         <div className="mb-3 flex  justify-between items-center h-[55px]">
           <TextField
             sx={{
@@ -187,6 +211,12 @@ export default function TransactionsTable({ date }) {
           setIsSheetOpen={setIsSheetOpen}
           isSheetOpen={isSheetOpen}
           symbol={symbol}
+        />
+        <DeleteConfirmationDialog
+          setDeleteDialogOpen={setDeleteDialogOpen}
+          handleDelete={handleDelete}
+          deleteDialogOpen={deleteDialogOpen}
+          deleteID={deleteID}
         />
         <div
           className={
@@ -323,41 +353,47 @@ export default function TransactionsTable({ date }) {
         </div>
 
         <div className="h-full w-full flex flex-col gap-3">
-          {displayTransactions.map((t) => {
-            return t._id !== expandedTransactions ? (
-              <TransactionCard
-                key={t._id}
-                id={t._id}
-                setExpandedTransaction={setExpandedTransaction}
-                type={t.type}
-                name={t.name}
-                amount={`${symbol} ${t.amount}`}
-                category={t.category}
-                date={format(t.dateAndTime, "dd/MM/yy")}
-                time={format(t.dateAndTime, "hh:mm aaa")}
-              />
-            ) : (
-              <TransactionDetailsCard
-                getTransactions={getTransactions}
-                datePickerDate={date}
-                isSheetOpen={isSheetOpen}
-                setIsSheetOpen={setIsSheetOpen}
-                setType={setType}
-                key={t._id}
-                id={t._id}
-                setExpandedTransaction={setExpandedTransaction}
-                type={t.type}
-                name={t.name}
-                symbol={symbol}
-                amount={t.amount}
-                category={t.category}
-                dateAndTime={t.dateAndTime}
-                date={format(t.dateAndTime, "dd/MM/yy")}
-                time={format(t.dateAndTime, "hh:mm aaa")}
-                setEditTransactionFields={setEditTransactionFields}
-              />
-            )
-          })}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full w-full">
+              <CircularProgress />
+            </div>
+          ) : (
+            displayTransactions.map((t) => {
+              return t._id !== expandedTransactions ? (
+                <TransactionCard
+                  key={t._id}
+                  id={t._id}
+                  setExpandedTransaction={setExpandedTransaction}
+                  type={t.type}
+                  name={t.name}
+                  amount={`${symbol} ${t.amount}`}
+                  category={t.category}
+                  date={format(t.dateAndTime, "dd/MM/yy")}
+                  time={format(t.dateAndTime, "hh:mm aaa")}
+                />
+              ) : (
+                <TransactionDetailsCard
+                  setDeleteID={setDeleteID}
+                  isSheetOpen={isSheetOpen}
+                  setIsSheetOpen={setIsSheetOpen}
+                  setDeleteDialogOpen={setDeleteDialogOpen}
+                  setType={setType}
+                  key={t._id}
+                  id={t._id}
+                  setExpandedTransaction={setExpandedTransaction}
+                  type={t.type}
+                  name={t.name}
+                  symbol={symbol}
+                  amount={t.amount}
+                  category={t.category}
+                  dateAndTime={t.dateAndTime}
+                  date={format(t.dateAndTime, "dd/MM/yy")}
+                  time={format(t.dateAndTime, "hh:mm aaa")}
+                  setEditTransactionFields={setEditTransactionFields}
+                />
+              )
+            })
+          )}
         </div>
       </div>
     </>

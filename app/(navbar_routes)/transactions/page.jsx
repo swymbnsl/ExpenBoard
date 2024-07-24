@@ -57,16 +57,14 @@ export default function Transactions() {
             Transactions
           </span>{" "}
         </div>
-        <div className="p-3">
-          <DatePickerWithRange
-            handleOpen={handleOpen}
-            date={date}
-            isOpen={isOpen}
-            displayDate={displayDate}
-            setDisplayDate={setDisplayDate}
-          />
-        </div>
-        <div className="p-3 w-full justify-center items-center">
+        <DatePickerWithRange
+          handleOpen={handleOpen}
+          date={date}
+          isOpen={isOpen}
+          displayDate={displayDate}
+          setDisplayDate={setDisplayDate}
+        />
+        <div className="p-3 w-full h-full justify-center items-center">
           <TransactionsTable date={date} />
         </div>{" "}
       </div>

@@ -1,11 +1,9 @@
-import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
-import { Button } from "@mui/material"
-import axios from "axios"
-import { ChevronLeft, TrendingDown, TrendingUp } from "lucide-react"
+import { ChevronLeft } from "lucide-react"
 
 export default function TransactionCard({
-  getTransactions,
-  datePickerDate,
+  setDeleteID,
+  setDeleteDialogOpen,
+
   setEditTransactionFields,
   setType,
   setIsSheetOpen,
@@ -20,20 +18,9 @@ export default function TransactionCard({
   time,
   dateAndTime,
 }) {
-  const handleDelete = async () => {
-    try {
-      const res = await axios.delete(`/api/user/transactions?id=${id}`)
-      showSuccessToast(res.data.message)
-      getTransactions(datePickerDate)
-    } catch (error) {
-      console.log(error)
-      showErrorToast(error.response.data.error)
-    }
-  }
-
   return (
     <>
-      <div className="bg-themesurfacedim w-full rounded-2xl flex flex-col gap-5 justify-between min-h-[130px] p-3 mb-3">
+      <div className="bg-themesurfacedim w-full rounded-2xl flex flex-col justify-between min-h-[180px] p-3 py-4 mb-3">
         <span
           onClick={() => setExpandedTransaction("")}
           className="bg-transparent hover:cursor-pointer hover:border-white border border-white/20 rounded-lg p-1 w-[33px] flex justify-center items-center"
@@ -72,15 +59,17 @@ export default function TransactionCard({
           </div>
         </div>
         <div className="flex justify-between">
-          <Button
-            onClick={handleDelete}
-            variant="contained"
-            color="error"
-            sx={{ width: "45%" }}
+          <div
+            onClick={() => {
+              setDeleteDialogOpen(true)
+              setDeleteID(id)
+            }}
+            className="hover:cursor-pointer hover:bg-red-400 transition-all duration-100 w-[45%] h-[40px] rounded-md flex justify-center font-medium text-themesurface items-center  bg-red-300"
           >
             Delete
-          </Button>
-          <Button
+          </div>
+
+          <div
             onClick={() => {
               setType("edit")
               setEditTransactionFields({
@@ -93,11 +82,10 @@ export default function TransactionCard({
               })
               setIsSheetOpen(true)
             }}
-            variant="contained"
-            sx={{ width: "45%" }}
+            className="hover:cursor-pointer hover:bg-themeonsurfacevar transition-all duration-100 w-[45%] h-[40px] rounded-md flex justify-center text-themesurface items-center font-medium bg-themeonsurface"
           >
             Edit
-          </Button>
+          </div>
         </div>
       </div>
     </>

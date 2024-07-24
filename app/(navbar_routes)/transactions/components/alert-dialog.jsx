@@ -9,7 +9,7 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3"
 import { TimeClock } from "@mui/x-date-pickers/TimeClock"
-import { ChevronLeft, ChevronRight, Cross, X } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useState } from "react"
 import {
   getHours,

@@ -10,7 +10,6 @@ export default function CategorySelect({
   error,
   helperText,
 }) {
-  // console.log(inputs.category)
   const [value, setValue] = useState(inputs.category)
   const [isOpen, setIsOpen] = useState(false)
   const isFirstRender = useRef(0)

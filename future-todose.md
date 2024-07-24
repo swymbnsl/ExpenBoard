@@ -35,3 +35,4 @@
 33. Loading spinner in buttons
 34. Check FormControls across inputs
 35. Fix calended hover colours and create transaction page's calender's current day border-radius + colour
+36. Add cloud sync

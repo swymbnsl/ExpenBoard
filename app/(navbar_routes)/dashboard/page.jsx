@@ -91,15 +91,13 @@ export default function Dashboard() {
       <div className="w-full h-full justify-center items-center">
         <Header name={name} pfp={pfp} isLoading={isLoading} />
 
-        <div className="p-3">
-          <DatePickerWithRange
-            handleOpen={handleOpen}
-            date={date}
-            isOpen={isOpen}
-            displayDate={displayDate}
-            setDisplayDate={setDisplayDate}
-          />
-        </div>
+        <DatePickerWithRange
+          handleOpen={handleOpen}
+          date={date}
+          isOpen={isOpen}
+          displayDate={displayDate}
+          setDisplayDate={setDisplayDate}
+        />
         <div className="flex p-3 justify-between">
           <SummaryCard type="income" income={income} />
           <SummaryCard type="expense" expenses={expenses} />
