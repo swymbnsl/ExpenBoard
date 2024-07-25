@@ -3,7 +3,7 @@ import { Avatar, Skeleton } from "@mui/material"
 import { blue } from "@mui/material/colors"
 import { Share2 } from "lucide-react"
 
-export default function Header({ name, pfp, isLoading }) {
+export default function Header({ name, pfp }) {
   const hour = new Date().getHours()
   let greetings = ""
 

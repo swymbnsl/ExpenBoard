@@ -89,7 +89,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="w-full h-full justify-center items-center">
-        <Header name={name} pfp={pfp} isLoading={isLoading} />
+        <Header name={name} pfp={pfp} />
 
         <DatePickerWithRange
           handleOpen={handleOpen}
