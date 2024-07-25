@@ -14,7 +14,7 @@ export default function PrimaryButton({
         (disabled
           ? "bg-themeonsurfacevar/50 hover:cursor-default"
           : "hover:cursor-pointer hover:bg-themeonsurfacevar") +
-        ` transition-all duration-100 w-[${width}] h-[${height}] rounded-md flex justify-center text-themesurface transition-all duration-100 items-center font-medium bg-themeonsurface`
+        ` transition-all duration-100 w-${width} h-${height} rounded-md flex justify-center text-themesurface transition-all duration-100 items-center font-medium bg-themeonsurface`
       }
     >
       {buttonText}

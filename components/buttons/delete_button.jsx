@@ -14,7 +14,7 @@ export default function DeleteButton({
         (disabled
           ? "bg-red-400/50 hover:cursor-default"
           : "hover:cursor-pointer hover:bg-red-400") +
-        ` transition-all duration-100 w-[${width}] h-[${height}] rounded-md flex justify-center font-medium text-themesurface items-center bg-red-300`
+        ` transition-all duration-100 w-${width} h-${height} rounded-md flex justify-center font-medium text-themesurface items-center bg-red-300`
       }
     >
       {buttonText}

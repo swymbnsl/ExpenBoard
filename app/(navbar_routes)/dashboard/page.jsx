@@ -21,7 +21,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState({
     from: new Date(
-      new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+      new Date(new Date().setDate(new Date().getDate() - 6)).setHours(
         0,
         0,
         0,
@@ -32,7 +32,7 @@ export default function Dashboard() {
   })
   const [displayDate, setDisplayDate] = useState({
     from: new Date(
-      new Date(new Date().setDate(new Date().getDate() - 30)).setHours(
+      new Date(new Date().setDate(new Date().getDate() - 6)).setHours(
         0,
         0,
         0,

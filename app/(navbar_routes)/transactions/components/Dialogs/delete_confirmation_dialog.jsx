@@ -41,8 +41,8 @@ export default function DeleteConfirmationDialog({
               clickFunction={() => {
                 setDeleteDialogOpen(false)
               }}
-              width={"45%"}
-              height={"40px"}
+              width="[45%]"
+              height="[40px]"
               buttonText={"Cancel"}
             />
 
@@ -53,8 +53,8 @@ export default function DeleteConfirmationDialog({
                 setIsDeleteDisabled(false)
               }}
               disabled={isDeleteDisabled}
-              width={"45%"}
-              height={"40px"}
+              width="[45%]"
+              height="[40px]"
               buttonText={"Delete"}
             />
           </div>

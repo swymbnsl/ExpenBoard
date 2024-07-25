@@ -5,7 +5,7 @@ import {
 import connect from "../database/dbConnect.js"
 import Transaction from "../models/transactionsModel.js"
 import "dotenv/config"
-const types = ["income", "expense"]
+const types = ["income", "income", "expense"]
 
 const transactions = []
 const names = [
@@ -54,7 +54,7 @@ const seedDb = async () => {
           Math.floor(Math.random() * incomeCategoriesEnum.length)
         ]
     } else {
-      amount = Math.floor(Math.random() * 100) + 1000
+      amount = Math.floor(Math.random() * 10000) + 1000
       category =
         expensesCategoriesEnum[
           Math.floor(Math.random() * expensesCategoriesEnum.length)
@@ -69,7 +69,7 @@ const seedDb = async () => {
       type,
       dateAndTime: new Date(
         new Date().setDate(
-          new Date().getDate() - Math.floor(Math.random() * 50) + 1
+          new Date().getDate() - Math.floor(Math.random() * 30) + 1
         )
       ),
     })

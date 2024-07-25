@@ -82,7 +82,7 @@ export default function TransactionsTable({ date }) {
 
   const getTransactions = async (date) => {
     try {
-      setIsLoading(true)
+      setSearchTerm("")
       const { transactions } = await getTransactionsFromDate(date)
       setTransactions(transactions)
       const sortedTransactions = sortTransactions(
