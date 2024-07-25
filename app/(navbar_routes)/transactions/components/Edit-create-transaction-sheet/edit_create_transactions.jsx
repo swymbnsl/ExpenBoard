@@ -14,15 +14,17 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material"
-import CategorySelect from "./creatable-category-select"
-import { DatePicker } from "./date-picker"
+import CategorySelect from "./creatable_category_select"
+import { DatePicker } from "./date_picker"
 
 import { CircleMinus, CirclePlus, Clock, X } from "lucide-react"
 import { format } from "date-fns"
 
-import SetTimeDialog from "./alert-dialog"
+import SetTimeDialog from "../Dialogs/time-select-dialog/time_select_dialog"
 import axios from "axios"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
+import PrimaryButton from "@/components/buttons/primary_button"
+import { textFieldSx } from "@/components/styles-sx/textfield_sx"
 
 export default function EditCreateTransactionsSheet({
   type,
@@ -88,8 +90,8 @@ export default function EditCreateTransactionsSheet({
       setIsCreatingTransaction(true)
       const res = await axios.post("/api/user/transactions", inputs)
       showSuccessToast(res.data.message)
-      setInputs(initialCreateInputsStatate)
       setIsSheetOpen(false)
+      setInputs(initialCreateInputsStatate)
     } catch (error) {
       console.log(error)
       if (error.response.data.joiError) {
@@ -122,8 +124,8 @@ export default function EditCreateTransactionsSheet({
         ...inputs,
       })
       showSuccessToast(res.data.message)
-      setInputs(initialCreateInputsStatate)
       setIsSheetOpen(false)
+      setInputs(initialCreateInputsStatate)
     } catch (error) {
       console.log(error)
       if (error.response.data.joiError) {
@@ -207,20 +209,7 @@ export default function EditCreateTransactionsSheet({
           <TextField
             autoFocus={false}
             fullWidth
-            sx={{
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderRadius: 2,
-              },
-
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderRadius: 2,
-              },
-
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderRadius: 2,
-                },
-            }}
+            sx={textFieldSx}
             name="name"
             value={inputs.name}
             onChange={handleChange}
@@ -245,6 +234,7 @@ export default function EditCreateTransactionsSheet({
                 <InputAdornment position="start">{symbol}</InputAdornment>
               }
               label="Amount"
+              sx={textFieldSx}
               type="number"
               placeholder="00"
               error={errorState.amount ? true : false}
@@ -255,6 +245,8 @@ export default function EditCreateTransactionsSheet({
           </FormControl>
 
           <div className="flex w-full justify-between gap-3 items-center">
+            {/* category selector starts*/}
+
             <div
               onClick={() => {
                 setIsExpense(!isExpense)
@@ -273,6 +265,9 @@ export default function EditCreateTransactionsSheet({
             >
               {isExpense ? <CircleMinus /> : <CirclePlus />}
             </div>
+
+            {/* category selector ends*/}
+
             <CategorySelect
               error={errorState.amount}
               helperText={errorStateHelperText.amount}
@@ -301,24 +296,18 @@ export default function EditCreateTransactionsSheet({
             />
           </div>
 
-          <div
-            onClick={() => {
-              if (!isCreatingTransaction) {
-                type == "edit"
-                  ? handelEditTransaction(editingTransactionId)
-                  : handelCreateNewTransaction()
-                setIsCreatingTransaction(true)
-              }
+          <PrimaryButton
+            clickFunction={() => {
+              type == "edit"
+                ? handelEditTransaction(editingTransactionId)
+                : handelCreateNewTransaction()
+              setIsCreatingTransaction(true)
             }}
-            className={
-              (isCreatingTransaction || buttonDisabled
-                ? "bg-themeonsurfacevar/50"
-                : "hover:cursor-pointer hover:bg-themeonsurfacevar") +
-              " transition-all duration-100 w-[100%] h-[40px] rounded-md flex justify-center text-themesurface items-center  bg-themeonsurface"
-            }
-          >
-            {buttonText}
-          </div>
+            disabled={isCreatingTransaction || buttonDisabled ? true : false}
+            width={"100%"}
+            height={"40px"}
+            buttonText={buttonText}
+          />
         </div>
       </SheetContent>
     </Sheet>

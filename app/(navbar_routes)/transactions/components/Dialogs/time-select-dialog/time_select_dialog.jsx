@@ -2,6 +2,7 @@
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
@@ -19,6 +20,10 @@ import {
   set,
   setHours,
 } from "date-fns"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import PrimaryButton from "@/components/buttons/primary_button"
+import SecondaryButton from "@/components/buttons/secondary_button"
+import AmPmToggle from "./ampm_toggle"
 
 export default function SetTimeDialog({
   timeDialogOpen,
@@ -48,13 +53,15 @@ export default function SetTimeDialog({
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <AlertDialog open={timeDialogOpen}>
-        <AlertDialogContent
-          aria-describedby="dialog-content"
-          className=" bg-themesurface w-[95%]"
-        >
+        <AlertDialogContent className="bg-themesurface w-[95%]">
           <div className="w-full h-full flex flex-col items-center justify-center">
             <AlertDialogHeader>
               <AlertDialogTitle>Choose Time</AlertDialogTitle>
+              <VisuallyHidden.Root>
+                <AlertDialogDescription>
+                  Dialog for Time selection
+                </AlertDialogDescription>
+              </VisuallyHidden.Root>
             </AlertDialogHeader>
 
             <TimeClock
@@ -82,65 +89,33 @@ export default function SetTimeDialog({
                   <ChevronLeft size={20} />
                 )}
               </span>
-              <div className="flex">
-                <span
-                  onClick={() => {
-                    let hrs = ""
-                    hrs =
-                      getHours(value) > 12
-                        ? getHours(value) - 12
-                        : getHours(value)
-                    setValue(setHours(value, hrs))
-                    setAmpm("am")
-                  }}
-                  className={
-                    (ampm == "am"
-                      ? "bg-themeonsurface text-themesurface"
-                      : "bg-transparent text-themeonsurface") +
-                    " hover:cursor-pointer w-[55px] h-[40px] border flex justify-center items-center rounded-s-lg border-white/20 text-sm font-medium transition-all duration-200"
-                  }
-                >
-                  AM
-                </span>
-                <span
-                  onClick={() => {
-                    let hrs = ""
-                    hrs =
-                      getHours(value) < 12
-                        ? getHours(value) + 12
-                        : getHours(value)
-                    setValue(setHours(value, hrs))
-                    setAmpm("pm")
-                  }}
-                  className={
-                    (ampm == "pm"
-                      ? "bg-themeonsurface text-themesurface"
-                      : "bg-transparent text-themeonsurface") +
-                    " hover:cursor-pointer w-[55px] h-[40px] border flex justify-center items-center rounded-e-lg border-white/20 text-sm font-medium transition-all duration-200"
-                  }
-                >
-                  PM
-                </span>
-              </div>
+              <AmPmToggle
+                value={value}
+                setValue={setValue}
+                ampm={ampm}
+                setAmpm={setAmpm}
+              />
             </div>
             <div className="flex justify-evenly w-full">
-              <div
-                onClick={() => {
+              <SecondaryButton
+                clickFunction={() => {
                   setTimeDialogOpen(false)
                 }}
-                className="hover:cursor-pointer hover:bg-themesurfacedim transition-all duration-100 w-[45%] h-[40px] rounded-md flex justify-center items-center  bg-transparent border border-white/20"
-              >
-                Cancel
-              </div>
-              <div
-                onClick={() => {
+                width={"45%"}
+                height={"40px"}
+                buttonText={"Cancel"}
+              />
+
+              <PrimaryButton
+                clickFunction={() => {
                   setTime(value)
                   setTimeDialogOpen(false)
                 }}
-                className="hover:cursor-pointer hover:bg-themeonsurfacevar transition-all duration-100 w-[45%] h-[40px] rounded-md flex justify-center text-themesurface items-center  bg-themeonsurface"
-              >
-                Save
-              </div>
+                disabled={false}
+                width={"45%"}
+                height={"40px"}
+                buttonText={"Save"}
+              />
             </div>
           </div>
         </AlertDialogContent>

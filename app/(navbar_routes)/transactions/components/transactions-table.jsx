@@ -15,10 +15,11 @@ import {
   Plus,
 } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
-import EditCreateTransactionsSheet from "./edit-create-transactions"
-import DeleteConfirmationDialog from "./delete-confirmation-dialog"
+import EditCreateTransactionsSheet from "./Edit-create-transaction-sheet/edit_create_transactions"
+import DeleteConfirmationDialog from "./Dialogs/delete_confirmation_dialog"
 import axios from "axios"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
+import { textFieldSx } from "@/components/styles-sx/textfield_sx"
 
 export default function TransactionsTable({ date }) {
   const { currency } = useContext(UserDetailsContext)
@@ -44,6 +45,7 @@ export default function TransactionsTable({ date }) {
   const [editTransactionFields, setEditTransactionFields] = useState({})
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [deleteID, setDeleteID] = useState("")
+  const [isDeleteDisabled, setIsDeleteDisabled] = useState(false)
 
   const sortTransactions = (transactions, property, type) => {
     if (type == "descending") {
@@ -177,19 +179,7 @@ export default function TransactionsTable({ date }) {
           <TextField
             sx={{
               width: "60%",
-
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderRadius: 2,
-              },
-
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderRadius: 2,
-              },
-
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderRadius: 2,
-                },
+              ...textFieldSx,
             }}
             name="search"
             value={searchTerm}
@@ -213,6 +203,8 @@ export default function TransactionsTable({ date }) {
           symbol={symbol}
         />
         <DeleteConfirmationDialog
+          setIsDeleteDisabled={setIsDeleteDisabled}
+          isDeleteDisabled={isDeleteDisabled}
           setDeleteDialogOpen={setDeleteDialogOpen}
           handleDelete={handleDelete}
           deleteDialogOpen={deleteDialogOpen}
