@@ -87,8 +87,8 @@ export default function TransactionsTable({ date }) {
       setTransactions(transactions)
       const sortedTransactions = sortTransactions(
         transactions,
-        "dateAndTime",
-        "descending"
+        sortBy.property,
+        sortBy.descending
       )
       setDisplayTransactions(sortedTransactions)
     } catch (error) {
@@ -164,7 +164,7 @@ export default function TransactionsTable({ date }) {
         </Fab>
       )}
 
-      <div className="w-full pb-24  h-full">
+      <div className="w-full pb-24">
         <div className="mb-3 flex  justify-between items-center h-[55px]">
           <TextField
             sx={{
@@ -181,7 +181,7 @@ export default function TransactionsTable({ date }) {
             className=" w-[37%] h-full bg-themesurfacedim hover:bg-themenavbar hover:cursor-pointer rounded-lg flex justify-between items-center font-semibold p-3"
             onClick={handleClick}
           >
-            Sort By {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
+            Sort by {isSortPanelOpen ? <ChevronUp /> : <ChevronDown />}
           </div>
         </div>
 

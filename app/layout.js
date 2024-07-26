@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme_providers/shadcn-theme-provide
 
 import { CssBaseline } from "@mui/material"
 import { MuiThemeProvider } from "@/components/theme_providers/material-ui-theme-provider"
-import { UserDetailsProvider } from "@/context/userDetails"
+
 import { Toaster } from "react-hot-toast"
 
 const roboto = Roboto({
@@ -23,12 +23,10 @@ export default function RootLayout({ children }) {
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="dark">
           <MuiThemeProvider>
-            <UserDetailsProvider>
-              <CssBaseline />
-              <Toaster />
-              {children}
-              <Toaster richColors />
-            </UserDetailsProvider>
+            <CssBaseline />
+            <Toaster />
+            {children}
+            <Toaster richColors />
           </MuiThemeProvider>
         </ThemeProvider>
       </body>

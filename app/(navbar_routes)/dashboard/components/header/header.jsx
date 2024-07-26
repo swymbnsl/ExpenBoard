@@ -14,7 +14,6 @@ export default function Header({ name, pfp }) {
   } else {
     greetings = "Good Evening"
   }
-
   return (
     <>
       <div className="w-full flex p-3 justify-between items-center">
