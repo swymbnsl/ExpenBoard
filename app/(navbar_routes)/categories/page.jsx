@@ -3,8 +3,9 @@ import DeleteConfirmationDialog from "@/components/shared/delete_confirmation_di
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { Fab } from "@mui/material"
 import axios from "axios"
-import { Plus, Trash } from "lucide-react"
+import { Pencil, Plus, Trash } from "lucide-react"
 import React, { useEffect, useState } from "react"
+import EditCategorySheet from "./edit_category_sheet"
 
 export default function Categories() {
   const [incomeCategories, setIncomeCategories] = useState([])
@@ -13,6 +14,12 @@ export default function Categories() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isDeleteDisabled, setIsDeleteDisabled] = useState(false)
   const [deleteCategory, setDeleteCategory] = useState("")
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [editCategoryName, setEditCategoryName] = useState("")
+  const [editCategoryOldName, setEditCategoryOldName] = useState("")
+  const [errorStateHelperText, setErrorStateHelperText] = useState("")
+  const [isEditingCategory, setIsEditingCategory] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const getCategories = async () => {
     const res = await axios.get("/api/user/categories")
@@ -35,6 +42,27 @@ export default function Categories() {
       showErrorToast(error.response.data.error)
     } finally {
       setDeleteDialogOpen(false)
+    }
+  }
+
+  const handleCategoryEdit = async () => {
+    try {
+      const res = await axios.patch("/api/user/categories", {
+        name: editCategoryOldName,
+        type: activeCategories,
+        newName: editCategoryName,
+      })
+      showSuccessToast(res.data.message)
+    } catch (error) {
+      console.log(error)
+      if (error.response.data.validationError) {
+        setErrorStateHelperText(error.response.data.errorHelperText)
+        return
+      }
+      showErrorToast(error.response.data.error)
+    } finally {
+      getCategories()
+      setIsSheetOpen(false)
     }
   }
 
@@ -66,6 +94,20 @@ export default function Categories() {
       </Fab>
       {/* )
       } */}
+
+      <EditCategorySheet
+        activeCategories={activeCategories}
+        handleCategoryEdit={handleCategoryEdit}
+        errorStateHelperText={errorStateHelperText}
+        buttonDisabled={buttonDisabled}
+        setButtonDisabled={setButtonDisabled}
+        isEditingCategory={isEditingCategory}
+        setIsEditingCategory={setIsEditingCategory}
+        setEditCategoryName={setEditCategoryName}
+        editCategoryName={editCategoryName}
+        isSheetOpen={isSheetOpen}
+        setIsSheetOpen={setIsSheetOpen}
+      />
 
       <div className="p-3">
         <span className="text-themeonsurface font-bold text-2xl">
@@ -124,16 +166,28 @@ export default function Categories() {
                       <span className="font-semibold">{i + 1}: </span>
                       <span>{c}</span>
                     </div>
+                    <div className="flex gap-2">
+                      <Pencil
+                        onClick={() => {
+                          setEditCategoryName(c)
+                          setEditCategoryOldName(c)
 
-                    <Trash
-                      onClick={() => {
-                        setDeleteCategory(c)
-                        setDeleteDialogOpen(true)
-                      }}
-                      strokeWidth={2.5}
-                      size={20}
-                      className="hover:cursor-pointer hover:text-red-400 text-red-300"
-                    />
+                          setIsSheetOpen(true)
+                        }}
+                        strokeWidth={2.5}
+                        size={20}
+                        className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface"
+                      />
+                      <Trash
+                        onClick={() => {
+                          setDeleteCategory(c)
+                          setDeleteDialogOpen(true)
+                        }}
+                        strokeWidth={2.5}
+                        size={20}
+                        className="hover:cursor-pointer hover:text-red-400 text-red-300"
+                      />
+                    </div>
                   </div>
                 )
               })
@@ -152,15 +206,28 @@ export default function Categories() {
                       <span className="font-semibold">{i + 1}: </span>
                       <span>{c}</span>
                     </div>
-                    <Trash
-                      onClick={() => {
-                        setDeleteCategory(c)
-                        setDeleteDialogOpen(true)
-                      }}
-                      strokeWidth={2.5}
-                      size={20}
-                      className="hover:cursor-pointer hover:text-red-400 text-red-300"
-                    />
+                    <div className="flex gap-2">
+                      <Pencil
+                        onClick={() => {
+                          setEditCategoryName(c)
+                          setEditCategoryOldName(c)
+
+                          setIsSheetOpen(true)
+                        }}
+                        strokeWidth={2.5}
+                        size={20}
+                        className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface "
+                      />
+                      <Trash
+                        onClick={() => {
+                          setDeleteCategory(c)
+                          setDeleteDialogOpen(true)
+                        }}
+                        strokeWidth={2.5}
+                        size={20}
+                        className="hover:cursor-pointer hover:text-red-400 text-red-300"
+                      />
+                    </div>
                   </div>
                 )
               })

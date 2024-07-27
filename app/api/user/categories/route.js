@@ -47,14 +47,14 @@ export async function DELETE(request) {
     )
 
     const oldCategories =
-      categoryType === "income"
+      categoryType == "income"
         ? [...foundUser.incomeCategories]
         : [...foundUser.expensesCategories]
 
     const newCategories = oldCategories.filter((c) => c !== deleteCategory)
 
     const updateData =
-      categoryType === "income"
+      categoryType == "income"
         ? { incomeCategories: newCategories }
         : { expensesCategories: newCategories }
 
@@ -71,7 +71,7 @@ export async function DELETE(request) {
         message: `${
           categoryType[0].toUpperCase() +
           categoryType.slice(1, categoryType.length)
-        } categories updated successfully`,
+        } categories deleted successfully`,
         success: true,
       },
       { status: 200 }
@@ -80,7 +80,99 @@ export async function DELETE(request) {
     console.log(err)
     return NextResponse.json(
       {
-        message: `Error updateing ${categoryType} categories`,
+        message: `Error deleting ${categoryType} categories`,
+        error: err.message,
+        success: false,
+      },
+      { status: 400 }
+    )
+  }
+}
+
+export async function PATCH(request) {
+  try {
+    const reqBody = await request.json()
+    console.log(reqBody)
+    const { name, type, newName } = reqBody
+
+    const tokenData = getDataFromToken(request)
+    if (tokenData.error) {
+      throw new Error(tokenData.error)
+    }
+
+    if (name.length == 0)
+      return NextResponse.json(
+        {
+          validationError: "Validation Failed",
+          errorHelperText: "Category name can't be empty",
+        },
+        { status: 400 }
+      )
+
+    const foundUser = await User.findById(tokenData.id)
+
+    const categories =
+      type == "income"
+        ? [...foundUser.incomeCategories]
+        : [...foundUser.expensesCategories]
+
+    if (categories.indexOf(name) == -1) {
+      return NextResponse.json(
+        {
+          error: "Category does'nt exist, hence can't be updated",
+          success: false,
+        },
+        { status: 400 }
+      )
+    }
+    await Transaction.updateMany(
+      {
+        user_id: tokenData.id,
+        type: type,
+        category: name,
+      },
+      {
+        category: newName,
+      }
+    )
+
+    const oldCategories =
+      type == "income"
+        ? [...foundUser.incomeCategories]
+        : [...foundUser.expensesCategories]
+
+    const newCategories = oldCategories.map((c) => {
+      if (c === name) return newName
+      return c
+    })
+
+    const updateData =
+      type == "income"
+        ? { incomeCategories: newCategories }
+        : { expensesCategories: newCategories }
+
+    console.log("Update data: ", updateData)
+
+    const res = await User.findByIdAndUpdate(tokenData.id, updateData, {
+      new: true,
+    })
+
+    console.log(res)
+
+    return NextResponse.json(
+      {
+        message: `${
+          type[0].toUpperCase() + type.slice(1, type.length)
+        } category updated successfully`,
+        success: true,
+      },
+      { status: 200 }
+    )
+  } catch (err) {
+    console.log(err)
+    return NextResponse.json(
+      {
+        message: "Error Updating Category",
         error: err.message,
         success: false,
       },

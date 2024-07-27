@@ -53,7 +53,7 @@ export default function EditCreateTransactionsSheet({
     dateAndTime: editTransactionFields.dateAndTime,
   }
 
-  const initialCreateInputsStatate = {
+  const initialCreateInputsState = {
     name: "",
     amount: "",
     type: "income",
@@ -65,7 +65,7 @@ export default function EditCreateTransactionsSheet({
   const [timeDialogOpen, setTimeDialogOpen] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
 
-  const [inputs, setInputs] = useState(initialCreateInputsStatate)
+  const [inputs, setInputs] = useState(initialCreateInputsState)
   const [isCreatingTransaction, setIsCreatingTransaction] = useState(false)
   const [errorState, setErrorState] = useState(initialErrorState)
   const [errorStateHelperText, setErrorStateHelperText] = useState(
@@ -91,7 +91,7 @@ export default function EditCreateTransactionsSheet({
       const res = await axios.post("/api/user/transactions", inputs)
       showSuccessToast(res.data.message)
       setIsSheetOpen(false)
-      setInputs(initialCreateInputsStatate)
+      setInputs(initialCreateInputsState)
     } catch (error) {
       console.log(error)
       if (error.response.data.joiError) {
@@ -125,7 +125,7 @@ export default function EditCreateTransactionsSheet({
       })
       showSuccessToast(res.data.message)
       setIsSheetOpen(false)
-      setInputs(initialCreateInputsStatate)
+      setInputs(initialCreateInputsState)
     } catch (error) {
       console.log(error)
       if (error.response.data.joiError) {
@@ -195,7 +195,7 @@ export default function EditCreateTransactionsSheet({
             </SheetTitle>
             <span
               onClick={() => {
-                setInputs(initialCreateInputsStatate)
+                setInputs(initialCreateInputsState)
                 setIsExpense(false)
                 setIsSheetOpen(false)
               }}
