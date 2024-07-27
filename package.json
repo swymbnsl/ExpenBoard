@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "seed": "node ./seed_data/index.js",
+    "seed": "node ./seed_database/index.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -11,30 +11,26 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export default function DeleteConfirmationDialog({
+  title,
+  description,
+  deleteClickFunction,
   isDeleteDisabled,
-  setIsDeleteDisabled,
   setDeleteDialogOpen,
   deleteDialogOpen,
-  handleDelete,
-  deleteID,
 }) {
   return (
     <AlertDialog open={deleteDialogOpen}>
       <AlertDialogContent className=" bg-themesurface w-[90%]">
         <div className="w-full h-full flex gap-3 text-center flex-col items-center justify-between">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-xl">
-              Delete this transaction?
-            </AlertDialogTitle>
+            <AlertDialogTitle className="text-xl">{title}</AlertDialogTitle>
             <VisuallyHidden.Root>
               <AlertDialogDescription>
                 Dialog for delete confirmation
               </AlertDialogDescription>
             </VisuallyHidden.Root>
           </AlertDialogHeader>
-          <span id="delete-confirmation-dialog">
-            Once deleted, you won't be able to recover it..!
-          </span>
+          <span id="delete-confirmation-dialog">{description}</span>
 
           <div className="flex justify-evenly w-full">
             <SecondaryButton
@@ -47,11 +43,7 @@ export default function DeleteConfirmationDialog({
             />
 
             <DeleteButton
-              clickFunction={async () => {
-                setIsDeleteDisabled(true)
-                await handleDelete(deleteID)
-                setIsDeleteDisabled(false)
-              }}
+              clickFunction={deleteClickFunction}
               disabled={isDeleteDisabled}
               width="[45%]"
               height="[40px]"

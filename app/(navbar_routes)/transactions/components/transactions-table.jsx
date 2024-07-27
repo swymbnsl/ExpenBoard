@@ -8,7 +8,7 @@ import { CircularProgress, Fab, TextField } from "@mui/material"
 import { ChevronDown, ChevronUp, Plus } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
 import EditCreateTransactionsSheet from "./Edit-create-transaction-sheet/edit_create_transactions"
-import DeleteConfirmationDialog from "./Dialogs/delete_confirmation_dialog"
+import DeleteConfirmationDialog from "../../../../components/shared/delete_confirmation_dialog"
 import axios from "axios"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
@@ -37,8 +37,8 @@ export default function TransactionsTable({ date }) {
   const [type, setType] = useState("create")
   const [editTransactionFields, setEditTransactionFields] = useState({})
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [deleteID, setDeleteID] = useState("")
   const [isDeleteDisabled, setIsDeleteDisabled] = useState(false)
+  const [deleteID, setDeleteID] = useState("")
 
   const sortTransactions = (transactions, property, descending) => {
     if (descending) {
@@ -98,6 +98,12 @@ export default function TransactionsTable({ date }) {
     }
   }
 
+  const deleteClickFunction = async () => {
+    setIsDeleteDisabled(true)
+    await handleDelete(deleteID)
+    setIsDeleteDisabled(false)
+  }
+
   const handleClick = () => {
     setIsSortPanelOpen(!isSortPanelOpen)
   }
@@ -144,9 +150,7 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
-      {isSheetOpen || deleteDialogOpen ? (
-        <></>
-      ) : isLoading ? (
+      {isSheetOpen || deleteDialogOpen || isLoading ? (
         <></>
       ) : (
         <Fab
@@ -193,12 +197,12 @@ export default function TransactionsTable({ date }) {
           symbol={symbol}
         />
         <DeleteConfirmationDialog
-          setIsDeleteDisabled={setIsDeleteDisabled}
+          title="Delete this transaction?"
+          description="Once deleted, you won't be able to recover it..!"
+          deleteClickFunction={deleteClickFunction}
           isDeleteDisabled={isDeleteDisabled}
           setDeleteDialogOpen={setDeleteDialogOpen}
-          handleDelete={handleDelete}
           deleteDialogOpen={deleteDialogOpen}
-          deleteID={deleteID}
         />
         <div
           className={
