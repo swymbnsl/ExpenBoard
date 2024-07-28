@@ -1,30 +1,38 @@
 "use client"
 import DeleteConfirmationDialog from "@/components/shared/delete_confirmation_dialog"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
-import { Fab } from "@mui/material"
+import { CircularProgress, Fab } from "@mui/material"
 import axios from "axios"
 import { Pencil, Plus, Trash } from "lucide-react"
 import React, { useEffect, useState } from "react"
-import EditCategorySheet from "./edit_category_sheet"
+import EditCreateCategorySheet from "./edit_create_category_sheet"
 
 export default function Categories() {
   const [incomeCategories, setIncomeCategories] = useState([])
   const [expensesCategories, setExpensesCategories] = useState([])
   const [activeCategories, setActiveCategories] = useState("income")
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isDeleteDisabled, setIsDeleteDisabled] = useState(false)
   const [deleteCategory, setDeleteCategory] = useState("")
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const [editCategoryName, setEditCategoryName] = useState("")
+  const [categoryInputName, setCategoryInputName] = useState("")
   const [editCategoryOldName, setEditCategoryOldName] = useState("")
   const [errorStateHelperText, setErrorStateHelperText] = useState("")
   const [isEditingCategory, setIsEditingCategory] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [type, setType] = useState("create")
 
   const getCategories = async () => {
-    const res = await axios.get("/api/user/categories")
-    setIncomeCategories(res.data.incomeCategories)
-    setExpensesCategories(res.data.expensesCategories)
+    try {
+      const res = await axios.get("/api/user/categories")
+      setIncomeCategories(res.data.incomeCategories)
+      setExpensesCategories(res.data.expensesCategories)
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      showErrorToast(error.response.data.error)
+    }
   }
 
   useEffect(() => {
@@ -45,12 +53,27 @@ export default function Categories() {
     }
   }
 
+  const handleCategoryCreate = async () => {
+    try {
+      const res = await axios.post("/api/user/categories", {
+        name: categoryInputName,
+        type: activeCategories,
+      })
+      showSuccessToast(res.data.message)
+    } catch (error) {
+      console.log(error)
+      showErrorToast(error.response.data.error)
+    } finally {
+      getCategories()
+      setIsSheetOpen(false)
+    }
+  }
   const handleCategoryEdit = async () => {
     try {
       const res = await axios.patch("/api/user/categories", {
         name: editCategoryOldName,
         type: activeCategories,
-        newName: editCategoryName,
+        newName: categoryInputName,
       })
       showSuccessToast(res.data.message)
     } catch (error) {
@@ -74,28 +97,36 @@ export default function Categories() {
     setIsDeleteDisabled(false)
   }
 
+  let categories =
+    activeCategories == "income"
+      ? [...incomeCategories]
+      : [...expensesCategories]
+
   return (
     <div className="w-full h-full">
-      {/* {isSheetOpen || deleteDialogOpen || isLoading ? (
-        <></>
-      ) : ( */}
-      <Fab
-        onClick={() => {
-          setType("create")
-          setIsSheetOpen(true)
-        }}
-        variant="extended"
-        color="white"
-        aria-label="add"
-        className="fixed bg-themeonsurface text-lg font-semibold text-themesurface bottom-[90px] right-3 shadow-black shadow-[0_0_30px_2px]"
-      >
-        <Plus style={{ marginRight: "10px" }} strokeWidth={3} size={20} />
-        Add
-      </Fab>
-      {/* )
-      } */}
-
-      <EditCategorySheet
+      <div className="fixed bottom-[90px] right-3">
+        {isSheetOpen || deleteDialogOpen || isLoading ? (
+          <></>
+        ) : (
+          <Fab
+            onClick={() => {
+              setType("create")
+              setIsSheetOpen(true)
+            }}
+            variant="extended"
+            color="white"
+            aria-label="add"
+            className="bg-themeonsurface text-lg font-semibold text-themesurface shadow-black shadow-[0_0_30px_2px]"
+          >
+            <Plus style={{ marginRight: "10px" }} strokeWidth={3} size={20} />
+            Add
+          </Fab>
+        )}
+      </div>
+      <EditCreateCategorySheet
+        handleCategoryCreate={handleCategoryCreate}
+        type={type}
+        setType={setType}
         activeCategories={activeCategories}
         handleCategoryEdit={handleCategoryEdit}
         errorStateHelperText={errorStateHelperText}
@@ -103,8 +134,8 @@ export default function Categories() {
         setButtonDisabled={setButtonDisabled}
         isEditingCategory={isEditingCategory}
         setIsEditingCategory={setIsEditingCategory}
-        setEditCategoryName={setEditCategoryName}
-        editCategoryName={editCategoryName}
+        setCategoryInputName={setCategoryInputName}
+        categoryInputName={categoryInputName}
         isSheetOpen={isSheetOpen}
         setIsSheetOpen={setIsSheetOpen}
       />
@@ -153,87 +184,50 @@ export default function Categories() {
         </div>
       </div>
 
-      {activeCategories == "income" ? (
-        <div className="p-3 pb-24">
-          {incomeCategories
-            ? incomeCategories.map((c, i) => {
-                return (
-                  <div
-                    className="text-white flex justify-between items-center bg-themesurfacedim m-2 p-3 rounded-e-xl "
-                    key={i}
-                  >
-                    <div className="flex gap-2">
-                      <span className="font-semibold">{i + 1}: </span>
-                      <span>{c}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <Pencil
-                        onClick={() => {
-                          setEditCategoryName(c)
-                          setEditCategoryOldName(c)
+      <div className="p-3 pb-24 w-full">
+        {!isLoading ? (
+          categories.map((c, i) => {
+            return (
+              <div
+                className="text-white flex justify-between items-center bg-themesurfacedim m-2 p-3 rounded-e-xl "
+                key={i}
+              >
+                <div className="flex gap-2">
+                  <span className="font-semibold">{i + 1}: </span>
+                  <span>{c}</span>
+                </div>
+                <div className="flex gap-2">
+                  <Pencil
+                    onClick={() => {
+                      setType("edit")
+                      setCategoryInputName(c)
+                      setEditCategoryOldName(c)
+                      setIsSheetOpen(true)
+                    }}
+                    strokeWidth={2.5}
+                    size={20}
+                    className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface"
+                  />
+                  <Trash
+                    onClick={() => {
+                      setDeleteCategory(c)
+                      setDeleteDialogOpen(true)
+                    }}
+                    strokeWidth={2.5}
+                    size={20}
+                    className="hover:cursor-pointer hover:text-red-400 text-red-300"
+                  />
+                </div>
+              </div>
+            )
+          })
+        ) : (
+          <div className="flex justify-center w-full items-center h-[70vh]">
+            <CircularProgress />
+          </div>
+        )}
+      </div>
 
-                          setIsSheetOpen(true)
-                        }}
-                        strokeWidth={2.5}
-                        size={20}
-                        className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface"
-                      />
-                      <Trash
-                        onClick={() => {
-                          setDeleteCategory(c)
-                          setDeleteDialogOpen(true)
-                        }}
-                        strokeWidth={2.5}
-                        size={20}
-                        className="hover:cursor-pointer hover:text-red-400 text-red-300"
-                      />
-                    </div>
-                  </div>
-                )
-              })
-            : ""}
-        </div>
-      ) : (
-        <div className="p-3 pb-24">
-          {expensesCategories
-            ? expensesCategories.map((c, i) => {
-                return (
-                  <div
-                    className="text-white flex justify-between items-center bg-themesurfacedim m-2 p-3 rounded-e-xl "
-                    key={i}
-                  >
-                    <div className="flex gap-2">
-                      <span className="font-semibold">{i + 1}: </span>
-                      <span>{c}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <Pencil
-                        onClick={() => {
-                          setEditCategoryName(c)
-                          setEditCategoryOldName(c)
-
-                          setIsSheetOpen(true)
-                        }}
-                        strokeWidth={2.5}
-                        size={20}
-                        className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface "
-                      />
-                      <Trash
-                        onClick={() => {
-                          setDeleteCategory(c)
-                          setDeleteDialogOpen(true)
-                        }}
-                        strokeWidth={2.5}
-                        size={20}
-                        className="hover:cursor-pointer hover:text-red-400 text-red-300"
-                      />
-                    </div>
-                  </div>
-                )
-              })
-            : ""}
-        </div>
-      )}
       <DeleteConfirmationDialog
         title="Delete this category?"
         description="All transactions falling under this category will be marked as uncategorized "

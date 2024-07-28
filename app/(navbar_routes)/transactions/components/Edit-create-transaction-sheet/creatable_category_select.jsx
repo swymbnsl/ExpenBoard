@@ -1,6 +1,7 @@
 import { UserDetailsContext } from "@/context/userDetails"
 import { showSuccessToast } from "@/utils/hot-toast"
 import { TextField } from "@mui/material"
+import axios from "axios"
 import React, { useContext, useEffect, useRef, useState } from "react"
 
 export default function CategorySelect({
@@ -11,11 +12,20 @@ export default function CategorySelect({
   helperText,
 }) {
   const [value, setValue] = useState(inputs.category)
+  const [incomeCategories, setIncomeCategories] = useState([])
+  const [expensesCategories, setExpensesCategories] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const isFirstRender = useRef(0)
 
-  const { expensesCategories, incomeCategories } =
-    useContext(UserDetailsContext)
+  const getCategories = async () => {
+    try {
+      const res = await axios.get("/api/user/categories")
+      setIncomeCategories(res.data.incomeCategories)
+      setExpensesCategories(res.data.expensesCategories)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleCatergorySearchChange = (evt) => setValue(evt.target.value)
 
@@ -53,6 +63,10 @@ export default function CategorySelect({
       return
     }
   }, [isExpense])
+
+  useEffect(() => {
+    getCategories()
+  })
 
   const borderRadiusValues = isOpen ? "8px 8px 0 0" : 2
   return (

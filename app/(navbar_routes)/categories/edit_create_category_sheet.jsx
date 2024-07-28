@@ -10,8 +10,12 @@ import PrimaryButton from "@/components/buttons/primary_button"
 import { X } from "lucide-react"
 import { TextField } from "@mui/material"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 
-export default function EditCategorySheet({
+export default function EditCreateCategorySheet({
+  type,
+  handleCategoryCreate,
+  setType,
   handleCategoryEdit,
   buttonDisabled,
   setButtonDisabled,
@@ -19,19 +23,19 @@ export default function EditCategorySheet({
   setIsEditingCategory,
   isSheetOpen,
   setIsSheetOpen,
-  setEditCategoryName,
-  editCategoryName,
+  setCategoryInputName,
+  categoryInputName,
   errorStateHelperText,
 }) {
   const handleChange = (evt) => {
-    setEditCategoryName(evt.target.value)
+    setCategoryInputName(evt.target.value)
   }
 
   useEffect(() => {
-    editCategoryName.length > 0
+    categoryInputName.length > 0
       ? setButtonDisabled(false)
       : setButtonDisabled(true)
-  }, [editCategoryName])
+  }, [categoryInputName])
 
   return (
     <Sheet open={isSheetOpen}>
@@ -43,12 +47,14 @@ export default function EditCategorySheet({
         side="bottom"
       >
         <SheetHeader className="w-[300px]">
-          <SheetDescription></SheetDescription>
+          <VisuallyHidden.Root>
+            <SheetDescription></SheetDescription>
+          </VisuallyHidden.Root>
           <div className="flex justify-between w-full">
             <SheetTitle>Edit Category</SheetTitle>
             <span
               onClick={() => {
-                setEditCategoryName("")
+                setCategoryInputName("")
                 setIsSheetOpen(false)
               }}
               className="border border-white/20 p-1 rounded-md hover:cursor-pointer hover:border-white/80"
@@ -63,7 +69,7 @@ export default function EditCategorySheet({
             fullWidth
             sx={textFieldSx}
             name="name"
-            value={editCategoryName}
+            value={categoryInputName}
             onChange={handleChange}
             id="outlined-name"
             label="Name"
@@ -73,7 +79,9 @@ export default function EditCategorySheet({
           <PrimaryButton
             clickFunction={async () => {
               setIsEditingCategory(true)
-              await handleCategoryEdit()
+              type == "edit"
+                ? await handleCategoryEdit()
+                : await handleCategoryCreate()
               setIsEditingCategory(false)
             }}
             disabled={isEditingCategory || buttonDisabled ? true : false}

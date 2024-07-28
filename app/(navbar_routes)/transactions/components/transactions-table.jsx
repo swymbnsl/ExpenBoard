@@ -150,23 +150,25 @@ export default function TransactionsTable({ date }) {
 
   return (
     <>
-      {isSheetOpen || deleteDialogOpen || isLoading ? (
-        <></>
-      ) : (
-        <Fab
-          onClick={() => {
-            setType("create")
-            setIsSheetOpen(true)
-          }}
-          variant="extended"
-          color="white"
-          aria-label="add"
-          className="fixed bg-themeonsurface text-lg font-semibold text-themesurface bottom-[90px] right-3 shadow-black shadow-[0_0_30px_2px]"
-        >
-          <Plus style={{ marginRight: "10px" }} strokeWidth={3} size={20} />
-          Add
-        </Fab>
-      )}
+      <div className="fixed bottom-[90px] right-3">
+        {isSheetOpen || deleteDialogOpen || isLoading ? (
+          <></>
+        ) : (
+          <Fab
+            onClick={() => {
+              setType("create")
+              setIsSheetOpen(true)
+            }}
+            variant="extended"
+            color="white"
+            aria-label="add"
+            className="bg-themeonsurface text-lg font-semibold text-themesurface shadow-black shadow-[0_0_30px_2px]"
+          >
+            <Plus style={{ marginRight: "10px" }} strokeWidth={3} size={20} />
+            Add
+          </Fab>
+        )}
+      </div>
 
       <div className="w-full pb-24">
         <div className="mb-3 flex  justify-between items-center h-[55px]">

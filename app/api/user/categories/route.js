@@ -100,7 +100,7 @@ export async function PATCH(request) {
       throw new Error(tokenData.error)
     }
 
-    if (name.length == 0)
+    if (newName.length == 0)
       return NextResponse.json(
         {
           validationError: "Validation Failed",
@@ -173,6 +173,66 @@ export async function PATCH(request) {
     return NextResponse.json(
       {
         message: "Error Updating Category",
+        error: err.message,
+        success: false,
+      },
+      { status: 400 }
+    )
+  }
+}
+
+export async function POST(request) {
+  try {
+    const reqBody = await request.json()
+    const { name, type } = reqBody
+
+    const tokenData = getDataFromToken(request)
+    if (tokenData.error) {
+      throw new Error(tokenData.error)
+    }
+
+    if (name.length == 0)
+      return NextResponse.json(
+        {
+          validationError: "Validation Failed",
+          errorHelperText: "Category name can't be empty",
+        },
+        { status: 400 }
+      )
+
+    const foundUser = await User.findById(tokenData.id)
+
+    const oldCategories =
+      type == "income"
+        ? [...foundUser.incomeCategories]
+        : [...foundUser.expensesCategories]
+
+    const newCategories = [...oldCategories, name]
+
+    if (oldCategories.indexOf(name) !== -1)
+      return NextResponse.json(
+        {
+          message: "Category already exists",
+          success: false,
+        },
+        { status: 400 }
+      )
+    const updateData =
+      type == "income"
+        ? { incomeCategories: newCategories }
+        : { expensesCategories: newCategories }
+
+    await User.findByIdAndUpdate(tokenData.id, updateData)
+
+    return NextResponse.json(
+      { message: "Category created successfully", success: true },
+      { status: 200 }
+    )
+  } catch (err) {
+    console.log(err)
+    return NextResponse.json(
+      {
+        message: "Error creating transaction",
         error: err.message,
         success: false,
       },

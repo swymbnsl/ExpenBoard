@@ -32,8 +32,6 @@ export async function POST(request) {
         email: foundUser.email,
         pfp: foundUser.pfp,
         currency: foundUser.preferences.currency,
-        expensesCategories: foundUser.expensesCategories,
-        incomeCategories: foundUser.incomeCategories,
       }
 
       const token = jwt.sign(tokenData, process.env.TOKEN_SECRET)
