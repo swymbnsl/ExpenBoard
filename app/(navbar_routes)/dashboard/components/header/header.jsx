@@ -21,7 +21,7 @@ export default function Header({ name, pfp }) {
           <span className="text-themeonsurface text-lg">{greetings}</span>
           {name ? (
             <span className="text-themeonsurface font-bold text-2xl">
-              {name}
+              {name.length <= 15 ? name : name.slice(0, 10) + "..."}
             </span>
           ) : (
             <Skeleton
