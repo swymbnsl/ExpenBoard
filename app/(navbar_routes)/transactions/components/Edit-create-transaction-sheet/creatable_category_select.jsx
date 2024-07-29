@@ -66,7 +66,7 @@ export default function CategorySelect({
 
   useEffect(() => {
     getCategories()
-  })
+  }, [])
 
   const borderRadiusValues = isOpen ? "8px 8px 0 0" : 2
   return (

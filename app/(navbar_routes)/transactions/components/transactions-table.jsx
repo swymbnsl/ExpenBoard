@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 import TransactionCard from "./transaction-card"
 import { UserDetailsContext } from "@/context/userDetails"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
@@ -98,17 +98,17 @@ export default function TransactionsTable({ date }) {
     }
   }
 
-  const deleteClickFunction = async () => {
+  const deleteClickFunction = useCallback(async () => {
     setIsDeleteDisabled(true)
     await handleDelete(deleteID)
     setIsDeleteDisabled(false)
-  }
+  })
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setIsSortPanelOpen(!isSortPanelOpen)
-  }
+  })
 
-  const handleSearchChange = (evt) => {
+  const handleSearchChange = useCallback((evt) => {
     setSearchTerm(evt.target.value)
     setDisplayTransactions(
       transactions.filter(
@@ -120,7 +120,7 @@ export default function TransactionsTable({ date }) {
           t["amount"].toString().includes(evt.target.value)
       )
     )
-  }
+  })
 
   const handleDelete = async (deleteID) => {
     try {
