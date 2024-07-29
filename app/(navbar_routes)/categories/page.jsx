@@ -4,7 +4,7 @@ import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { CircularProgress, Fab } from "@mui/material"
 import axios from "axios"
 import { Pencil, Plus, Trash } from "lucide-react"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import EditCreateCategorySheet from "./edit_create_category_sheet"
 
 export default function Categories() {
@@ -53,7 +53,7 @@ export default function Categories() {
     }
   }
 
-  const handleCategoryCreate = async () => {
+  const handleCategoryCreate = useCallback(async () => {
     try {
       const res = await axios.post("/api/user/categories", {
         name: categoryInputName,
@@ -67,8 +67,8 @@ export default function Categories() {
       getCategories()
       setIsSheetOpen(false)
     }
-  }
-  const handleCategoryEdit = async () => {
+  })
+  const handleCategoryEdit = useCallback(async () => {
     try {
       const res = await axios.patch("/api/user/categories", {
         name: editCategoryOldName,
@@ -87,16 +87,15 @@ export default function Categories() {
       getCategories()
       setIsSheetOpen(false)
     }
-  }
+  })
 
-  const deleteClickFunction = async () => {
+  const deleteClickFunction = useCallback(async () => {
     setIsDeleteDisabled(true)
 
     await handleCategoryDelete(activeCategories, deleteCategory)
     getCategories()
     setIsDeleteDisabled(false)
-  }
-
+  })
   let categories =
     activeCategories == "income"
       ? [...incomeCategories]
