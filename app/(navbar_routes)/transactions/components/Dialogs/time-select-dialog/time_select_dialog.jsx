@@ -101,8 +101,8 @@ export default function SetTimeDialog({
                 clickFunction={() => {
                   setTimeDialogOpen(false)
                 }}
-                width="[45%]"
-                height="[40px]"
+                width="45%"
+                height="40px"
                 buttonText={"Cancel"}
               />
 
@@ -112,8 +112,8 @@ export default function SetTimeDialog({
                   setTimeDialogOpen(false)
                 }}
                 disabled={false}
-                width="[45%]"
-                height="[40px]"
+                width="45%"
+                height="40px"
                 buttonText={"Save"}
               />
             </div>

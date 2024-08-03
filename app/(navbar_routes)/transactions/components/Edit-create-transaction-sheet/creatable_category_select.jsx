@@ -1,8 +1,7 @@
-import { UserDetailsContext } from "@/context/userDetails"
 import { showSuccessToast } from "@/utils/hot-toast"
 import { TextField } from "@mui/material"
 import axios from "axios"
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 export default function CategorySelect({
   isExpense,

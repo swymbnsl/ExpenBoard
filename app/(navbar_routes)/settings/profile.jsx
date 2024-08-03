@@ -5,7 +5,7 @@ import React from "react"
 
 export default function Profile({ name, pfp, email }) {
   return (
-    <div className="p-3 w-[100%] h-full flex justify-between items-center">
+    <div className="p-3 w-[100%] h-full flex items-center">
       <div className="flex justify-center items-center gap-5">
         {name ? (
           <Avatar sx={{ bgcolor: blue[500], width: 60, height: 60 }} src={pfp}>
@@ -41,7 +41,6 @@ export default function Profile({ name, pfp, email }) {
           </div>
         )}
       </div>
-      <Pencil />
     </div>
   )
 }

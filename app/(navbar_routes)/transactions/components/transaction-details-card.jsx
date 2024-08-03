@@ -82,15 +82,15 @@ export default function TransactionCard({
           <DeleteButton
             clickFunction={handleDelete}
             disabled={false}
-            width="[45%]"
-            height="[40px]"
+            width="45%"
+            height="40px"
             buttonText={"Delete"}
           />
 
           <PrimaryButton
             clickFunction={handleEdit}
-            width="[45%]"
-            height="[40px]"
+            width="45%"
+            height="40px"
             buttonText={"Edit"}
           />
         </div>

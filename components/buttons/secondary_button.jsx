@@ -9,7 +9,8 @@ export default function SecondaryButton({
   return (
     <div
       onClick={clickFunction}
-      className={`hover:cursor-pointer hover:bg-themesurfacedim transition-all duration-100 w-${width} h-${height} rounded-md flex justify-center items-center font-medium bg-transparent border border-white/20`}
+      style={{ width: width, height: height }}
+      className={`hover:cursor-pointer hover:bg-themesurfacedim transition-all duration-100 rounded-md flex justify-center items-center font-medium bg-transparent border border-white/20`}
     >
       {buttonText}
     </div>

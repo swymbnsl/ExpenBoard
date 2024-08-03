@@ -304,8 +304,8 @@ export default function EditCreateTransactionsSheet({
               setIsCreatingTransaction(true)
             }}
             disabled={isCreatingTransaction || buttonDisabled ? true : false}
-            width="full"
-            height="[40px]"
+            width="100%"
+            height="40px"
             buttonText={buttonText}
           />
         </div>
