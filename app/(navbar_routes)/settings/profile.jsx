@@ -1,6 +1,5 @@
 import { Avatar, Skeleton } from "@mui/material"
 import { blue } from "@mui/material/colors"
-import { Pencil } from "lucide-react"
 import React from "react"
 
 export default function Profile({ name, pfp, email }) {

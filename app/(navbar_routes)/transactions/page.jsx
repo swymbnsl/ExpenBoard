@@ -51,7 +51,7 @@ export default function Transactions() {
 
   return (
     <>
-      <div className="w-full h-full justify bg-center items-center">
+      <div className="w-full h-full justify-center items-center">
         <div className="p-3">
           <span className="text-themeonsurface font-bold text-2xl">
             Transactions
