@@ -8,7 +8,7 @@ import { CircularProgress, Fab, TextField } from "@mui/material"
 import { ChevronDown, ChevronUp, Plus } from "lucide-react"
 import TransactionDetailsCard from "./transaction-details-card"
 import EditCreateTransactionsSheet from "./Edit-create-transaction-sheet/edit_create_transactions"
-import DeleteConfirmationDialog from "../../../../components/shared/delete_confirmation_dialog"
+import DeleteConfirmationDialog from "../../../../../components/shared/delete_confirmation_dialog"
 import axios from "axios"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
@@ -241,7 +241,7 @@ export default function TransactionsTable({ date }) {
 
         <div className="h-full w-full flex flex-col gap-3">
           {isLoading ? (
-            <div className="flex justify-center items-center h-full w-full">
+            <div className="flex justify-center w-full items-center h-[70vh]">
               <CircularProgress />
             </div>
           ) : (

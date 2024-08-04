@@ -5,10 +5,10 @@ import React from "react"
 export default function layout({ children }) {
   return (
     <>
-      <UserDetailsProvider>
-        <main className="h-full">{children}</main>
-        <Navbar />
-      </UserDetailsProvider>
+      {/* <UserDetailsProvider> */}
+      {children}
+      <Navbar />
+      {/* </UserDetailsProvider> */}
     </>
   )
 }

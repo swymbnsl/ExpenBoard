@@ -4,8 +4,8 @@ import React, { useContext, useState } from "react"
 import Profile from "./profile"
 import { UserDetailsContext } from "@/context/userDetails"
 import Preferences from "./preferences"
-import Logo from "@/app/(navbar_routes)/settings/logo"
 import PrimaryButton from "@/components/buttons/primary_button"
+import Logo from "./logo"
 
 export default function Settings() {
   const { name, pfp, email, currency } = useContext(UserDetailsContext)
