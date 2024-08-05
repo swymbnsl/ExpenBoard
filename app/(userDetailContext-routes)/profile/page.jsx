@@ -7,6 +7,7 @@ import { TextField } from "@mui/material"
 import PrimaryButton from "@/components/buttons/primary_button"
 import { useRouter } from "next/navigation"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
+import CropImageSheet from "./crop_image"
 
 export default function Profile() {
   const initialErrorStateHelperText = {
@@ -16,12 +17,14 @@ export default function Profile() {
   }
   const { name, pfp, email } = useContext(UserDetailsContext)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [selectedImageBase64String, setSelectedImageBase64String] =
+    useState(null)
 
-  console.log(name)
   const [inputs, setInputs] = useState({
-    inputName: name,
-    inputEmail: email,
-    inputPfp: pfp,
+    inputName: "",
+    inputEmail: "",
+    inputPfp: "",
   })
   const [errorStateHelperText, setErrorStateHelperText] = useState(
     initialErrorStateHelperText
@@ -54,6 +57,16 @@ export default function Profile() {
     }
   }, [inputs])
 
+  const handlePfpChange = (croppedImage) => {
+    setInputs((prev) => {
+      return {
+        ...prev,
+        ["inputPfp"]: croppedImage,
+      }
+    })
+    setIsSheetOpen(false)
+  }
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="p-3 w-full flex gap-3 items-center">
@@ -71,7 +84,12 @@ export default function Profile() {
       </div>
 
       <div className=" flex flex-col justify-center gap-4 items-center p-10">
-        <CustomAvatar name={name} pfp={inputs.inputPfp} />
+        <CustomAvatar
+          setSelectedImageBase64String={setSelectedImageBase64String}
+          setIsSheetOpen={setIsSheetOpen}
+          name={name}
+          pfp={inputs.inputPfp}
+        />
         <div className="w-[300px] flex flex-col gap-6">
           <TextField
             sx={textFieldSx}
@@ -105,6 +123,15 @@ export default function Profile() {
             height="40px"
             buttonText="Save"
           />
+          {selectedImageBase64String && (
+            <CropImageSheet
+              handlePfpChange={handlePfpChange}
+              setSelectedImageBase64String={setSelectedImageBase64String}
+              selectedImageBase64String={selectedImageBase64String}
+              isSheetOpen={isSheetOpen}
+              setIsSheetOpen={setIsSheetOpen}
+            />
+          )}
         </div>
       </div>
     </div>
