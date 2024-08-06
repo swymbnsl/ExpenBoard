@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sheet"
 import { X } from "lucide-react"
 import React from "react"
-import ImageCropper from "./croppie_demo"
+import ImageCropper from "./croppie_Image_Cropper"
 
 export default function CropImageSheet({
   handlePfpChange,

@@ -1,13 +1,13 @@
 "use client"
 import { UserDetailsContext } from "@/context/userDetails"
 import React, { useContext, useEffect, useState } from "react"
-import CustomAvatar from "./Custom_Avatar"
+import CustomAvatar from "./custom_Avatar"
 import { ChevronLeft } from "lucide-react"
 import { TextField } from "@mui/material"
 import PrimaryButton from "@/components/buttons/primary_button"
 import { useRouter } from "next/navigation"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
-import CropImageSheet from "./crop_image"
+import CropImageSheet from "./crop_image_sheet"
 
 export default function Profile() {
   const initialErrorStateHelperText = {

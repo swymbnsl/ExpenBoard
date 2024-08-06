@@ -59,19 +59,17 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
       console.log(error)
     }
   }
-  console.log(selectedImageBase64String)
   return (
     <div>
       {selectedImageBase64String && (
         <div id="upload-demo" ref={croppieRef}></div>
       )}
-      <div id="upload-demo" ref={croppieRef}></div>
       <PrimaryButton
         clickFunction={handleCrop}
         disabled={false}
         width="100%"
         height="40px"
-        buttonText="Set pfp"
+        buttonText="Done"
       />
     </div>
   )
