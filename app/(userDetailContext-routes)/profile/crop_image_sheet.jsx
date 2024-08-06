@@ -14,7 +14,6 @@ export default function CropImageSheet({
   isSheetOpen,
   setIsSheetOpen,
   selectedImageBase64String,
-  setSelectedImageBase64String,
 }) {
   return (
     <Sheet open={isSheetOpen}>

@@ -1,6 +1,6 @@
 "use client"
 import { UserDetailsContext } from "@/context/userDetails"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 import CustomAvatar from "./custom_Avatar"
 import { ChevronLeft } from "lucide-react"
 import { TextField } from "@mui/material"
@@ -31,7 +31,7 @@ export default function Profile() {
   )
   const router = useRouter()
 
-  const handleChange = (evt) => {
+  const handleChange = useCallback((evt) => {
     setErrorStateHelperText(initialErrorStateHelperText)
     setInputs((prev) => {
       return {
@@ -39,7 +39,7 @@ export default function Profile() {
         [evt.target.name]: evt.target.value,
       }
     })
-  }
+  })
 
   useEffect(() => {
     setInputs({
@@ -57,7 +57,7 @@ export default function Profile() {
     }
   }, [inputs])
 
-  const handlePfpChange = (croppedImage) => {
+  const handlePfpChange = useCallback((croppedImage) => {
     setInputs((prev) => {
       return {
         ...prev,
@@ -65,7 +65,7 @@ export default function Profile() {
       }
     })
     setIsSheetOpen(false)
-  }
+  })
 
   return (
     <div className="w-full h-full flex flex-col items-center">
