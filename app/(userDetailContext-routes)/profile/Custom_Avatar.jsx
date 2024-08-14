@@ -47,7 +47,6 @@ export default function CustomAvatar({
           <Avatar
             style={{
               backgroundColor: pfp ? null : "#2196f3",
-              // border: "1px solid white",
               width: 120,
               height: 120,
             }}

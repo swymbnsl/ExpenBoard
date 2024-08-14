@@ -1,6 +1,5 @@
 import React from "react"
 import { Avatar, Skeleton } from "@mui/material"
-import { blue } from "@mui/material/colors"
 import { Share2 } from "lucide-react"
 
 export default function Header({ name, pfp }) {
@@ -36,7 +35,7 @@ export default function Header({ name, pfp }) {
           <Share2 />
 
           {name ? (
-            <Avatar sx={{ bgcolor: blue[500] }} src={pfp}>
+            <Avatar sx={{ backgroundColor: pfp ? null : "#2196f3" }} src={pfp}>
               {!pfp && name[0]}
             </Avatar>
           ) : (

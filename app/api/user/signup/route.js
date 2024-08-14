@@ -1,7 +1,7 @@
 import connect from "@/database/dbConnect"
 import { sendEmail } from "@/helpers/sendEmail"
 import User from "@/models/userModel"
-import userSchema from "@/schemas/userSchema"
+import userSchema from "@/schemas/userSignupSchema"
 import bcrypt from "bcrypt"
 import { NextResponse } from "next/server"
 

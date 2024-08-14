@@ -8,15 +8,17 @@ import PrimaryButton from "@/components/buttons/primary_button"
 import { useRouter } from "next/navigation"
 import { textFieldSx } from "@/components/styles-sx/textfield_sx"
 import CropImageSheet from "./crop_image_sheet"
+import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
+import axios from "axios"
 
 export default function Profile() {
   const initialErrorStateHelperText = {
     name: "",
     email: "",
-    password: "",
   }
-  const { name, pfp, email } = useContext(UserDetailsContext)
+  const { name, pfp, email, getLocalDetails } = useContext(UserDetailsContext)
   const [buttonDisabled, setButtonDisabled] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [selectedImageBase64String, setSelectedImageBase64String] =
     useState(null)
@@ -31,7 +33,7 @@ export default function Profile() {
   )
   const router = useRouter()
 
-  const handleChange = useCallback((evt) => {
+  const handleChange = (evt) => {
     setErrorStateHelperText(initialErrorStateHelperText)
     setInputs((prev) => {
       return {
@@ -39,7 +41,7 @@ export default function Profile() {
         [evt.target.name]: evt.target.value,
       }
     })
-  })
+  }
 
   useEffect(() => {
     setInputs({
@@ -66,6 +68,44 @@ export default function Profile() {
     })
     setIsSheetOpen(false)
   })
+
+  const handleSave = async () => {
+    try {
+      setSaving(true)
+      const res = await axios.patch("/api/user/profile", {
+        name: inputs.inputName,
+        email: inputs.inputEmail,
+        pfp: inputs.inputPfp,
+      })
+      localStorage.setItem("pfp", inputs.inputPfp)
+      getLocalDetails(true)
+      showSuccessToast(res.data.message)
+      router.refresh()
+    } catch (error) {
+      if (error.response.data.joiError) {
+        const key = error.response.data.joiRes.error.details[0].context.key
+        const msg = error.response.data.joiRes.error.details[0].message
+        if (key !== "pfp") {
+          setErrorStateHelperText((prevText) => {
+            return {
+              ...prevText,
+              [key]: msg,
+            }
+          })
+          console.log(error)
+          return
+        }
+        console.log(error)
+        showErrorToast(msg)
+        return
+      }
+
+      console.log(error)
+      showErrorToast(error.response.data.error)
+    } finally {
+      setSaving(false)
+    }
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -117,11 +157,11 @@ export default function Profile() {
           />
 
           <PrimaryButton
-            // clickFunction={}
-            disabled={buttonDisabled}
+            clickFunction={handleSave}
+            disabled={buttonDisabled || saving}
             width="100%"
             height="40px"
-            buttonText="Save"
+            buttonText={saving ? "Saving..." : "Save"}
           />
           {selectedImageBase64String && (
             <CropImageSheet

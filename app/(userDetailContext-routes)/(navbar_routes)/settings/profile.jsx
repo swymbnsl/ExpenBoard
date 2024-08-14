@@ -1,5 +1,4 @@
 import { Avatar, Skeleton } from "@mui/material"
-import { blue } from "@mui/material/colors"
 import React from "react"
 
 export default function Profile({ name, pfp, email }) {
@@ -7,7 +6,14 @@ export default function Profile({ name, pfp, email }) {
     <div className="p-3 w-[100%] h-full flex items-center">
       <div className="flex justify-center items-center gap-5">
         {name ? (
-          <Avatar sx={{ bgcolor: blue[500], width: 60, height: 60 }} src={pfp}>
+          <Avatar
+            sx={{
+              backgroundColor: pfp ? null : "#2196f3",
+              width: 60,
+              height: 60,
+            }}
+            src={pfp}
+          >
             {!pfp && name[0]}
           </Avatar>
         ) : (

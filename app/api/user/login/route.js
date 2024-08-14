@@ -30,7 +30,6 @@ export async function POST(request) {
         id: foundUser._id,
         name: foundUser.name,
         email: foundUser.email,
-        pfp: foundUser.pfp,
         currency: foundUser.preferences.currency,
       }
 
@@ -38,6 +37,7 @@ export async function POST(request) {
 
       const response = NextResponse.json({
         message: "Login successful",
+        pfp: foundUser.pfp,
         success: true,
       })
       response.cookies.set("token", token, {

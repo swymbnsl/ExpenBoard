@@ -6,20 +6,24 @@ export const UserDetailsContext = createContext({})
 
 export const UserDetailsProvider = ({ children }) => {
   const [userData, setUserData] = useState({
+    id: "",
     name: "",
     pfp: "",
     email: "",
     currency: "",
   })
 
-  const getLocalDetails = async () => {
+  const getLocalDetails = async (ran) => {
+    ran && console.log("Ran to update context")
     try {
       const res = await axios.get("/api/user/profile")
+
+      console.log(res.data.tokenData)
 
       setUserData({
         id: res.data.tokenData.id,
         name: res.data.tokenData.name,
-        pfp: res.data.tokenData.pfp,
+        pfp: localStorage.getItem("pfp"),
         email: res.data.tokenData.email,
         currency: res.data.tokenData.currency,
       })
@@ -33,7 +37,7 @@ export const UserDetailsProvider = ({ children }) => {
   }, [])
 
   return (
-    <UserDetailsContext.Provider value={userData}>
+    <UserDetailsContext.Provider value={{ ...userData, getLocalDetails }}>
       {children}
     </UserDetailsContext.Provider>
   )
