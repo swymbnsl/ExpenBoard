@@ -16,9 +16,7 @@ export default function Settings() {
     <div className="w-full flex flex-col items-center">
       <div className="flex w-full items-center justify-between pr-3">
         <Logo />
-        {selectedCurrency === currency ? (
-          <></>
-        ) : (
+        {selectedCurrency !== currency && (
           <PrimaryButton
             clickFunction={async () => {
               //Currency updation logic here

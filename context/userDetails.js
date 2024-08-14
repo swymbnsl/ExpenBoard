@@ -18,8 +18,6 @@ export const UserDetailsProvider = ({ children }) => {
     try {
       const res = await axios.get("/api/user/profile")
 
-      console.log(res.data.tokenData)
-
       setUserData({
         id: res.data.tokenData.id,
         name: res.data.tokenData.name,

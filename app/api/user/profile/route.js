@@ -51,6 +51,8 @@ export async function PATCH(request) {
       ...reqBody,
     }
 
+    delete newTokenData.pfp
+
     const token = jwt.sign(newTokenData, process.env.TOKEN_SECRET)
 
     const response = NextResponse.json(
