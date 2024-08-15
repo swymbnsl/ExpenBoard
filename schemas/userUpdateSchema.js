@@ -10,6 +10,7 @@ const userUpdateSchema = Joi.object({
     }),
 
   pfp: Joi.string(),
+  currency: Joi.string().required(),
 })
 
 export default userUpdateSchema

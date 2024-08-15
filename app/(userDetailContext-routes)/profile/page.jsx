@@ -16,7 +16,8 @@ export default function Profile() {
     name: "",
     email: "",
   }
-  const { name, pfp, email, getLocalDetails } = useContext(UserDetailsContext)
+  const { name, pfp, email, getLocalDetails, currency } =
+    useContext(UserDetailsContext)
   const [buttonDisabled, setButtonDisabled] = useState(true)
   const [saving, setSaving] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
@@ -27,6 +28,7 @@ export default function Profile() {
     inputName: "",
     inputEmail: "",
     inputPfp: "",
+    currency,
   })
   const [errorStateHelperText, setErrorStateHelperText] = useState(
     initialErrorStateHelperText
@@ -48,6 +50,7 @@ export default function Profile() {
       inputName: name,
       inputEmail: email,
       inputPfp: pfp,
+      currency,
     })
   }, [name])
 
@@ -76,6 +79,7 @@ export default function Profile() {
         name: inputs.inputName,
         email: inputs.inputEmail,
         pfp: inputs.inputPfp,
+        currency,
       })
       localStorage.setItem("pfp", inputs.inputPfp)
       getLocalDetails(true)
@@ -85,7 +89,7 @@ export default function Profile() {
       if (error.response.data.joiError) {
         const key = error.response.data.joiRes.error.details[0].context.key
         const msg = error.response.data.joiRes.error.details[0].message
-        if (key !== "pfp") {
+        if (key !== "pfp" && key !== "currency") {
           setErrorStateHelperText((prevText) => {
             return {
               ...prevText,

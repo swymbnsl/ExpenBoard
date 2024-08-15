@@ -6,11 +6,17 @@ import { UserDetailsContext } from "@/context/userDetails"
 import Preferences from "./preferences"
 import PrimaryButton from "@/components/buttons/primary_button"
 import Logo from "./logo"
+import { useRouter } from "next/navigation"
+import { showSuccessToast } from "@/utils/hot-toast"
+import axios from "axios"
 
 export default function Settings() {
-  const { name, pfp, email, currency } = useContext(UserDetailsContext)
+  const { name, pfp, email, currency, getLocalDetails } =
+    useContext(UserDetailsContext)
   const [disabled, setDisabled] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState(currency)
+
+  const router = useRouter()
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -19,7 +25,17 @@ export default function Settings() {
         {selectedCurrency !== currency && (
           <PrimaryButton
             clickFunction={async () => {
-              //Currency updation logic here
+              setDisabled(true)
+              const res = await axios.patch("/api/user/profile", {
+                name,
+                pfp,
+                email,
+                currency: selectedCurrency,
+              })
+              getLocalDetails(true)
+              showSuccessToast("Currency updated")
+              router.refresh()
+              setDisabled(false)
             }}
             width="20%"
             height="40px"

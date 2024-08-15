@@ -29,7 +29,7 @@ export async function GET(request) {
 export async function PATCH(request) {
   try {
     const reqBody = await request.json()
-    const { name, email, pfp } = reqBody
+    const { name, email, pfp, currency } = reqBody
 
     const tokenData = getDataFromToken(request)
     if (tokenData.error) {
@@ -44,7 +44,7 @@ export async function PATCH(request) {
       )
     }
 
-    await User.findByIdAndUpdate(tokenData.id, { name, email, pfp })
+    await User.findByIdAndUpdate(tokenData.id, { name, email, pfp, currency })
 
     const newTokenData = {
       ...tokenData,
