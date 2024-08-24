@@ -15,9 +15,17 @@ import {
 } from "@/helpers/charts_calculations"
 import { UserDetailsContext } from "@/context/userDetails"
 import { DatePickerWithRange } from "@/components/shared/date_range_picker"
+import { currenciesAndIcons } from "@/enums/currencies-enum"
 
 export default function Dashboard() {
-  const { name, pfp } = useContext(UserDetailsContext)
+  const { name, pfp, currency } = useContext(UserDetailsContext)
+  let symbol = ""
+  if (currency) {
+    const symbolArray = currenciesAndIcons.filter((i) => {
+      return i["currencyCode"] == currency
+    })
+    symbol = symbolArray[0].icon
+  }
   const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState({
     from: new Date(
@@ -99,8 +107,8 @@ export default function Dashboard() {
           setDisplayDate={setDisplayDate}
         />
         <div className="flex p-3 justify-between">
-          <SummaryCard type="income" income={income} />
-          <SummaryCard type="expense" expenses={expenses} />
+          <SummaryCard type="income" income={income} symbol={symbol} />
+          <SummaryCard type="expense" expenses={expenses} symbol={symbol} />
         </div>
 
         <TransactionsChart

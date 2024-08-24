@@ -1,7 +1,7 @@
 import React from "react"
 import CountUp from "react-countup"
 
-export default function SummaryCard({ type, income, expenses }) {
+export default function SummaryCard({ type, income, expenses, symbol }) {
   const colors = {
     income: "bg-green-300",
     expense: "bg-red-300",
@@ -15,7 +15,7 @@ export default function SummaryCard({ type, income, expenses }) {
         {type == "income" ? "Income" : "Expenses"}
       </span>
       <span className="text-black font-extrabold text-2xl">
-        ₹
+        {symbol}
         <CountUp
           end={type == "income" ? income : expenses}
           preserveValue
