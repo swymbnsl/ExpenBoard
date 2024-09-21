@@ -11,15 +11,29 @@ export function middleware(request) {
     token = request.cookies.get("token").value
   }
 
-  // if (isPublicPath && token) {
-  //   return NextResponse.redirect(new URL("/", request.nextUrl))
-  // }
+  //Temporarily not letting anyone access "/" route
 
-  // if (!isPublicPath && !token) {
-  //   return NextResponse.redirect(new URL("/login", request.nextUrl))
-  // }
+  if (path === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl))
+  }
+
+  if (isPublicPath && token) {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl))
+  }
+
+  if (!isPublicPath && !token) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl))
+  }
 }
 
 export const config = {
-  matcher: ["/", "/account", "/login", "/signup", "/verifyemail"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|favicon.ico).*)",
+  ],
 }

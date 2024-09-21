@@ -26,7 +26,7 @@ export default function Preferences({
 
   useEffect(() => {
     setSelectedCurrency(contextCurrency)
-  }, [contextCurrency])
+  }, [contextCurrency, setSelectedCurrency])
 
   return (
     <div className="p-3 w-full flex flex-col gap-1">

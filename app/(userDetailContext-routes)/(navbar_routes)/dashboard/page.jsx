@@ -56,7 +56,7 @@ export default function Dashboard() {
   const [noOfTransactionsOfEachCategory, setNoOfTransactionsOfEachCategory] =
     useState({})
 
-  const handleOpen = useCallback((open) => {
+  const handleOpen = (open) => {
     setIsOpen(open)
     if (!open && displayDate && displayDate.to && displayDate.from) {
       setDate((prevRange) => {
@@ -72,7 +72,7 @@ export default function Dashboard() {
         }
       })
     }
-  })
+  }
 
   const getTransactions = async (date) => {
     try {

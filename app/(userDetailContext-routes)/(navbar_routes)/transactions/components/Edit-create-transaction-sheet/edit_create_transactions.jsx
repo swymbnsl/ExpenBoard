@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import {
   Sheet,
   SheetContent,
@@ -45,13 +45,21 @@ export default function EditCreateTransactionsSheet({
     category: "",
   }
 
-  const initialEditInputsState = {
-    name: editTransactionFields.name,
-    amount: editTransactionFields.amount,
-    type: editTransactionFields.type,
-    category: editTransactionFields.category,
-    dateAndTime: editTransactionFields.dateAndTime,
-  }
+  const initialEditInputsState = useMemo(() => {
+    return {
+      name: editTransactionFields.name,
+      amount: editTransactionFields.amount,
+      type: editTransactionFields.type,
+      category: editTransactionFields.category,
+      dateAndTime: editTransactionFields.dateAndTime,
+    }
+  }, [
+    editTransactionFields.name,
+    editTransactionFields.amount,
+    editTransactionFields.type,
+    editTransactionFields.category,
+    editTransactionFields.dateAndTime,
+  ])
 
   const initialCreateInputsState = {
     name: "",
@@ -169,7 +177,7 @@ export default function EditCreateTransactionsSheet({
       setIsExpense(editTransactionFields.type == "expense" ? true : false)
       setButtonDisabled(false)
     }
-  }, [editTransactionFields])
+  }, [editTransactionFields, initialEditInputsState, type])
 
   let buttonText = ""
   if (isCreatingTransaction) {

@@ -80,35 +80,38 @@ export default function TransactionsTable({ date }) {
     }
   }
 
-  const getTransactions = async (date) => {
-    try {
-      setSearchTerm("")
-      const { transactions } = await getTransactionsFromDate(date)
-      setTransactions(transactions)
-      const sortedTransactions = sortTransactions(
-        transactions,
-        sortBy.property,
-        sortBy.descending
-      )
-      setDisplayTransactions(sortedTransactions)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const getTransactions = useCallback(
+    async (date) => {
+      try {
+        setSearchTerm("")
+        const { transactions } = await getTransactionsFromDate(date)
+        setTransactions(transactions)
+        const sortedTransactions = sortTransactions(
+          transactions,
+          sortBy.property,
+          sortBy.descending
+        )
+        setDisplayTransactions(sortedTransactions)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [sortBy.property, sortBy.descending]
+  )
 
-  const deleteClickFunction = useCallback(async () => {
+  const deleteClickFunction = async () => {
     setIsDeleteDisabled(true)
     await handleDelete(deleteID)
     setIsDeleteDisabled(false)
-  })
+  }
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     setIsSortPanelOpen(!isSortPanelOpen)
-  })
+  }
 
-  const handleSearchChange = useCallback((evt) => {
+  const handleSearchChange = (evt) => {
     setSearchTerm(evt.target.value)
     setDisplayTransactions(
       transactions.filter(
@@ -120,7 +123,7 @@ export default function TransactionsTable({ date }) {
           t["amount"].toString().includes(evt.target.value)
       )
     )
-  })
+  }
 
   const handleDelete = async (deleteID) => {
     try {
@@ -137,7 +140,7 @@ export default function TransactionsTable({ date }) {
 
   useEffect(() => {
     getTransactions(date)
-  }, [date, isSheetOpen])
+  }, [date, isSheetOpen, getTransactions])
 
   useEffect(() => {
     const sortedTransactions = sortTransactions(
@@ -146,7 +149,7 @@ export default function TransactionsTable({ date }) {
       sortBy.descending
     )
     setDisplayTransactions(sortedTransactions)
-  }, [sortBy])
+  }, [sortBy, transactions])
 
   return (
     <>

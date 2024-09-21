@@ -52,7 +52,7 @@ export default function Profile() {
       inputPfp: pfp,
       currency,
     })
-  }, [name])
+  }, [name, email, pfp, currency])
 
   useEffect(() => {
     if (inputs.inputEmail.length > 0 && inputs.inputName.length > 0) {
@@ -62,7 +62,7 @@ export default function Profile() {
     }
   }, [inputs])
 
-  const handlePfpChange = useCallback((croppedImage) => {
+  const handlePfpChange = (croppedImage) => {
     setInputs((prev) => {
       return {
         ...prev,
@@ -70,7 +70,7 @@ export default function Profile() {
       }
     })
     setIsSheetOpen(false)
-  })
+  }
 
   const handleSave = async () => {
     try {

@@ -136,7 +136,7 @@ export default function Login() {
     } else {
       setButtonDisabled(true)
     }
-  }, [input, confirmPassword])
+  }, [input, confirmPassword, samePassword])
 
   let buttonText = ""
   if (loading) {

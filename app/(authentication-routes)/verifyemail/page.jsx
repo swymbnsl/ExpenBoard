@@ -1,14 +1,15 @@
 "use client"
-import { Button, createTheme } from "@mui/material"
+
+import { Button } from "@mui/material"
 import axios from "axios"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 
-export default function VerifyEmail() {
+function VerifyEmailComponent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -16,6 +17,7 @@ export default function VerifyEmail() {
   const [verified, setVerified] = useState(false)
   const [loading, setLoading] = useState(false)
   const [uriDirect, setUriDirect] = useState(false)
+  const [buttonDisabled, setButtonDisabled] = useState(true)
 
   const verifyUser = async () => {
     try {
@@ -35,10 +37,11 @@ export default function VerifyEmail() {
   useEffect(() => {
     const token = searchParams.get("token")
     setToken(token)
-    if (!token || token.length == 0) {
+    if (!token || token.length === 0) {
       setUriDirect(true)
     }
-  })
+    setButtonDisabled(false)
+  }, [searchParams])
 
   let buttonText = "Verify Email"
 
@@ -48,8 +51,6 @@ export default function VerifyEmail() {
     buttonText = "Loading..."
   } else if (verified) {
     buttonText = "Verified Successfully"
-  } else {
-    buttonText = "Verify email"
   }
 
   return (
@@ -69,7 +70,9 @@ export default function VerifyEmail() {
             color="primary"
             fullWidth="true"
             onClick={verifyUser}
-            disabled={uriDirect || loading || verified ? true : false}
+            disabled={
+              uriDirect || loading || verified || buttonDisabled ? true : false
+            }
           >
             {buttonText}
           </Button>
@@ -79,5 +82,13 @@ export default function VerifyEmail() {
         </div>
       </div>
     </>
+  )
+}
+
+export default function VerifyEmail() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmailComponent />
+    </Suspense>
   )
 }

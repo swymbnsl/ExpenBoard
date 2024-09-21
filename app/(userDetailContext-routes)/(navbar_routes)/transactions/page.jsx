@@ -31,7 +31,7 @@ export default function Transactions() {
   })
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleOpen = useCallback((open) => {
+  const handleOpen = (open) => {
     setIsOpen(open)
     if (!open && displayDate && displayDate.to && displayDate.from) {
       setDate((prevRange) => {
@@ -47,7 +47,7 @@ export default function Transactions() {
         }
       })
     }
-  })
+  }
 
   return (
     <>

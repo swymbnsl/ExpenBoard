@@ -15,7 +15,6 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 export default function EditCreateCategorySheet({
   type,
   handleCategoryCreate,
-  setType,
   handleCategoryEdit,
   buttonDisabled,
   setButtonDisabled,
@@ -35,7 +34,7 @@ export default function EditCreateCategorySheet({
     categoryInputName.length > 0
       ? setButtonDisabled(false)
       : setButtonDisabled(true)
-  }, [categoryInputName])
+  }, [categoryInputName, setButtonDisabled])
 
   return (
     <Sheet open={isSheetOpen}>
@@ -51,7 +50,9 @@ export default function EditCreateCategorySheet({
             <SheetDescription></SheetDescription>
           </VisuallyHidden.Root>
           <div className="flex justify-between w-full">
-            <SheetTitle>Edit Category</SheetTitle>
+            <SheetTitle>
+              {type == "edit" ? "Edit Category" : "Create Category"}
+            </SheetTitle>
             <span
               onClick={() => {
                 setCategoryInputName("")

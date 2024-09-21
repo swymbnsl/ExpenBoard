@@ -212,7 +212,7 @@ export async function POST(request) {
     if (oldCategories.indexOf(name) !== -1)
       return NextResponse.json(
         {
-          message: "Category already exists",
+          error: "Category already exists",
           success: false,
         },
         { status: 400 }

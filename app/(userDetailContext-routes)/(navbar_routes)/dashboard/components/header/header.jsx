@@ -35,7 +35,10 @@ export default function Header({ name, pfp }) {
           <Share2 />
 
           {name ? (
-            <Avatar sx={{ backgroundColor: pfp ? null : "#2196f3" }} src={pfp}>
+            <Avatar
+              sx={{ backgroundColor: pfp ? undefined : "#2196f3" }}
+              src={pfp}
+            >
               {!pfp && name[0]}
             </Avatar>
           ) : (

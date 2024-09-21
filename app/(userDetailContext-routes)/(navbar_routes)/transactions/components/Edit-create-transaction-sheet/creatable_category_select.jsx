@@ -1,7 +1,7 @@
 import { showSuccessToast } from "@/utils/hot-toast"
 import { TextField } from "@mui/material"
 import axios from "axios"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 export default function CategorySelect({
   isExpense,
@@ -28,14 +28,17 @@ export default function CategorySelect({
 
   const handleCatergorySearchChange = (evt) => setValue(evt.target.value)
 
-  const setCategory = (selectedCategory) => {
-    setInputs((prev) => {
-      return {
-        ...prev,
-        ["category"]: selectedCategory,
-      }
-    })
-  }
+  const setCategory = useCallback(
+    (selectedCategory) => {
+      setInputs((prev) => {
+        return {
+          ...prev,
+          ["category"]: selectedCategory,
+        }
+      })
+    },
+    [setInputs]
+  )
 
   const handleBlur = (e) => {
     const currentTarget = e.currentTarget
@@ -61,7 +64,7 @@ export default function CategorySelect({
       isFirstRender.current += 1
       return
     }
-  }, [isExpense])
+  }, [isExpense, setCategory])
 
   useEffect(() => {
     getCategories()
