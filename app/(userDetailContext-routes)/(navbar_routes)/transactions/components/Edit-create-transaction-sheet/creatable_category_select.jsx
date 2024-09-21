@@ -57,7 +57,7 @@ export default function CategorySelect({
   categories = isExpense ? [...expensesCategories] : [...incomeCategories]
 
   useEffect(() => {
-    if (isFirstRender.current == 2) {
+    if (isFirstRender.current == 1) {
       setValue("")
       setCategory("")
     } else {

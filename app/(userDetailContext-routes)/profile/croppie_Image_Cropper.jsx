@@ -6,8 +6,6 @@ import PrimaryButton from "@/components/buttons/primary_button"
 const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
   const croppieRef = useRef(null)
   const croppieInstance = useRef(null)
-  const firstRender = useRef(0)
-  const [croppedImage, setCroppedImage] = useState(null)
 
   useEffect(() => {
     croppieInstance.current = new Croppie(croppieRef.current, {
@@ -32,10 +30,6 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
 
   useEffect(() => {
     try {
-      if (firstRender.current == 0) {
-        firstRender.current = +1
-        return
-      }
       if (selectedImageBase64String) {
         croppieInstance.current.bind({
           url: selectedImageBase64String,
@@ -53,7 +47,6 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
         size: "viewport",
       })
 
-      setCroppedImage(croppedImage)
       handlePfpChange(croppedImage)
     } catch (error) {
       console.log(error)
