@@ -5,13 +5,7 @@ import { createContext, useState, useEffect } from "react"
 export const UserDetailsContext = createContext({})
 
 export const UserDetailsProvider = ({ children }) => {
-  const [userData, setUserData] = useState({
-    id: "",
-    name: "",
-    pfp: "",
-    email: "",
-    currency: "",
-  })
+  const [userData, setUserData] = useState({})
 
   const getLocalDetails = async () => {
     try {

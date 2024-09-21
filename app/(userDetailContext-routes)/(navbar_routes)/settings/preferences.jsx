@@ -15,6 +15,7 @@ export default function Preferences({
   const handleLogout = async () => {
     try {
       await axios.get("/api/user/logout")
+      localStorage.removeItem("pfp")
       showSuccessToast("Logout successful")
       router.refresh()
       router.push("/login")

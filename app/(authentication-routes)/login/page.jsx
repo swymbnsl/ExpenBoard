@@ -56,7 +56,9 @@ export default function Login() {
     try {
       setLoading(true)
       const res = await axios.post("/api/user/login", input)
-      localStorage.setItem("pfp", res.data.pfp)
+      res.data.pfp
+        ? localStorage.setItem("pfp", res.data.pfp)
+        : localStorage.removeItem("pfp")
       showSuccessToast(res.data.message)
       router.push("/dashboard")
     } catch (error) {
