@@ -17,7 +17,7 @@ export default function Preferences({
       await axios.get("/api/user/logout")
       localStorage.removeItem("pfp")
       showSuccessToast("Logout successful")
-      window.location.reload()
+      router.push("/login")
     } catch (error) {
       console.log(error)
       showErrorToast("Error Logging out!!!")
