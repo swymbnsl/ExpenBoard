@@ -13,8 +13,7 @@ export const UserDetailsProvider = ({ children }) => {
     currency: "",
   })
 
-  const getLocalDetails = async (ran) => {
-    ran && console.log("Ran to update context")
+  const getLocalDetails = async () => {
     try {
       const res = await axios.get("/api/user/profile")
 

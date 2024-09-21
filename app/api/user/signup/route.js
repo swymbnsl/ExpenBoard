@@ -42,9 +42,6 @@ export async function POST(req) {
       )
     }
 
-    console.log("User Saved:")
-    console.log(savedUser)
-
     await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id })
 
     return NextResponse.json(

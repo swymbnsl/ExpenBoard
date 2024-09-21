@@ -82,7 +82,7 @@ export default function Profile() {
         currency,
       })
       localStorage.setItem("pfp", inputs.inputPfp)
-      getLocalDetails(true)
+      getLocalDetails()
       showSuccessToast(res.data.message)
       router.refresh()
     } catch (error) {

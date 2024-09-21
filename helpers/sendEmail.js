@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid"
 export const sendEmail = async ({ email, emailType, userId }) => {
   try {
     const generatedToken = uuidv4()
-    console.log(generatedToken)
 
     //1day to verify
     if (emailType === "VERIFY") {
@@ -23,16 +22,17 @@ export const sendEmail = async ({ email, emailType, userId }) => {
     }
 
     var transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
       auth: {
-        user: process.env.MAILTRAP_USERNAME,
-        pass: process.env.MAILTRAP_PASSWORD,
+        user: process.env.GMAIL_SERVICE_EMAIL,
+        pass: process.env.GMAIL_SERVICE_EMAIL_APP_PASSWORD,
       },
     })
 
     const mailOptions = {
-      from: "swayambansal@outlook.com",
+      from: `Expenboard ${process.env.GMAIL_SERVICE_EMAIL}`,
       to: email,
       subject:
         emailType === "VERIFY" ? "Verify your email" : "Reset your password",

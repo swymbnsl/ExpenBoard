@@ -58,13 +58,9 @@ export async function DELETE(request) {
         ? { incomeCategories: newCategories }
         : { expensesCategories: newCategories }
 
-    console.log("Update data: ", updateData)
-
     const res = await User.findByIdAndUpdate(tokenData.id, updateData, {
       new: true,
     })
-
-    console.log(res)
 
     return NextResponse.json(
       {
@@ -92,7 +88,6 @@ export async function DELETE(request) {
 export async function PATCH(request) {
   try {
     const reqBody = await request.json()
-    console.log(reqBody)
     const { name, type, newName } = reqBody
 
     const tokenData = getDataFromToken(request)
@@ -150,8 +145,6 @@ export async function PATCH(request) {
       type == "income"
         ? { incomeCategories: newCategories }
         : { expensesCategories: newCategories }
-
-    console.log("Update data: ", updateData)
 
     const res = await User.findByIdAndUpdate(tokenData.id, updateData, {
       new: true,

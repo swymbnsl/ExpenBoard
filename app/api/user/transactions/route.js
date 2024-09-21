@@ -143,7 +143,6 @@ export async function DELETE(request) {
 export async function PATCH(request) {
   try {
     const reqBody = await request.json()
-    console.log(reqBody)
     const { id, amount, category, type, name, dateAndTime } = reqBody
 
     const tokenData = getDataFromToken(request)
@@ -163,7 +162,6 @@ export async function PATCH(request) {
     }
 
     const foundUser = await User.findById(tokenData.id)
-    console.log(id)
 
     if (
       type === "expense" &&
