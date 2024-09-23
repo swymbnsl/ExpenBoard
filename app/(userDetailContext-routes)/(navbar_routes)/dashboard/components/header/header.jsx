@@ -1,8 +1,10 @@
 import React from "react"
 import { Avatar, Skeleton } from "@mui/material"
 import { Share2 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export default function Header({ name, pfp }) {
+  const router = useRouter()
   const hour = new Date().getHours()
   let greetings = ""
 
@@ -36,6 +38,10 @@ export default function Header({ name, pfp }) {
 
           {name ? (
             <Avatar
+              onClick={() => {
+                router.push("/profile")
+              }}
+              className="hover:cursor-pointer"
               sx={{ backgroundColor: pfp ? undefined : "#2196f3" }}
               src={pfp}
             >

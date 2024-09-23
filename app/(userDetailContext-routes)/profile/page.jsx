@@ -116,7 +116,7 @@ export default function Profile() {
       <div className="p-3 w-full flex gap-3 items-center">
         <span
           onClick={() => {
-            router.push("/settings")
+            router.back()
           }}
           className="w-[35px] h-[35px] border rounded-md flex justify-center items-center border-white/20 hover:border-white/80 hover:cursor-pointer"
         >
