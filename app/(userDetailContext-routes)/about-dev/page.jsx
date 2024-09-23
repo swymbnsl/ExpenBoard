@@ -47,11 +47,11 @@ export default function AboutDeveloper() {
         </div>
         <div className="p-3 text-lg text-center font-medium leading-relaxed w-[80%] mx-auto">
           <p>
-            Hi, I'm Swayam, a 19 yo full stack dev. I build production ready
-            awesome looking apps with MERN and Next.js. I enjoy solving complex
-            problems and building efficient solutions. In my spare time, I
-            contribute to open-source projects and explore cutting-edge
-            technologies to stay ahead of the curve. Let's connect!
+            Hi, I&apos;m Swayam, a 19 yo full stack dev. I build production
+            ready awesome looking apps with MERN and Next.js. I enjoy solving
+            complex problems and building efficient solutions. In my spare time,
+            I contribute to open-source projects and explore cutting-edge
+            technologies to stay ahead of the curve. Let&apos;s connect!
           </p>
         </div>
       </div>
