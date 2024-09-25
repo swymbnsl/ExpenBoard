@@ -1,6 +1,5 @@
 "use client"
 import {
-  Button,
   FormControl,
   FormHelperText,
   IconButton,
@@ -16,6 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 
 import axios from "axios"
+import PrimaryButton from "@/components/buttons/primary_button"
 
 export default function Login() {
   const router = useRouter()
@@ -234,19 +234,17 @@ export default function Login() {
             />
           </FormControl>
           <div className="w-full flex justify-between">
-            <Link href="/login" className="text-themeprimary">
+            <Link href="/login" className="text-themeonsurface">
               Login
             </Link>
           </div>
-          <Button
+          <PrimaryButton
+            clickFunction={handleSubmit}
             disabled={buttonDisabled || loading || registered ? true : false}
-            variant="contained"
-            color="primary"
-            fullWidth="true"
-            onClick={handleSubmit}
-          >
-            {buttonText}
-          </Button>
+            width="100%"
+            height="40px"
+            buttonText={buttonText}
+          />
         </div>
       </div>
     </>

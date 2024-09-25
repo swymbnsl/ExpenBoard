@@ -7,6 +7,9 @@ export const MuiThemeProvider = ({ children }) => {
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
+      primary: {
+        main: "#e2e2e9",
+      },
     },
   })
   return <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>

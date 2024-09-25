@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react"
 import {
-  Button,
   FormControl,
   IconButton,
   InputAdornment,
@@ -15,6 +14,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { showSuccessToast, showErrorToast } from "@/utils/hot-toast"
+import PrimaryButton from "@/components/buttons/primary_button"
 
 export default function Login() {
   const router = useRouter()
@@ -60,7 +60,7 @@ export default function Login() {
         ? localStorage.setItem("pfp", res.data.pfp)
         : localStorage.removeItem("pfp")
       showSuccessToast(res.data.message)
-      router.push("/dashboard")
+      router.replace("/dashboard")
     } catch (error) {
       console.log(error)
       showErrorToast(error.response.data.error)
@@ -114,14 +114,14 @@ export default function Login() {
             />
           </FormControl>
           <div className="w-full flex justify-between">
-            <Link href="/signup" className="text-themeprimary">
+            <Link href="/signup" className="text-themeonsurface">
               Sign up
             </Link>
-            <Link href="/resetpassword" className="text-themeprimary">
+            <Link href="/resetpassword" className="text-themeonsurface">
               Forgot password?
             </Link>
           </div>
-          <Button
+          {/* <Button
             disabled={buttonDisabled || loading ? true : false}
             variant="contained"
             color="primary"
@@ -129,7 +129,14 @@ export default function Login() {
             onClick={handleSubmit}
           >
             {loading ? "Loading..." : "Login"}
-          </Button>
+          </Button> */}
+          <PrimaryButton
+            clickFunction={handleSubmit}
+            disabled={buttonDisabled || loading ? true : false}
+            width="100%"
+            height="40px"
+            buttonText={loading ? "Loading..." : "Login"}
+          />
         </div>
       </div>
     </>

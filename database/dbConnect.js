@@ -8,9 +8,7 @@ const connect = async () => {
     return
   }
   try {
-    const db = await mongoose.connect(
-      process.env.MONGO_URI || "mongodb://127.0.0.1:27017/expenboardTest"
-    )
+    const db = await mongoose.connect(process.env.MONGO_URI)
 
     connection.isConnected = db.connections[0].readyState
     console.log("MongoDB connected successfully")
