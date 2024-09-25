@@ -1,7 +1,7 @@
 "use client"
 
 import { DatePickerWithRange } from "@/components/shared/date_range_picker"
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import { set } from "date-fns"
 
 import TransactionsTable from "./components/transactions-table"

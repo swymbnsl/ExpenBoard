@@ -9,18 +9,6 @@ export default function TransactionsTable({ date, symbol, resData }) {
   const [isLoading, setIsLoading] = useState(true)
   const [displayTransactions, setDisplayTransactions] = useState([])
 
-  //   const getTransactions = useCallback(async (date) => {
-  //     try {
-  //       const { transactions } = await getTransactionsFromDate(date)
-
-  //       setDisplayTransactions(transactions)
-  //     } catch (error) {
-  //       console.log(error)
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   }, [])
-
   useEffect(() => {
     setDisplayTransactions(resData.transactions)
     setIsLoading(false)

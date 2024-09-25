@@ -33,7 +33,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: incomeCategoriesEnum,
   },
-
+  shareToken: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "ShareToken",
+    default: [],
+  },
   preferences: {
     currency: {
       type: String,

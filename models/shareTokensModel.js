@@ -10,6 +10,10 @@ const shareTokenSchema = new mongoose.Schema({
     type: String,
     required: [true, "Share token can't be empty"],
   },
+  period: {
+    from: Date,
+    to: Date,
+  },
 })
 
 const ShareToken =

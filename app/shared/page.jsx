@@ -2,7 +2,7 @@
 import { transactionsChartCalculations } from "@/helpers/charts_calculations"
 import axios from "axios"
 import { useSearchParams } from "next/navigation"
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense, useCallback, useEffect, useState } from "react"
 import SummaryCard from "../(userDetailContext-routes)/(navbar_routes)/dashboard/components/income_expense_cards"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import TransactionsTable from "./transactions"
@@ -33,7 +33,7 @@ function Shared() {
     to: new Date(e),
   })
 
-  const getUserTransactions = async (userId, start, end) => {
+  const getUserTransactions = useCallback(async (userId, start, end) => {
     try {
       const res = await axios.get(
         `/api/shared-transactions?u=${userId}&s=${start}&e=${end}`
@@ -48,7 +48,7 @@ function Shared() {
       console.log(error)
       setUriDirect(true)
     }
-  }
+  }, [])
 
   useEffect(() => {
     if (
@@ -61,7 +61,7 @@ function Shared() {
       return
     }
     getUserTransactions(u, s, e)
-  }, [searchParams, e, s, u, getUserTransactions, queryParamsArray])
+  }, [])
 
   useEffect(() => {
     if (userData.currency) {
