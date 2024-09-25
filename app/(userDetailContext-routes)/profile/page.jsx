@@ -100,7 +100,7 @@ export default function Profile() {
           return
         }
         console.log(error)
-        showErrorToast(msg)
+        showErrorToast(error.response.data.error)
         return
       }
 

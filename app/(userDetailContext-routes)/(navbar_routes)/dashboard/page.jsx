@@ -96,7 +96,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="w-full h-full justify-center items-center">
+      <div className="w-full h-full">
         <Header name={name} pfp={pfp} />
 
         <DatePickerWithRange
@@ -115,10 +115,12 @@ export default function Dashboard() {
           eachDayTransactions={eachDayTransactions}
           isLoading={isLoading}
         />
-        <CategoriesChart
-          noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
-          isLoading={isLoading}
-        />
+        <div className="pb-24">
+          <CategoriesChart
+            noOfTransactionsOfEachCategory={noOfTransactionsOfEachCategory}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </>
   )

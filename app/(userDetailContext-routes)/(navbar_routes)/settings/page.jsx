@@ -7,7 +7,7 @@ import Preferences from "./preferences"
 import PrimaryButton from "@/components/buttons/primary_button"
 import Logo from "./logo"
 import { useRouter } from "next/navigation"
-import { showSuccessToast } from "@/utils/hot-toast"
+import { showErrorToast, showSuccessToast } from "@/utils/hot-toast"
 import axios from "axios"
 
 export default function Settings() {
@@ -25,17 +25,21 @@ export default function Settings() {
         {selectedCurrency !== currency && (
           <PrimaryButton
             clickFunction={async () => {
-              setDisabled(true)
-              const res = await axios.patch("/api/user/profile", {
-                name,
-                pfp,
-                email,
-                currency: selectedCurrency,
-              })
-              getLocalDetails(true)
-              showSuccessToast("Currency updated")
-              router.refresh()
-              setDisabled(false)
+              try {
+                setDisabled(true)
+                await axios.patch("/api/user/profile", {
+                  name,
+                  pfp,
+                  email,
+                  currency: selectedCurrency,
+                })
+                getLocalDetails(true)
+                showSuccessToast("Currency updated")
+                router.refresh()
+                setDisabled(false)
+              } catch (error) {
+                showErrorToast(error.response.data.error)
+              }
             }}
             width="20%"
             height="40px"

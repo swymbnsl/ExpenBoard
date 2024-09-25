@@ -41,7 +41,7 @@ export default function CategoriesChart({
 
   return (
     <>
-      <div className=" p-3 pb-24">
+      <div className=" p-3 w-full">
         <div className="bg-themesurfacedim rounded-3xl p-3 w-full flex flex-col justify-center gap-4">
           <div className="flex w-full justify-between items-center">
             <span className="text-themeonsurface font-semibold text-lg ">

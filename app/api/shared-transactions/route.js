@@ -1,6 +1,7 @@
 import connect from "@/database/dbConnect"
 import Transaction from "@/models/transactionsModel"
 import User from "@/models/userModel"
+import mongoose from "mongoose"
 import { NextResponse } from "next/server"
 
 connect()
@@ -11,6 +12,11 @@ export async function GET(request) {
     const dateFrom = request.nextUrl.searchParams.get("s")
     const dateTo = request.nextUrl.searchParams.get("e")
     const userId = request.nextUrl.searchParams.get("u")
+
+    const areValidDates = !isNaN(new Date(dateFrom)) && !isNaN(new Date(dateTo))
+
+    if (!mongoose.isValidObjectId(userId) || !areValidDates)
+      return NextResponse.json({ error: "Invalid URL" }, { status: 400 })
 
     const foundUser = await User.findOne({ _id: userId })
     if (!foundUser) {
@@ -35,14 +41,16 @@ export async function GET(request) {
         totalPages: Math.ceil(foundTransactions.length / limit),
         currentPage: page,
         transactions: foundTransactions,
+        name: foundUser.name,
+        currency: foundUser.preferences.currency,
       },
       { status: 200 }
     )
   } catch (err) {
     return NextResponse.json(
       {
-        message: "Error getting transaction",
-        error: err.message,
+        error: "Error getting shared data",
+        err: err.message,
         success: false,
       },
       { status: 400 }

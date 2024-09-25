@@ -13,7 +13,7 @@ export default function TransactionsChart({ eachDayTransactions, isLoading }) {
 
   return (
     <>
-      <div className="h-[350px] p-3">
+      <div className="h-[350px] w-full p-3">
         <div className="bg-themesurfacedim rounded-3xl p-3 h-full w-full flex flex-col justify-center gap-4">
           <div className="flex w-full justify-between items-center">
             <span className="text-themeonsurface font-semibold text-lg ">

@@ -38,3 +38,4 @@
 36. Add cloud sync
 37. Add Bulk transactions Delete
 38. Change favicon
+39. Only allow delete trancactions by that authorized user
