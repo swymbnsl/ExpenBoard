@@ -20,23 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker({ inputs, setInputs, width }) {
-  const date = inputs.dateAndTime
-
-  const setDate = (newDate) => {
-    setInputs((prev) => {
-      return {
-        ...prev,
-        ["dateAndTime"]: set(newDate, {
-          hours: getHours(date),
-          minutes: getMinutes(date),
-          seconds: getSeconds(date),
-          milliseconds: getMilliseconds(date),
-        }),
-      }
-    })
-  }
-
+export function DatePicker({ date, setDate, width }) {
   return (
     <Popover>
       <PopoverTrigger asChild>

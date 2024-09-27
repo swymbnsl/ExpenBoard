@@ -285,7 +285,7 @@ export default function EditCreateTransactionsSheet({
             />
           </div>
           <div className="w-full flex justify-between">
-            <DatePicker inputs={inputs} setInputs={setInputs} />
+            <DatePicker inputs={inputs} width="45%" setInputs={setInputs} />
             <div
               onClick={() => {
                 setTimeDialogOpen(true)
