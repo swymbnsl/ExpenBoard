@@ -15,6 +15,7 @@ export const transactionsChartCalculations = (transactions, date) => {
         new Date(currentDate).setDate(new Date(currentDate).getDate() + 1)
       )
     }
+    console.log(perDayTransactions)
 
     expensesTransactions = transactions.filter((t) => t.type === "expense")
 

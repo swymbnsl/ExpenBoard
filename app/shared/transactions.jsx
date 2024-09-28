@@ -5,7 +5,6 @@ import { CircularProgress } from "@mui/material"
 import TransactionCard from "./transactionCard"
 
 export default function TransactionsTable({ symbol, resData }) {
-  console.log(resData)
   const [isLoading, setIsLoading] = useState(true)
   const [displayTransactions, setDisplayTransactions] = useState([])
 

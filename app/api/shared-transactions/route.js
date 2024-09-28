@@ -43,8 +43,10 @@ export async function GET(request) {
         name: foundUser.name,
         currency: foundUser.preferences.currency,
         date: {
-          from: foundToken.period.from,
-          to: foundToken.period.to,
+          from: foundToken.period.from ? foundToken.period.from : new Date(0),
+          to: foundToken.period.to
+            ? foundToken.period.to
+            : new Date("9999-12-31"),
         },
       },
       { status: 200 }

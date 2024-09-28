@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState, useCallback, useContext } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { set } from "date-fns"
 
 import SummaryCard from "./components/income_expense_cards"
