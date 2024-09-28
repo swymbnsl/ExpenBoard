@@ -1,4 +1,5 @@
 import connect from "@/database/dbConnect"
+import ShareToken from "@/models/shareTokensModel"
 import Transaction from "@/models/transactionsModel"
 import User from "@/models/userModel"
 import mongoose from "mongoose"
@@ -9,26 +10,24 @@ export async function GET(request) {
   try {
     const page = request.nextUrl.searchParams.get("page")
     const limit = request.nextUrl.searchParams.get("limit")
-    const dateFrom = request.nextUrl.searchParams.get("s")
-    const dateTo = request.nextUrl.searchParams.get("e")
-    const userId = request.nextUrl.searchParams.get("u")
-
-    const areValidDates = !isNaN(new Date(dateFrom)) && !isNaN(new Date(dateTo))
-
-    if (!mongoose.isValidObjectId(userId) || !areValidDates)
-      return NextResponse.json({ error: "Invalid URL" }, { status: 400 })
-
-    const foundUser = await User.findOne({ _id: userId })
+    const t = request.nextUrl.searchParams.get("t")
+    const foundToken = await ShareToken.findOne({ shareToken: t })
+    if (!foundToken) {
+      return NextResponse.json({ error: "Invald URL" }, { status: 400 })
+    }
+    const foundUser = await User.findById(foundToken.user_id)
     if (!foundUser) {
-      return NextResponse.json(
-        { error: "User does not exist" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: "Invald URL" }, { status: 400 })
     }
 
     const foundTransactions = await Transaction.find({
-      user_id: userId,
-      dateAndTime: { $gte: dateFrom, $lte: dateTo },
+      user_id: foundToken.user_id,
+      dateAndTime: {
+        $gte: foundToken.period.from ? foundToken.period.from : new Date(0),
+        $lte: foundToken.period.to
+          ? foundToken.period.to
+          : new Date("9999-12-31"),
+      },
     })
       .skip((page - 1) * limit)
       .limit(limit)
@@ -43,6 +42,10 @@ export async function GET(request) {
         transactions: foundTransactions,
         name: foundUser.name,
         currency: foundUser.preferences.currency,
+        date: {
+          from: foundToken.period.from,
+          to: foundToken.period.to,
+        },
       },
       { status: 200 }
     )

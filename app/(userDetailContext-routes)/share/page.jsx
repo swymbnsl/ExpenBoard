@@ -92,11 +92,18 @@ export default function Share() {
         ].map(({ icon: Icon, name, color }, index) => (
           <div
             key={index}
-            className={"bg-themesurfacedim p-3 w-[48%] h-[100px] rounded-xl "}
+            className={
+              "bg-themesurfacedim/50 p-3 w-[48%] blue h-[100px] rounded-xl "
+            }
           >
-            <div className="flex h-full justify-center items-center gap-3">
-              <Icon size={35} color={color} />
-              <span className="text-2xl font-semibold">{name}</span>
+            <div className="flex flex-col items-center h-full">
+              <div className="flex h-full justify-center items-center gap-3">
+                <Icon size={35} color={color} />
+                <span className="text-2xl font-semibold text-themeonsurfacevar">
+                  {name}
+                </span>
+              </div>
+              <i className="text-muted-foreground text-xs">Coming Soon</i>
             </div>
           </div>
         ))}
@@ -104,7 +111,7 @@ export default function Share() {
       <span className="text-lg">OR</span>
       <div
         onClick={() => setIsGenrateTokenDialogOpen(true)}
-        className="bg-themesurfacedim hover:cursor-pointer p-3 font-medium w-full flex justify-center gap-3 items-center text-xl h-[100px] rounded-2xl "
+        className="bg-themesurfacedim hover:cursor-pointer hover:bg-themenavbarinactive p-3 font-medium w-full flex justify-center gap-3 items-center text-xl h-[100px] rounded-2xl "
       >
         <Link />
         Generate a new link
@@ -134,16 +141,6 @@ export default function Share() {
           )
         })
       )}
-      {/* {tokens.map((i, index) => {
-        return (
-          <LinkCard
-            key={index}
-            token={i}
-            setTokens={setTokens}
-            tokens={tokens}
-          />
-        )
-      })} */}
     </div>
   )
 }
@@ -179,7 +176,7 @@ function LinkCard({ token, setTokens, tokens }) {
     <div className="bg-themesurfacedim p-3 font-medium w-full flex gap-5 items-center justify-between rounded-2xl">
       <div className="flex gap-4">
         <Link size={20} />
-        <span>{text}</span>
+        <span className="text-sm">{text}</span>
       </div>
       <div className="flex gap-2">
         <div className="w-[30px] h-[30px] rounded-lg bg-white/20 flex justify-center items-center">
@@ -188,11 +185,11 @@ function LinkCard({ token, setTokens, tokens }) {
             size={18}
             onClick={() => {
               let copyUrl =
-                process.env.NEXT_PUBLIC_DOMAIN + "?t=" + token.shareToken
+                process.env.NEXT_PUBLIC_DOMAIN + "/shared?t=" + token.shareToken
               navigator.clipboard
                 .writeText(copyUrl)
                 .then(() => {
-                  alert("Copied: " + copyUrl)
+                  showSuccessToast("Url copied")
                 })
                 .catch((err) => {
                   console.error("Failed to copy: ", err)

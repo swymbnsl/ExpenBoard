@@ -4,13 +4,16 @@ import { format } from "date-fns"
 import { CircularProgress } from "@mui/material"
 import TransactionCard from "./transactionCard"
 
-export default function TransactionsTable({ date, symbol, resData }) {
+export default function TransactionsTable({ symbol, resData }) {
   console.log(resData)
   const [isLoading, setIsLoading] = useState(true)
   const [displayTransactions, setDisplayTransactions] = useState([])
 
   useEffect(() => {
-    setDisplayTransactions(resData.transactions)
+    const sortedTransactions = resData.transactions.toSorted(
+      (a, b) => new Date(b["dateAndTime"]) - new Date(a["dateAndTime"])
+    )
+    setDisplayTransactions(sortedTransactions)
     setIsLoading(false)
   }, [resData])
 

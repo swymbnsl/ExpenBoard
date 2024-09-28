@@ -6,61 +6,35 @@ import React, { Suspense, useCallback, useEffect, useState } from "react"
 import SummaryCard from "../(userDetailContext-routes)/(navbar_routes)/dashboard/components/income_expense_cards"
 import { currenciesAndIcons } from "@/enums/currencies-enum"
 import TransactionsTable from "./transactions"
+import { CircularProgress } from "@mui/material"
 
 function Shared() {
-  const [uriDirect, setUriDirect] = useState(false)
   const [income, setIncome] = useState("")
   const [expenses, setExpenses] = useState("")
   const [userData, setUserData] = useState({})
   const [resData, setResData] = useState(undefined)
   useState({})
   const [symbol, setSymbol] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
 
   const searchParams = useSearchParams()
 
-  const queryParamsArray = Array.from(searchParams.entries()).map(
-    ([key, value]) => ({
-      key,
-      value,
-    })
-  )
-  const u = searchParams.get("u")
-  const s = searchParams.get("s")
-  const e = searchParams.get("e")
+  const t = searchParams.get("t")
 
-  const [date, setDate] = useState({
-    from: new Date(s),
-    to: new Date(e),
-  })
-
-  const getUserTransactions = useCallback(async (userId, start, end) => {
+  const getUserTransactions = useCallback(async (t) => {
     try {
-      const res = await axios.get(
-        `/api/shared-transactions?u=${userId}&s=${start}&e=${end}`
-      )
+      const res = await axios.get(`/api/shared-transactions?t=${t}`)
       setResData(res.data)
       const { calculatedIncome, calculatedExpenses } =
-        transactionsChartCalculations(res.data.transactions, date)
+        transactionsChartCalculations(res.data.transactions, res.data.date)
       setIncome(calculatedIncome)
       setExpenses(calculatedExpenses)
       setUserData({ name: res.data.name, currency: res.data.currency })
     } catch (error) {
       console.log(error)
-      setUriDirect(true)
+    } finally {
+      setIsLoading(false)
     }
-  }, [])
-
-  useEffect(() => {
-    if (
-      !queryParamsArray.length ||
-      queryParamsArray[0].value.length === 0 ||
-      queryParamsArray[1].value.length === 0 ||
-      queryParamsArray[2].value.length === 0
-    ) {
-      setUriDirect(true)
-      return
-    }
-    getUserTransactions(u, s, e)
   }, [])
 
   useEffect(() => {
@@ -72,35 +46,38 @@ function Shared() {
     }
   }, [userData])
 
-  return uriDirect ? (
+  useEffect(() => {
+    getUserTransactions(t)
+  }, [])
+
+  return (
     <>
-      <div className="p-10 text-center h-full w-full flex justify-center items-center">
-        Invalid URL. Make sure you are on the correct shared URI
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="w-full h-full flex flex-col items-center">
-        <div className="p-3 w-full">
-          <span className="text-themeonsurface font-bold text-2xl">
-            Swayam&apos;s Overview
-          </span>{" "}
+      {isLoading ? (
+        <div className="h-screen w-screen flex justify-center items-center">
+          <CircularProgress />
         </div>
-        <div className="flex w-full p-3 justify-between">
-          <SummaryCard type="income" income={income} symbol={symbol} />
-          <SummaryCard type="expense" expenses={expenses} symbol={symbol} />
+      ) : (
+        <div className="w-full h-full flex flex-col items-center">
+          <div className="p-3 w-full">
+            <span className="text-themeonsurface font-bold text-2xl">
+              {userData.name.length <= 8 ? userData.name : "User"}&apos;s
+              Overview
+            </span>{" "}
+          </div>
+          <div className="flex w-full p-3 justify-between">
+            <SummaryCard type="income" income={income} symbol={symbol} />
+            <SummaryCard type="expense" expenses={expenses} symbol={symbol} />
+          </div>
+          <div className="p-3 w-full">
+            <span className="text-themeonsurface font-bold text-xl">
+              Transactions
+            </span>{" "}
+          </div>
+          <div className="p-3 w-full h-full justify-center items-center">
+            {resData && <TransactionsTable symbol={symbol} resData={resData} />}
+          </div>{" "}
         </div>
-        <div className="p-3 w-full">
-          <span className="text-themeonsurface font-bold text-xl">
-            Transactions
-          </span>{" "}
-        </div>
-        <div className="p-3 w-full h-full justify-center items-center">
-          {resData && (
-            <TransactionsTable date={date} symbol={symbol} resData={resData} />
-          )}
-        </div>{" "}
-      </div>
+      )}
     </>
   )
 }
