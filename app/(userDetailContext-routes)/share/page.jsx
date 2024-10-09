@@ -54,7 +54,6 @@ export default function Share() {
   }, [shareOptions])
 
   useEffect(() => {
-    console.log("Running")
     getTokens()
   }, [buttonDisabled])
 

@@ -39,12 +39,7 @@ export default function Preferences({
         <User />
         Profile
       </div>
-      <div
-        onClick={() => {
-          // router.push("/")
-        }}
-        className="hover:bg-themesurfacedim rounded-xl h-[50px] w-full p-3 pr-0 text-themeonsurface flex items-center justify-between hover:cursor-pointer"
-      >
+      <div className="hover:bg-themesurfacedim rounded-xl h-[50px] w-full p-3 pr-0 text-themeonsurface flex items-center justify-between hover:cursor-pointer">
         <div className="flex gap-3 items-center">
           <DollarSign />
           Currency

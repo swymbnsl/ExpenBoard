@@ -34,7 +34,10 @@ export default function Header({ name, pfp }) {
           )}
         </div>
         <div className="flex items-center gap-4 text-themeonsurface">
-          <Share2 />
+          <Share2
+            onClick={() => router.push("/share")}
+            className="hover:cursor-pointer"
+          />
 
           {name ? (
             <Avatar

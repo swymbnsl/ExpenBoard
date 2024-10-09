@@ -58,7 +58,6 @@ export async function POST(request) {
     })
 
     const savedToken = await newToken.save()
-    console.log(foundUser.shareToken)
 
     foundUser.shareToken.push(savedToken)
 
