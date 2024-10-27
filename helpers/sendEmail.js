@@ -4,7 +4,10 @@ import { v4 as uuidv4 } from "uuid"
 
 export const sendEmail = async ({ email, emailType, userId }) => {
   try {
-    const generatedToken = uuidv4()
+    const generatedToken =
+      emailType === "VERIFY"
+        ? uuidv4()
+        : Math.floor(100000 + Math.random() * 900000)
 
     //1day to verify
     if (emailType === "VERIFY") {
@@ -16,8 +19,8 @@ export const sendEmail = async ({ email, emailType, userId }) => {
       //20min to reset pass
     } else if (emailType === "RESET") {
       await User.findByIdAndUpdate(userId, {
-        forgotPasswordToken: generatedToken,
-        forgotPasswordTokenExpiry: Date.now() + 1000 * 60 * 20,
+        resetPasswordToken: generatedToken,
+        resetPasswordTokenExpiry: Date.now() + 1000 * 60 * 20,
       })
     }
 
@@ -36,15 +39,11 @@ export const sendEmail = async ({ email, emailType, userId }) => {
       to: email,
       subject:
         emailType === "VERIFY" ? "Verify your email" : "Reset your password",
-      html: `<p>Click <a href="${
-        process.env.NEXT_PUBLIC_DOMAIN
-      }/verifyemail?token=${generatedToken}">here</a> to ${
-        emailType === "VERIFY" ? "verify your email" : "reset your password"
-      }
-            or copy and paste the link below in your browser. <br> ${
-              process.env.NEXT_PUBLIC_DOMAIN
-            }/verifyemail?token=${generatedToken}
-            </p>`,
+      html:
+        emailType === "VERIFY"
+          ? `<p>Click <a href="${process.env.NEXT_PUBLIC_DOMAIN}/verifyemail?token=${generatedToken}">here</a> to verify your email or copy and paste the link below in your browser. <br> ${process.env.NEXT_PUBLIC_DOMAIN}/verifyemail?token=${generatedToken}
+            </p>`
+          : `<p> Your OTP for resetting the password is ${generatedToken} </p>`,
     }
 
     const mailresponse = await transport.sendMail(mailOptions)
