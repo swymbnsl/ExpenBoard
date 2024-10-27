@@ -159,9 +159,10 @@ export default function ResetPassword() {
                   "text-sm " +
                   (resendOTPCountdown == 0 ? "hover:cursor-pointer" : "")
                 }
-                onClick={() =>
+                onClick={() => {
+                  sendOTP()
                   resendOTPCountdown == 0 && setResendOTPCountdown(15)
-                }
+                }}
               >
                 {resendOTPCountdown == 0
                   ? "Resend OTP"
