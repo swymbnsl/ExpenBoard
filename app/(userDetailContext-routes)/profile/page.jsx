@@ -55,7 +55,12 @@ export default function Profile() {
   }, [name, email, pfp, currency])
 
   useEffect(() => {
-    if (inputs.inputEmail.length > 0 && inputs.inputName.length > 0) {
+    if (
+      inputs.inputEmail &&
+      inputs.inputName &&
+      inputs.inputEmail.length > 0 &&
+      inputs.inputName.length > 0
+    ) {
       setButtonDisabled(false)
     } else {
       setButtonDisabled(true)
@@ -139,7 +144,7 @@ export default function Profile() {
             sx={textFieldSx}
             fullWidth="true"
             name="inputName"
-            value={inputs.inputName}
+            value={inputs.inputName || ""}
             onChange={handleChange}
             id="outlined-controlled"
             label="Name"
@@ -151,7 +156,7 @@ export default function Profile() {
             sx={textFieldSx}
             fullWidth="true"
             name="inputEmail"
-            value={inputs.inputEmail}
+            value={inputs.inputEmail || ""}
             onChange={handleChange}
             id="outlined-controlled-2"
             label="Email"

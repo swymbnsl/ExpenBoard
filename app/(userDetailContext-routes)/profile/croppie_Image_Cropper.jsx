@@ -29,7 +29,6 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
   }, [])
 
   useEffect(() => {
-    // Ensure Croppie is initialized and the image is loaded before binding
     if (croppieInstance.current && selectedImageBase64String) {
       const img = new Image()
       img.src = selectedImageBase64String
