@@ -29,3 +29,5 @@
 27. Implement Cloudinary for storing pfps
 28. Implement Delete Pfps
 29. Work on semantics
+30. Email re-verification after editing email
+31. Check if there are issues with remaining logged in or the token is getting cleared without logout
