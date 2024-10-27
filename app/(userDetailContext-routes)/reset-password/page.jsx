@@ -60,11 +60,11 @@ export default function ResetPassword() {
       })
       setShowOtpInput(false)
       router.back()
+      setButtonDisabled(false)
     } catch (error) {
       setbuttonText("Verify OTP")
       console.log(error)
       showErrorToast(error.response.data.error)
-    } finally {
       setButtonDisabled(false)
     }
   }

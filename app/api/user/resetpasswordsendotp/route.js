@@ -1,5 +1,8 @@
+import connect from "@/database/dbConnect"
 import { sendEmail } from "@/helpers/sendEmail"
 import { NextResponse } from "next/server"
+
+connect()
 
 export async function POST(request) {
   try {

@@ -9,7 +9,6 @@ export async function POST(request) {
   try {
     const reqBody = await request.json()
     const { otp, id, oldPass, newPass } = reqBody
-    console.log(otp, id, oldPass, newPass)
 
     const user = await User.findById(id)
 
@@ -27,10 +26,6 @@ export async function POST(request) {
     }
 
     const validPassword = await bcrypt.compare(oldPass, user.password)
-    console.log(typeof oldPass)
-    console.log(oldPass)
-    console.log(typeof user.password)
-    console.log(user.password)
     if (!validPassword) {
       return NextResponse.json(
         { error: "Invalid Current password" },
