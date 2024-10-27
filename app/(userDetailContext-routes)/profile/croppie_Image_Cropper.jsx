@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef } from "react"
 import Croppie from "croppie"
 import "croppie/croppie.css"
 import PrimaryButton from "@/components/buttons/primary_button"
@@ -29,14 +29,20 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
   }, [])
 
   useEffect(() => {
-    try {
-      if (selectedImageBase64String) {
-        croppieInstance.current.bind({
-          url: selectedImageBase64String,
-        })
+    // Ensure Croppie is initialized and the image is loaded before binding
+    if (croppieInstance.current && selectedImageBase64String) {
+      const img = new Image()
+      img.src = selectedImageBase64String
+      img.onload = () => {
+        croppieInstance.current
+          .bind({
+            url: selectedImageBase64String,
+          })
+          .catch((error) => console.error("Croppie bind error:", error))
       }
-    } catch (error) {
-      console.log(error)
+      img.onerror = (error) => {
+        console.error("Image failed to load:", error)
+      }
     }
   }, [selectedImageBase64String])
 
@@ -49,9 +55,10 @@ const ImageCropper = ({ selectedImageBase64String, handlePfpChange }) => {
 
       handlePfpChange(croppedImage)
     } catch (error) {
-      console.log(error)
+      console.log("Cropping error:", error)
     }
   }
+
   return (
     <div>
       {selectedImageBase64String && (
