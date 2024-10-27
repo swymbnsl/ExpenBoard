@@ -27,14 +27,13 @@ export default function ResetPassword() {
     try {
       setbuttonText("Sending OTP...")
       setButtonDisabled(true)
-      const res = await axios.post("/api/user/resetpasswordsendotp", {
+      await axios.post("/api/user/resetpasswordsendotp", {
         email,
         id,
       })
-      console.log(res)
       setbuttonText("Verify OTP")
     } catch (error) {
-      console.log(error)
+      showErrorToast("Error sending OTP")
       setbuttonText("Send OTP")
     } finally {
       setButtonDisabled(false)
@@ -51,7 +50,6 @@ export default function ResetPassword() {
         oldPass: inputs.currPass,
         id,
       })
-      console.log(res)
       showSuccessToast(res.data.message)
       setInputs({
         currPass: "",
@@ -63,7 +61,6 @@ export default function ResetPassword() {
       setButtonDisabled(false)
     } catch (error) {
       setbuttonText("Verify OTP")
-      console.log(error)
       showErrorToast(error.response.data.error)
       setButtonDisabled(false)
     }

@@ -4,38 +4,38 @@
 2. Redirect the user to verification page during login
 3. Add pfp during registration
 4. Shift nodemailer to react-mail
-5. Add ability to add custom categories
-6. Add recurring expenses
-7. In Count up, use Indian separators only for indian currency
-8. In home page, load currency sign as per preference
-9. Add presets in date range picker
-10. Lowercase before saving to db
-11. Don't display full name if too long
-12. Implement Debounce
-13. Change home icon to dashboard icon
-14. Handle no data in charts
-15. Add infinite scroll for transactions
-16. Add icons, like in login page
-17. Metadata for each page
-18. Skeletal loading animation
-19. In verifyemail page, use searchparams.has to check if token param exists, that sounds better
-20. Compare displayDate and date state before making api call on closing popper. And it won't be equal since I setHours in date and not in displayDate, so not so necessary, but can save some api calls if implemented
-21. Handle no data in charts
-22. Logout before deleting users
-23. Add a page to prompt for optional pfp after signup
-24. Make share button working
-25. Make dashboard pfp working
-26. Change navbar colour
-27. Replace react-hot-toast with shadcn snackbar or something.
-28. Place all providers in outer layout
-29. Enter key submit on forms
-30. Change material inputs theme blue colour
-31. Implement debounce in search transactions
-32. Make categories more sanes
-33. Loading spinner in buttons
-34. Check FormControls across inputs
-35. Fix calended hover colours and create transaction page's calender's current day border-radius + colour
-36. Add cloud sync
-37. Add Bulk transactions Delete
-38. Change favicon
-39. Only allow delete trancactions by that authorized user
+5. Add recurring expenses
+6. In Count up, use Indian separators only for indian currency
+7. In home page, load currency sign as per preference
+8. Add presets in date range picker
+9. Lowercase before saving to db
+10. Don't display full name if too long
+11. Implement Debounce
+12. Change home icon to dashboard icon
+13. Handle no data in charts
+14. Add infinite scroll for transactions
+15. Add icons, like in login page
+16. Metadata for each page
+17. Skeletal loading animation
+18. In verifyemail page, use searchparams.has to check if token param exists, that sounds better
+19. Compare displayDate and date state before making api call on closing popper. And it won't be equal since I setHours in date and not in displayDate, so not so necessary, but can save some api calls if implemented
+20. Handle no data in charts
+21. Logout before deleting users
+22. Add a page to prompt for optional pfp after signup
+23. Make share button working
+24. Make dashboard pfp working
+25. Change navbar colour
+26. Replace react-hot-toast with shadcn snackbar or something.
+27. Place all providers in outer layout
+28. Enter key submit on forms
+29. Change material inputs theme blue colour
+30. Implement debounce in search transactions
+31. Make categories more sanes
+32. Loading spinner in buttons
+33. Check FormControls across inputs
+34. Fix calended hover colours and create transaction page's calender's current day border-radius + colour
+35. Add cloud sync
+36. Add Bulk transactions Delete
+37. Change favicon
+38. Only allow delete trancactions by that authorized user
+39. Implement Delete account

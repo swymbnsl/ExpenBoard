@@ -117,19 +117,7 @@ export default function Login() {
             <Link href="/signup" className="text-themeonsurface">
               Sign up
             </Link>
-            <Link href="/resetpassword" className="text-themeonsurface">
-              Forgot password?
-            </Link>
           </div>
-          {/* <Button
-            disabled={buttonDisabled || loading ? true : false}
-            variant="contained"
-            color="primary"
-            fullWidth="true"
-            onClick={handleSubmit}
-          >
-            {loading ? "Loading..." : "Login"}
-          </Button> */}
           <PrimaryButton
             clickFunction={handleSubmit}
             disabled={buttonDisabled || loading ? true : false}

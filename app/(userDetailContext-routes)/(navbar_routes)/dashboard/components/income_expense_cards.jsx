@@ -19,7 +19,7 @@ export default function SummaryCard({ type, income, expenses, symbol }) {
         <CountUp
           end={type == "income" ? income : expenses}
           preserveValue
-          useIndianSeparators
+          useIndianSeparators={symbol == "₹" ? true : false}
         />
       </span>
     </div>
