@@ -36,6 +36,7 @@
 - [Contributing](#contributing)
   - [Creating A Pull Request](#creating-a-pull-request)
 - [Raising an issue](#raising-an-issue)
+- [Present and Future](#present-and-future)
 - [ScreenShots](#screenshots)
   - [Visit ExpenBoard](#visit-expenboard)
 - [Authors](#authors)
@@ -131,6 +132,12 @@ Wanna contribute to ExpenBoard ?
 We kindly ask that you provide as much detail as possible when submitting an issue, including steps to reproduce the problem, any error messages that you have seen, and any other relevant information. This will help us to identify and fix the issue more quickly.
 
 Thank you for your cooperation, and we look forward to hearing from you!
+
+## Present and Future
+
+The website is still under development and supports only mobile devices for now. There are some bugs yet to be fixed and features that will be implemented soon
+
+Refer to <a href="https://github.com/swymbnsl/ExpenBoard/blob/main/future-todos.md" >future-todos.md</a> for more details
 
 ## ScreenShots
 
