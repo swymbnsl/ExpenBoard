@@ -52,8 +52,14 @@ export default function CategoriesChart({
           <div className="h-[280px]">
             {isLoading ? (
               <Skeleton animation="wave" variant="rounded" height={280} />
-            ) : (
+            ) : data.length >= 1 ? (
               <DoughnutChart data={data} labels={labels} />
+            ) : (
+              <div className="flex h-full justify-center items-center">
+                <i className="text-themeonsurfacevar">
+                  Not enough data to show
+                </i>
+              </div>
             )}
           </div>
           <div className="flex flex-col gap-3">

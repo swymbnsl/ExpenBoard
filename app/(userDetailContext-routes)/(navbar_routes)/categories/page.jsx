@@ -187,41 +187,50 @@ export default function Categories() {
 
       <div className="p-3 pb-24 w-full">
         {!isLoading ? (
-          categories.map((c, i) => {
-            return (
-              <div
-                className="text-white flex justify-between items-center bg-themesurfacedim m-2 p-3 rounded-e-xl "
-                key={i}
-              >
-                <div className="flex gap-2">
-                  <span className="font-semibold">{i + 1}: </span>
-                  <span>{c}</span>
+          categories.length > 0 ? (
+            categories.map((c, i) => {
+              return (
+                <div
+                  className="text-white flex justify-between items-center bg-themesurfacedim m-2 p-3 rounded-e-xl "
+                  key={i}
+                >
+                  <div className="flex gap-2">
+                    <span className="font-semibold">{i + 1}: </span>
+                    <span>{c}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Pencil
+                      onClick={() => {
+                        setType("edit")
+                        setCategoryInputName(c)
+                        setEditCategoryOldName(c)
+                        setIsSheetOpen(true)
+                      }}
+                      strokeWidth={2.5}
+                      size={20}
+                      className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface"
+                    />
+                    <Trash
+                      onClick={() => {
+                        setDeleteCategory(c)
+                        setDeleteDialogOpen(true)
+                      }}
+                      strokeWidth={2.5}
+                      size={20}
+                      className="hover:cursor-pointer hover:text-red-400 text-red-300"
+                    />
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <Pencil
-                    onClick={() => {
-                      setType("edit")
-                      setCategoryInputName(c)
-                      setEditCategoryOldName(c)
-                      setIsSheetOpen(true)
-                    }}
-                    strokeWidth={2.5}
-                    size={20}
-                    className="hover:cursor-pointer hover:text-themeonsurfacevar text-themeonsurface"
-                  />
-                  <Trash
-                    onClick={() => {
-                      setDeleteCategory(c)
-                      setDeleteDialogOpen(true)
-                    }}
-                    strokeWidth={2.5}
-                    size={20}
-                    className="hover:cursor-pointer hover:text-red-400 text-red-300"
-                  />
-                </div>
-              </div>
-            )
-          })
+              )
+            })
+          ) : (
+            <div className="flex h-[70vh] justify-center items-center">
+              <i className="text-themeonsurfacevar">
+                No {activeCategories} categories found. Add now using the button
+                below
+              </i>
+            </div>
+          )
         ) : (
           <div className="flex justify-center w-full items-center h-[70vh]">
             <CircularProgress />

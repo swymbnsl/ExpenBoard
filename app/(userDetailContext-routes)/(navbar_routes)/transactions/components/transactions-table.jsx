@@ -247,7 +247,7 @@ export default function TransactionsTable({ date }) {
             <div className="flex justify-center w-full items-center h-[70vh]">
               <CircularProgress />
             </div>
-          ) : (
+          ) : displayTransactions.length > 0 ? (
             displayTransactions.map((t) => {
               return t._id !== expandedTransactions ? (
                 <TransactionCard
@@ -283,6 +283,10 @@ export default function TransactionsTable({ date }) {
                 />
               )
             })
+          ) : (
+            <div className="flex h-[70vh] justify-center items-center">
+              <i className="text-themeonsurfacevar">No transactions found</i>
+            </div>
           )}
         </div>
       </div>
